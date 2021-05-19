@@ -1,0 +1,1454 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<link rel="stylesheet" href="/wp-content/themes/Divi Child/css/createevent.css">
+<link rel="stylesheet" href="/wp-content/themes/Divi Child/datepicker/css/jquery.datetimepicker.min.css">
+<script src="/wp-content/themes/Divi Child/datepicker/js/moment.js"></script>
+<script src="/wp-content/themes/Divi Child/datepicker/js/jquery.datetimepicker.full.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<style>
+   .error {
+   color: red !important;
+   }
+   .tbtkt{
+   border: none !important;
+   background: no-repeat !important;
+   }
+   .s_h-arrow{
+    height: 52px;
+    width: 52px;
+    float: right;
+    right: -230px;
+    position: relative;
+    z-index: 999;
+   }
+   .mvright{
+    right: -257px !important;
+   }
+   /* override styles of labels for radios */
+   .radio-chk label
+   {
+     font-weight: normal;
+     padding: 0;
+     margin: 0;
+     margin-left: 15px;
+     cursor: pointer;
+   }
+   .radio-chk input
+   {
+     position: relative;
+     /*opacity: 100;*/
+     color: #f56d3a;
+   }
+   .radio-chk input[type=text]
+   {
+     opacity: 100;
+   }
+   .tkt-details
+   {
+     padding: 0px;
+   }
+   .rowspace
+   {
+     padding-top: 15px;
+   }
+   .tkt-no
+   {
+     padding: 0px 10px 0 10px;
+   }
+   .radio-chk
+   {
+     margin: 0;
+   }
+   .checkmark1
+   {
+     left: 26px;
+     top: 5px;
+   }
+   .tooltip2 .tooltiptext2
+   {
+     left: -305px;
+   }
+   i.fa.fa-toggle-left
+   {
+    color: #f56d3a;
+    }
+    .chkbox .checkmark
+    {
+      left: 0px;
+    }
+    p.del-tkt, p.add-new
+    {
+      color: #f56d3a;
+    }
+    label.start-date
+    {
+      width: auto;
+    }
+   /* redo the stuff that bootstrap changed */
+   body, input, textarea, select {
+    font-family: 'Nunito Sans',Helvetica,Arial,Lucida,sans-serif;
+  }
+  a, a:hover
+  {
+    text-decoration: none;
+    color: #f56d3a;
+  }
+
+</style>
+<div id="main-content">
+   <div class="outer-wrapper">
+      <div id="setup_div" class="container container-home">
+         <form id="tkt_form" method="post" action="" class="%%EDIT_OR_CREATE%%">
+            <input type="hidden" id="cfee" value='%%FEES%%' name="cfee">
+            <input type="hidden" id="editing_index" value="0">
+            <h3 class="h3-title">Configuring Your Tickets</h3>
+            <button type="button" class="btn-return"><a href="/create-event/"><i class="fa fa-toggle-left"></i> <span>Return to Event Setup</span></a></button>
+         <ul class="progressbar">
+            <li class="active">Page Design</li>
+            <li class="active">Ticket Options</li>
+            <li>Options & %%UPDATE_OR_SUBMIT%%</li>
+         </ul>
+            <p style="float:left;width:100%;text-align:center;margin-bottom:10px;font-size: 15px;">Complete each required section. Select NEXT to proceed.</p>
+            <hr/>
+            <div class="new-ticket-setup">
+               <p>Do you wish to include free or paid tickets with your event?</p>
+               <div class="row align-items-start">
+                 <div class="col-md-2 radio-chk">
+                   <label for="no">
+                     <input type="radio" class="ticket_setup" name="tkt_setup" id="no" value="No" %%TIX_NO_CHECKED%% %%TIX_DISABLED%%>
+                     <span class="checkmark1"></span>No
+                   </label>
+                 </div>
+                 <div class="col-md-5 radio-chk">
+                   <label for="tix">
+                     <input type="radio" class="ticket_setup" name="tkt_setup" id="tix" value="Yes Tix" %%TIX_YES_CHECKED%% %%TIX_DISABLED%%>
+                     <span class="checkmark1"></span>Yes, setup with Neighbur TIX
+                   </label>
+                 </div>
+                 <div class="col-md-5 radio-chk">
+                   <label for="3rd">
+                     <input type="radio" class="ticket_setup" name="tkt_setup" id="3rd" value="Yes 3rd party" %%TIX_3RD_CHECKED%% %%TIX_DISABLED%%>
+                     <span class="checkmark1"></span>Yes, setup with 3rd party ticketing
+                   </label>
+                 </div>
+                </div>
+            </div>
+            <div class="ticket-setup-options ticket_set_opt"  style="display: %%TICKET_SETUP_OPTIONS_DISPLAY%%;">
+               <div class="ticket-setup">
+                  <h3>Setup Tickets Using Neighbur TIX
+                     <label class="switch">
+                     <input type="checkbox" checked class="setup_switch">
+                     <span class="slider1 round"></span>
+                     </label>
+                  </h3>
+                  <p>Please setup your ticket types for different ticket requirements such as Gerneral Admission, Early Birds or VIP.</p>
+                  <p>Ticket type further help distinguish seating arrangements for different sections in a venue or different price points on different types of tickets.</p>
+                  <p>Use ticket types to help organize your ticket batches and provide clarity for your customers.</p>
+                  <p>Add details to instruct your customer to understand what is included with their ticket, any special bonuses or specifics on what may be limited per entry.</p>
+               </div>
+               <div class="paid-event">
+                  <h5>About Paid Events</h5>
+                  <p>Event organizers may absorb (pay) a percentage of the convenience fee applied to tickets.</p>
+                  <p>If you select to absorb a part or the full amount of convenience fee, the percentage will be removed from your payout after the event is over.</p>
+                  <p>If you wish ticket purchasers to pay all fees, keep the "% Convenience Fee Paid By You" at 0%.</p>
+               </div>
+               <input type="hidden" value="%%COUNT_VALUE%%" id="count" name="count">
+               <input type="hidden" value="%%EVENT_STATE_VALUE%%" id="event_state" name="event_state">
+               <div class="tkt_avail" style="display: none;">
+                  <div class="h-left">
+                     <h3> Enter total tickets available for all ticket types </h3>
+                     <input min="0" type="number" value="100000" id="total_ticket_available" name="total_ticket_available" class="tkt_available">
+                  </div>
+                  <p class="help-text">Why do we ask this? <br/> To prevent over selling of required tickets via multiple ticket types.</p>
+               </div>
+               <div class="tkt_avail row">
+                  <div class="col-md-4">
+                     <h2 style="font-size:30px !important;"> Current ticket allocation</h2>
+                     </div>
+                     <div class="col-md-4 text-center">
+                     <span id="current_ticket_allocation">%%CURRENT_TICKETS%%</span>
+                     <input type="hidden" name="current_ticket_allocation" id="hidden_current_ticket_allocation" value="%%CURRENT_TICKETS%%">
+                  </div>
+                  <p class="col-md-4">Why do we display this?<br/>To monitor your total ticket distribution over all ticket types
+                     <span class="current-tkt">%%REPORT_LINK%%</span>
+                  </p>
+               </div>
+               <div class="tkt_avail row">
+                 <div class="col-md-6"><h2>Do you need to charge tax for this event?</h2></div> 
+                  <div class="tax-outer col-md-6">
+                     <select class="charge-tax" name="tkt_tax">
+                        <option value="no" %%TAX_NO_SELECTED%%>No</option>
+                        <option value="yes" %%TAX_YES_SELECTED%%>Yes</option>
+                     </select>
+                     <div class="tooltip2"><i class="fa fa-info"></i>
+                        <span class="tooltiptext2"><b>Tax Information</b><br>
+                        The application of taxes on this event is subject to the nature of your event, your tax status, location of event and other factors that may determine the inclusion of a tax rate. Please consult with a tax specialist regarding your taxation requirements for collection and remittance
+                        purposes.
+                        <br>
+                        Any information provided will be displayed on all ticket invoices and reports.
+                        </span>
+                     </div>
+                 <!-- </div>-->
+                  <div class="tax-yes" style="display: %%TAX_YES_DISPLAY%%;">
+                     <label>Country</label>
+                     <select name="country">
+                        <option value="2" selected>Canada</option>
+                     </select>
+                     <input type="hidden" name="tax_pro_id" value="%%TAX_PRO_ID%%">
+                     <label> Tax ID <input type="text" required="required" placeholder="Id" name="tax_id" id="tax_id" required title="Please enter Tax ID" value="%%TAX_ID_VAL%%"> </label>
+                     <label> Tax Name <input type="text" required="required" placeholder="Name" name="tax_name" id="tax_name" required title="Please enter Tax Name" value="%%TAX_NAME_VAL%%"> </label>
+                     <label> Tax Rate <input type="number" required="required" placeholder="Rate" min="0" name="tax_rate" id="tax_rate" required title="Please enter Tax Rate" value="%%TAX_RATE_VAL%%"> % </label><span class="tax-rate">Select taxation option for each ticket type setup below.</span>
+                  </div>
+                  </div>
+               </div>
+               <div class="tkt_avail row">
+                  <div class="col-md-6"><h2>Do you need to offer a Charitable Tax Receipt?</h2></div>
+                  <div class="tax-outer charitable col-md-6">
+                     <select name="charitablereceipt" class="charge-tax2 Charitable">
+                        <option value="no" %%CHARITABLE_NO_SELECTED%%>No</option>
+                        <option value="yes" %%CHARITABLE_YES_SELECTED%%>Yes</option>
+                     </select>
+                     <div style="display: %%CHARITABLE_DISPLAY%%;" class="one-full"><label>Charitable Registration # <input required="required" type="text" placeholder="Charitable Registration" name="charitableregistration" id="" required="" title="Please enter your Charitable Registration # " value="%%CHARITABLE_VAL%%"> </label></div>
+                     <div class="tooltip2"><i class="fa fa-info"></i>
+                        <span class="tooltiptext2">
+                        Checking this box will add an additional step to the ticket purchasing process for this event. A ticket buyer, requesting a Charitable Tax Receipt, will be able to enter their full name and address, as required by their local Tax Agency.
+                        <br>
+                        This information will be retrievable by you via the Sales Report for this specific event from Manage My Events.
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <hr/> 
+               <div class="col-md-12">
+                
+               <p><b>All required fields marked with (*).</b></p>
+              
+               <br/>
+               <div id="div_ticket">
+                  %%TICKETS%%
+                  %%ADD_NEW%%
+               </div>
+               </div>
+               
+            </div>
+            <div class="third-party" style="display: %%THIRD_PARTY_DISPLAY%%;">
+               <div class="form-left party_setup" style="display:block padding: 0px;">
+                  <div class="ticket-setup">
+                     <h3>%%TIX_LEFT_TITLE%%
+                        <label class="switch">
+                        <input type="checkbox" class="setup_switch">
+                        <span class="slider1 round"></span>
+                        </label>
+                     </h3>
+                     <p>%%TIX_LEFT_CONTENT%%
+                     </p>
+                  </div>
+                   <div class="form-right get-tix">
+                  <img width="100px" src="%%TIX_IMAGE%%">
+                  <p>%%TIX_RIGHT_CONTENT1%%</p>
+                  <p>%%TIX_RIGHT_CONTENT2%%</p>
+               </div>
+                  <div class="web-url">
+                     <h3>%%TIX_THIRD_PARTY_TITLE%%</h3>
+                     <select name="thirdpartyurl" id="thirdpartyurl">
+                        <option value="http://" %%TIX_THIRD_HTTP_SELECTED%%>http://</option>
+                        <option value="https://" %%TIX_THIRD_HTTPS_SELECTED%%>https://</option>
+                     </select>
+                     <input style="width:85%;" type="text" name="turl" id="turl" placeholder="URL" value="%%TIX_THIRD_URL%%">
+                  </div>
+                  <label id="turlerrorr" class="error" for="turl"></label>
+               </div>
+              
+            </div>
+            <!--#third-party end -->
+            <div class="help-btn"><i class="fa fa-question"></i> Need Help? <a href="https://support.neighbur.com/" target="_new">Visit our support site for answers.</a></div>
+            <!-- Prevent implicit submission of the form when ENTER is pressed -->
+            <button type="submit" disabled style="display: none" aria-hidden="true"></button>
+
+            %%BACK_BUTTON%%
+            <button class="next-btn" type="submit" name="btnTicketSubmit">NEXT</button>
+            <a href="/?page_id=307">
+            <button class="next-btn cancel-btn" type="button" style="margin: 6px; padding-bottom: 8px;">CANCEL</button>
+            </a>
+         </form>
+      </div>
+      <!-- #container end -->
+   </div>
+   <!-- # outer-wrapper end-->
+</div>
+<!-- #main content end -->
+<div class="modal" id="loadingModal" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 220px !important;">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div class="email-confomation">
+               <p class="mail-img" style="padding: 0px;"><img src="/wp-content/uploads/loading.gif"></p>
+               <p id="modal_loader_text"></p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- #main content end -->
+<div class="modal" id="DeleteTicketModal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div class="email-confomation">
+               <p id="modal_loader_text">Are you sure you would like to remove this ticket type?</p>
+               <p><button class="modaldenied" type="button" onClick="$('#DeleteTicketModal').hide();">CANCEL</button>
+            <button class="modalconfirm" type="button" id="yesDELETTICk">Yes</button></p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal" id="alertTicketModal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div class="email-confomation">
+               <p id="modal_alert_text"></p>
+               <p><button class="modalconfirm" type="button" id="btnconform">OK</button></p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+%%DISABLE_STUFF%%
+<!-- script src="/wp-content/themes/Divi Child/js/ticketpagescript.js"></script -->
+<!--
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+-->
+<script>
+//jQuery('.bundle-tkting').css('display','none');
+//jQuery('.single-tkting').css('display','none');
+jQuery(document).on('click','.tkt_type',function(){
+          
+    var count = jQuery(this).data('count');
+    
+    if($('#radio_single_'+count).is(':checked')){
+        jQuery('.bundle-tkting').css('display','none');
+        jQuery('.single-tkting').css('display','block');
+        
+         
+     }
+     else if($('#radio_bundled_'+count).is(':checked')){
+         jQuery('.bundle-tkting').css('display','block').html('Bundled Limit Per Order');
+         jQuery('.single-tkting').css('display','none');
+         
+        
+         
+     }
+    
+});
+    
+// copied from ticketpagescript
+
+// validator stuff can't be inside document ready function for some reason...
+jQuery.validator.addMethod('validUrl', function(value, element) {
+    var url = jQuery.validator.methods.url.bind(this);
+    return url(value, element) || url('http://' + value, element);
+  }, 'Please enter a valid URL');
+
+jQuery.validator.addMethod("notset", function(e, t) {
+    return "NOT SET" != e
+  }, "Please select date");
+
+$("#tkt_form").validate({
+    rules: {
+      "turl": {
+        validUrl: true // <-- change this
+      }
+    }
+  });
+
+function RoundTime(time) {
+  var timeToReturn = new Date(time);
+
+  timeToReturn.setMilliseconds(Math.round(timeToReturn.getMilliseconds() / 1000) * 1000);
+  timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60);
+  timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15);
+  return timeToReturn;
+}
+
+$("#tkt_form").validate({
+    rules: {
+      "tkt_start_date[]": {
+        required: true,
+        notset: true
+      },
+      "tkt_end_date[]": {
+        required: true,
+        notset: true
+      }
+    }
+  });
+
+var stdte = new Date($('#EVENTSTRATDATE').val());
+var enddte = new Date($('#EVENTENDDATE').val());
+var enddtet = new Date($('#EVENTENDDATE').val()).getDate() + 2;
+console.log("Start: " + stdte.toString());
+console.log("End: " + enddte.toString());
+console.log("End: " + enddtet.toString());
+var minDate = moment(stdte).add(15, 'm').toDate();
+$.datetimepicker.setDateFormatter('moment');
+$(".create-tkt-class .tkt_start_date").datetimepicker({
+  value: minDate,
+  minDateTime: minDate,
+  maxDateTime: enddte,
+  defaultDate: minDate,
+  defaultTime: minDate.getHours() + ":" + minDate.getMinutes(),
+
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  onClose: function(e) {
+    var t = $("#editing_index").val();
+    console.log("****");
+    console.log("Start onClose " + t);
+    $("#tkt_start_date_" + t + "-error").hide();
+    $("#tkt_start_date_" + t).removeClass("error");
+    if ($("#tkt_start_date_" + t).val() != 'NOT SET')
+    {
+      var stdteenddt = new Date($("#tkt_start_date_" + t).val());
+      console.log("Updating min Ticket End Time to " + stdteenddt);
+      $("#tkt_end_date_" + t).datetimepicker({
+        minDateTime: stdteenddt,
+        maxDateTime: enddte,
+        defaultTime: enddte.getHours() + ":" + enddte.getMinutes(),
+        defaultDate: enddte,
+        step: 15,
+        format: 'MMM D YYYY h:mm a',
+        formatTime: 'h:mma',
+        formatDate: 'YYYY-MM-DD',
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        validateOnBlur: false,
+        onClose: function(e) {
+          var t = $("#editing_index").val();
+          $("#tkt_end_date_" + t + "-error").hide();
+          $("#tkt_end_date_" + t).removeClass("error");
+        }
+      });
+    }
+  }
+});
+// for edit ticket
+$(".edit-tkt-class .tkt_start_date").datetimepicker({
+  //value: minDate,
+  minDateTime: minDate,
+  maxDateTime: enddte,
+  defaultDate: minDate,
+  defaultTime: minDate.getHours() + ":" + minDate.getMinutes(),
+
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  onClose: function(e) {
+    var t = $("#editing_index").val();
+    console.log("****");
+    console.log("Start onClose " + t);
+    $("#tkt_start_date_" + t + "-error").hide();
+    $("#tkt_start_date_" + t).removeClass("error");
+    if ($("#tkt_start_date_" + t).val() != 'NOT SET')
+    {
+      var stdteenddt = new Date($("#tkt_start_date_" + t).val());
+      console.log("Updating min Ticket End Time to " + stdteenddt);
+      $("#tkt_end_date_" + t).datetimepicker({
+        minDateTime: stdteenddt,
+        maxDateTime: enddte,
+        defaultTime: enddte.getHours() + ":" + enddte.getMinutes(),
+        defaultDate: enddte,
+        step: 15,
+        format: 'MMM D YYYY h:mm a',
+        formatTime: 'h:mma',
+        formatDate: 'YYYY-MM-DD',
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        validateOnBlur: false,
+        onClose: function(e) {
+          var t = $("#editing_index").val();
+          $("#tkt_end_date_" + t + "-error").hide();
+          $("#tkt_end_date_" + t).removeClass("error");
+        }
+      });
+    }
+  }
+});
+
+//for edit ticket
+
+$(".create-tkt-class .tkt_end_date").datetimepicker({
+  //value:minDate,
+  value:enddte,
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  minDateTime: stdte,
+  maxDateTime: enddte,
+  defaultTime: enddte.getHours() + ":" + enddte.getMinutes(),
+  defaultDate: enddte,
+  validateOnBlur: false
+});
+
+//for edit ticket
+$(".edit-tkt-class .tkt_end_date").datetimepicker({
+  //value:minDate,
+  //value:enddte,
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  minDateTime: stdte,
+  maxDateTime: enddte,
+  defaultTime: enddte.getHours() + ":" + enddte.getMinutes(),
+  defaultDate: enddte,
+  validateOnBlur: false
+});
+//for edit ticket end
+
+var now = new Date();
+//$.datetimepicker.setDateFormatter('moment');
+//$(".release_start_date").click(function(){
+//var a = $(this).data('counter');
+//console.log('jerweuruirifeurfyherufure'+ a);
+$(".create-tkt-class .release_start_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+  //defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+  value: now,
+  onClose: function(e) {
+    var t = $("#editing_index").val();
+    $("#release_start_date_" + t + "-error").hide();
+    $("#release_start_date_" + t).removeClass("error");
+    setReleaseEndMinDate(t);
+  }
+});
+
+$(".edit-tkt-class .release_start_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+  //defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+  //value: now,
+  onClose: function(e) {
+    var t = $("#editing_index").val();
+    $("#release_start_date_" + t + "-error").hide();
+    $("#release_start_date_" + t).removeClass("error");
+    setReleaseEndMinDate(t);
+  }
+});
+
+//});
+
+/*$(".release_start_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+  //defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+  value: now,
+  onClose: function(e) {
+    var t = $("#editing_index").val();
+    $("#release_start_date_" + t + "-error").hide();
+    $("#release_start_date_" + t).removeClass("error");
+    setReleaseEndMinDate(t);
+  }
+});
+*/
+
+/*$(".release_end_date").click(function(){
+$(".release_end_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+ // defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+  value: now
+});
+});*/
+
+$(".create-tkt-class .release_end_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+ // defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+  value: now
+});
+
+//for edit ticket
+$(".edit-tkt-class .release_end_date").datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+ // defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+ // value: now
+});
+
+//for edit ticket end 
+
+function setReleaseEndMinDate(e) {
+  if ($("#release_start_date_" + e).val() != 'NOT SET')
+  {
+    console.log("setReleaseEndMinDate " + e);
+    var maxdt = new Date($('#EVENTENDDATE').val());
+    var mindt = new Date($("#release_start_date_" + e).val());
+    console.log("min: " + mindt.toString());
+    $("#release_end_date_" + e).datetimepicker({
+      step: 15,
+      format: 'MMM D YYYY h:mm a',
+      formatTime: 'h:mma',
+      formatDate: 'YYYY-MM-DD',
+      closeOnDateSelect: false,
+      closeOnTimeSelect: true,
+      validateOnBlur: false,
+      minDateTime: mindt,
+      maxDateTime: maxdt,
+      defaultDate: maxdt,
+      defaultTime: maxdt.getHours() + ":" + maxdt.getMinutes(),
+      onClose: function(a) {
+        var t = $("#editing_index").val();
+        $("#release_end_date_" + t + "-error").hide(), $("#release_end_date_" + t + "-error").hide()
+      }
+    });
+  }
+}
+
+
+$(document).on("change", ".tba", function() {
+  var t = $(this).data("count"),
+    a = $("#count").val(),
+    e = $(this).val(),
+    n = $("#tkb_" + t).val(),
+    l = parseInt(n) * parseInt($(this).val()),
+    r = $("#total_ticket_available").val();
+  $("#tbtkt_" + t).val(l);
+  var s = 0;
+  if ("" != e) {
+    for (var i = 1; parseInt(i) <= parseInt(a); i = parseInt(i) + parseInt(1)) s = parseInt(s) + parseInt($("#tbtkt_" + i).val()) + parseInt($("#nota_" + i).val());
+      parseInt(s) > parseInt(r) ? (alert_max_quantity_sec(this, t)) : ($("#current_ticket_allocation").text(s), $("#hidden_current_ticket_allocation").val(s), $("#total_tkt_available_" + t).text(l))
+  }
+});
+
+
+$(document).on("change", ".tkb", function() {
+  var t = $(this).data("count"),
+    a = $("#count").val(),
+    e = $(this).val(),
+    i = $("#tba_" + t).val(),
+    n = parseInt(i) * parseInt($(this).val()),
+    _ = $("#total_ticket_available").val();
+  $("#tbtkt_" + t).val(n);
+  var o = 0;
+  if ("" != e) {
+    for (var d = 1; parseInt(d) <= parseInt(a); d = parseInt(d) + parseInt(1)) o = parseInt(o) + parseInt($("#tbtkt_" + d).val()) + parseInt($("#nota_" + d).val());
+      parseInt(o) > parseInt(_) ? (alert_max_quantity_sec(this, t)) : ($("#current_ticket_allocation").text(o), $("#hidden_current_ticket_allocation").val(o), $("#total_tkt_available_" + t).text(n));
+  }
+});
+
+function alert_max_quantity_sec(thisf, t) {
+  $('#modal_alert_text').text('Total exceeds maximum quantity set, please adjust accordingly.');
+  $('#alertTicketModal').show();
+  $(thisf).val("0");
+  $('#btnconform').click(function() {
+    $('#alertTicketModal').hide();
+    $(thisf).val("0");
+    $("#tbtkt_" + t).val("0");
+  });
+}
+
+  /*
+  $(document).on("click", ".t-edit", function() {
+  	jQuery(this).parent().find('.t-name').focus(function(){
+      $('.t-name').css({"background":"white","color":"black"});
+    });
+  });
+
+  $(document).on("click", ".t-focus", function() {
+      jQuery(this).parent().find(".t-name").focus().css({"background":"white","color":"black","top":"1px","position":"relative","padding":"1px 0px 2px 10px"});
+  });
+
+  $(document).on("focusout", ".t-focus", function() {
+      jQuery(this).parent().find(".t-name").css({"background":"#f56d3a","color":"white"});
+  });
+  */
+
+
+// $(document).on("click", ".tkt_type", function() {
+//   var t = $(this).val(),
+//     a = $(this).data("count");
+//   $("#nota_" + a).val("0"), $("#tkb_" + a).val("0"), $("#tba_" + a).val("0"), $("#tbtkt_" + a).val("0"), "Single Tickets" == t ? ($("#div_no_of_tkt_available_" + a).show(), $("#div_bundle_" + a).hide()) : ($("#div_no_of_tkt_available_" + a).hide(), $("#div_bundle_" + a).show());
+// });
+$(document).on("click", ".tkt_type", function() {
+ 
+  var t = $(this).val(),
+    a = $(this).data("count");
+  $("#nota_" + a).val("0"), $("#tkb_" + a).val("0"), $("#tba_" + a).val("0"), $("#tbtkt_" + a).val("0"), "Single Tickets" == t ? ($("#div_no_of_tkt_available_" + a).show(), $("#div_bundle_" + a).hide()) : ($("#div_no_of_tkt_available_" + a).show(), $("#div_bundle_" + a).show());
+     
+     if($('#radio_single_'+a).is(':checked')){
+     
+         
+     }
+     else if($('#radio_bundled_'+a).is(':checked')){
+         $('.bundle_ticket_limit').css('display','block');
+   
+        
+         
+     }
+    
+     
+  
+});
+
+
+
+$(document).on("click", ".ticket_setup", function() {
+  1 == $("#no").prop("checked") && ($(".third-party").hide(), $(".ticket-setup-options").hide()), 1 == $("#tix").prop("checked") && ($("#no").prop("checked", !1), $(".ticket-setup-options").show(), $(".third-party").hide()), 1 == $("#3rd").prop("checked") && ($("#no").prop("checked", !1), $(".ticket-setup-options").hide(), $(".third-party").show());
+});
+
+$(document).on("click", ".price_radio", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  $("#price_per_tkt_" + a).val(""), "Free" == t ? $("#div_price_per_tkt_" + a).hide() : $("#div_price_per_tkt_" + a).show();
+  $("#price_per_tkt_" + a).val(""), "Free" == t ? $("#div_price_brk_" + a).hide() : $("#div_price_brk_" + a).show();
+  var list = $(".tkt-details").length;
+  for (var l = 1; l <= list; l++) {
+    CalculateBreakDown(l);
+  }
+});
+
+$(document).on("change", ".nota", function() {
+  var t = $(this).val(),
+    a = $("#count").val(),
+    e = $(this).data("count");
+  if (t != "") {
+    var i = parseInt($("#total_ticket_available").val());
+    var n = 0;
+    for (var _ = 1; _ <= parseInt(a); _++)
+      n = n + parseInt($("#nota_" + _).val()) + parseInt($("#tbtkt_" + _).val());
+    n > i ? (alert_max_quantity(this)) : ($("#current_ticket_allocation").text(n), $("#hidden_current_ticket_allocation").val(n), $("#total_tkt_available_" + e).text(t));
+  }
+});
+
+function CalculateTicketAllocation()
+{
+  console.log("****");
+  console.log("CalculateTicketAllocation");
+  var total = 0;
+  var count = parseInt($("#count").val());
+  for (var i=1; i <= count; i++)
+  {
+    console.log("i: " + i);
+    console.log("#nota: " + $("#nota_" + i).val());
+    console.log("#tbtkt: " + $("#tbtkt_" + i).val());
+    total += parseInt($("#nota_" + i).val()) + parseInt($("#tbtkt_" + i).val());
+    console.log("New total: " + total);
+  }
+  $("#current_ticket_allocation").text(total);
+}
+
+function alert_max_quantity(thisf) {
+  $('#modal_alert_text').text('Total exceeds maximum quantity set, please adjust accordingly.');
+  $('#alertTicketModal').show();
+  $(thisf).val("0");
+  $('#btnconform').click(function() {
+    $('#alertTicketModal').hide();
+  });
+}
+
+$(document).on("click", ".radio_tkt_start_time", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  "New Start Time" == t ? $("#div_tkt_start_date_" + a).show() : $("#div_tkt_start_date_" + a).hide();
+});
+
+$(document).on("click", ".radio_tkt_end_time", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  "New End Time" == t ? $("#div_tkt_end_date_" + a).show() : $("#div_tkt_end_date_" + a).hide();
+});
+
+$(document).on("click", ".radio_release_time", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  "Scheduled" == t ? $("#div_release_start_date_" + a).show() : $("#div_release_start_date_" + a).hide();
+});
+
+$(document).on("click", ".radio_expiration_time", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  "Scheduled" == t ? $("#div_release_end_date_" + a).show() : $("#div_release_end_date_" + a).hide()
+});
+
+$(document).on("click", ".promo_code", function() {
+  var t = $(this).val(),
+    a = $(this).data("count");
+  "disabled" == t ? $("#div_promo_code_" + a).hide() : $("#div_promo_code_" + a).show()
+});
+
+$(document).on("click", ".del-tkt", function() {
+  $("#DeleteTicketModal").show();
+  var dataId = $(this).parents(".tkt-details").attr('id').slice(-1);
+  $('#yesDELETTICk').attr('onClick', 'deletetickbymodal(' + dataId + ')');
+});
+
+function deletetickbymodal(cnt) {
+  $('#tkt_' + cnt).remove();
+  $("#DeleteTicketModal").hide();
+  var t = $("#count").val();
+  t = parseInt(t) - parseInt(1), $("#count").val(t);
+  for (var a = 0; parseInt(a) < parseInt(t); a = parseInt(a) + parseInt(1))
+    $("#div_ticket").find(".tkt-no:eq(" + a + ")").text(parseInt(a) + parseInt(1));
+  adremo()
+}
+$(document).on("change", ".charge-tax", function() {
+  "yes" == $(this).val() ? $(".tax-yes").show() : $(".tax-yes").hide(), $("#tax_id").val(""), $("#tax_name").val(""), $("#tax_rate").val("")
+});
+
+$(document).on("change", ".price_class", function() {
+  var t = $(this).val();
+  $(this).val(parseFloat(t).toFixed(2))
+});
+
+$(document).on("click", ".radio_tkt_limit", function() {
+  var t = $(this).data("count");
+  "yes" == $(this).val() ? $("#tkt_order_limit_" + t).show() : $("#tkt_order_limit_" + t).hide()
+});
+
+$(document).on("click", ".tkt_start_date", function(t) {
+  var a = $(this).data("counter");
+  $("#editing_index").val(a)
+});
+
+$(document).on("click", ".tkt_end_date", function(t) {
+  var a = $(this).data("counter");
+  $("#editing_index").val(a)
+});
+
+$(document).on("click", ".release_start_date", function(t) {
+  var a = $(this).data("counter");
+  $("#editing_index").val(a)
+});
+
+$(document).on("change", ".charge-tax2", function() {
+  "yes" == $(this).val() ? $(".one-full").show() : $(".one-full").hide()
+});
+
+
+/*
+  var i, acc = document.getElementsByClassName("s_h-arrow");
+  for (i = 0; i < acc.length; i++) acc[i].addEventListener("click", function() {
+    // this.classList.toggle("active");
+    this.parentElement.classList.toggle("active");
+    var e = this.parentElement.nextElementSibling;
+    "block" === e.style.display ? e.style.display = "none" : e.style.display = "block"
+  });
+*/
+// rewrite in general document click handler
+$(document).on("click", ".s_h-arrow", function(t) {
+  this.parentElement.classList.toggle("active");
+  var e = this.parentElement.nextElementSibling;
+  e.style.display === "none" ? e.style.display = "block" : e.style.display = "none"
+});
+
+$("#div_ticket").sortable({
+  handle: ".handler",
+  update: function(event, ui) {
+    var order = $(this).sortable('serialize');
+    var counted = $("#div_ticket").children().length;
+    for (var a = 0; a < counted; a++) {
+      $(".tkt-no").eq(a).text(a);
+    }
+  }
+}).disableSelection();
+
+
+
+  // breakdown calculation
+
+$(document).on("change keyup", ".price_class, .tax_inclusion, [name='select_per[]']", function(e) {
+  var prnt = $(this).parents(".tkt-details").attr('id').slice(-1);
+  console.log('abc: '+prnt);
+  CalculateBreakDown(prnt);
+});
+
+
+
+function CalculateBreakDown(parent) {
+  var root = jQuery("#tkt_" + parent);
+  var price = parseFloat(jQuery("#price_per_tkt_" + parent).val());
+  if (isNaN(price))
+    price = 0;
+
+  if (price == 0) {
+    $("#div_price_brk_" + parent).hide();
+    return;
+  }
+  
+  $(document).on("change keyup", "#tax_rate, .charge-tax", function() {
+  var list = $(".tkt-details").length;
+  for (var l = 1; l <= list; l++) {
+    CalculateBreakDown(l);
+  }
+});
+
+  $("#div_price_brk_" + parent).show();
+
+  var Qty = parseInt(jQuery('.nota').val());
+  var Havingtax = jQuery('.charge-tax').val();
+  console.log(parent);
+
+
+  var feeTaxRate = 0.13; // valid for Ontario
+  var taxrate = 0;
+  var taxInc = root.children().find('[name="tax_inclusion[]"]').val();
+
+  if (Havingtax == 'yes') {
+    taxrate = parseFloat(jQuery('#tax_rate').val());
+  } else {
+    taxrate = 0;
+  }
+
+  if (taxInc == 0) {
+    // NO
+    taxrate = 0;
+  }
+   
+  taxAmount = (price * taxrate) / 100;
+
+  if (taxInc == 2) {
+    // INCLUDED
+    price = price - taxAmount;
+  
+      
+      
+  }
+
+  console.log(price + 'price-------' + Qty + 'Qty-------' + Havingtax + 'Havingtax-------')
+  console.log('taxrate-' + taxrate)
+  var ConvenienceFeespath = root.children().find('[name="select_per[]"]').val();
+  console.log(ConvenienceFeespath)
+  var ConvenienceFees = parseFloat(ConvenienceFeespath);
+
+  console.log('ConvenienceFees ' + ConvenienceFees)
+
+  console.log('taxInc ' + taxInc)
+
+  console.log('taxAmount ' + taxAmount)
+
+  var baseTotal = price + taxAmount;
+
+  console.log('baseTotal ' + baseTotal)
+
+  var BCF1a = BCF1b = ECF2 = BCFTax = 0;
+
+  ECF2 = 3.3 / 100;
+
+  if (price <= 5) {
+    BCF1a = 0.50;
+    BCF1b = 0.00;
+  } else if (price > 5 && price < 9.50) {
+    BCF1a = 0.00;
+    BCF1b = 10 / 100;
+  } else if (price >= 9.5) {
+    BCF1a = 0.95;
+    BCF1b = 2.5 / 100;
+  }
+
+  console.log('BCF1a rate ' + BCF1a);
+  console.log('BCF1b rate ' + BCF1b);
+  console.log('ECF2 rate ' + ECF2);
+
+  var BCF1 = BCF1a + (price * BCF1b);
+  var BCF1tax = BCF1 * (feeTaxRate);
+  var subTotalPart1 = baseTotal + BCF1 + BCF1tax;
+
+  console.log('BCF1 ' + BCF1);
+  console.log('BCF1tax ' + BCF1tax);
+  console.log('subTotalPart1 ' + subTotalPart1);
+
+  ECF2 = subTotalPart1 * ECF2;
+  console.log('ECF2 ' + ECF2);
+
+  var totalCF = BCF1 + ECF2;
+  console.log('totalCF ' + totalCF);
+
+  var subTotalPart2 = price + totalCF;
+  console.log('subTotalPart2 ' + subTotalPart2);
+
+  var totalCFTax = totalCF * feeTaxRate;
+  console.log('totalCFTax ' + totalCFTax);
+
+  var buyerTotal = baseTotal + (1 - ConvenienceFees / 100) * (totalCF + totalCFTax);
+  console.log('buyerTotal ' + buyerTotal);
+
+  var organizerPayout = buyerTotal - totalCF - totalCFTax;
+  console.log('organizerPayout ' + organizerPayout);
+
+  var snapdCollection = buyerTotal - organizerPayout;
+  console.log('snapdCollection ' + snapdCollection);
+
+  root.children().find('.cus_tkt_price').text('$' + price.toFixed(2));
+  root.children().find('.org_tkt_price').text('$' + price.toFixed(2));
+  root.children().find('.cus_tkt_tax').text('$' + taxAmount.toFixed(2));
+  root.children().find('.org_tkt_tax').text('$' + taxAmount.toFixed(2));
+  root.children().find('.cus_fee').text('$' + totalCF.toFixed(2));
+  root.children().find('.org_fee').text('-$' + totalCF.toFixed(2));
+  root.children().find('.viw_org_fee').text('$' + snapdCollection.toFixed(2));
+  root.children().find('.cus_fee_tax').text('$' + totalCFTax.toFixed(2));
+  root.children().find('.org_fee_tax').text('-$' + totalCFTax.toFixed(2));
+  root.children().find('.cus_total').text('$' + buyerTotal.toFixed(2));
+  root.children().find('.org_total').text('$' + organizerPayout.toFixed(2));
+
+}
+var runbrk_dwn = $('#count').val();
+for (var l = 1; l <= runbrk_dwn; l++) {
+  CalculateBreakDown(l);
+}
+
+
+// end copy from ticketpagescript
+
+$(document).on('click', '#add_more_tkt', function()
+{
+  console.log("****");
+  console.log("add_more_tkt click");
+
+  var count = $('#count').val();
+  count = parseInt(count)+1;
+  $('#count').val(count);
+  console.log("count now " + count);
+  var current_ticket_allocation = $('#current_ticket_allocation').text();
+  var html = $('#tkt_0').clone();
+
+  html.attr('style', ""); // need to make it visible
+
+  SetupTicket(html, 99);  // just pick a high number so it doesn't interfere with normal tickets
+
+  $(this).before(html);
+
+  // this will set all the ids, data-counts and names
+  adremo();
+
+}); // end of #add_more_tkt click
+
+jQuery("#back_page").on('click',function(){
+  jQuery('#modal_loader_text').text('Back to previous page...');
+  jQuery('#loadingModal').show();
+});
+
+$(document).on('click', ' .t-clone ,.clone_tkt ', function () {
+  console.log("****");
+  console.log("Click on clone_tkt");
+  var count = $('#count').val();
+  count = parseInt(count)+1;
+  $('#count').val(count);
+  var g_parent = $(this).parents(".tkt-details").attr('id');
+  var parent = $("#"+g_parent);
+  var parent_num = g_parent.replace("tkt_", "");
+  var clone_id = count;
+  var name = parent.children().find('[name="ticket_name[]"]').val();
+  console.log("Parent: "+g_parent+", Cloned: "+clone_id)
+  console.log(name)
+  //alert('Cloning '+name);
+  $('#alertTicketModal').show();
+  $('#modal_alert_text').text('Cloning '+name);
+  $('#btnconform').click(function(){
+    $('#alertTicketModal').hide();
+  });
+  //custom
+ // $(this).find('.radio-single label').attr('for','radio_single_'+count);
+  // $(".tkt-details:last-of-type").find('.radio-chk label').attr('for','release_start_date_'+count);
+   //custom
+  var namecountno1D = name.slice(-2,-1);
+  var namecountno2D = name.slice(-3,-1);
+
+  if($.isNumeric(namecountno1D) && name.slice(-1) == ")" && name.slice(-3,-2) == "(")
+  {
+    var extract = name.length-3;
+    var rmng = name.slice(0,extract);
+    var nv = 1;
+    $(".t-name").each(function(index){
+      if($(this).val().slice(0,$(this).val().length - 3) == rmng)
+        nv = parseInt(namecountno1D) + parseInt(1);
+    });
+    var c_name = rmng + "("+nv+")";
+  }
+  else if($.isNumeric(namecountno2D) && name.slice(-1) == ")" && name.slice(-4,-3) == "(")
+  {
+    var extract = name.length-4;
+    var rmng = name.slice(0,extract);
+    console.log('renameing:'+rmng);
+    var nv = 1;
+    console.log('2d number:'+nv);
+    $(".t-name").each(function(index){
+      if($(this).val().slice(0,$(this).val().length - 4) == rmng)
+        nv = parseInt(namecountno2D) + parseInt(1);
+    });
+    var c_name = rmng + "("+nv+")";
+  }
+  else
+  {
+    c_name = name + "(2)";
+    //parent.children().find('[name="ticket_name[]"]').val(name + "(1)");
+  }
+
+  var html = parent.clone(true, true);  // clone with data and events
+  html.children().find('[name="ticket_name[]"]').val(c_name);
+
+  SetupTicket(html, 99);  // just pick a high number so it doesn't interfere with normal tickets
+
+  $("#add_more_tkt").before(html);
+
+  // this will set the ids, data-counts and names
+  adremo();
+  
+  //custom
+  $(".tkt-details:last-of-type").find('.my-chk label').attr('for','release_start_date_'+count);
+  $(".tkt-details:last-of-type").find('.radio-single label').attr('for','radio_single_'+count);
+  $(".tkt-details:last-of-type").find('.radio-bundle label').attr('for','radio_bundled_'+count);
+  $(".tkt-details:last-of-type").find('.radio-paid label').attr('for','radio_paid_'+count);
+  $(".tkt-details:last-of-type").find('.radio-free label').attr('for','radio_free_'+count);
+  $(".tkt-details:last-of-type").find('.bundle-no label').attr('for','radio_limitno_'+count);
+  $(".tkt-details:last-of-type").find('.bundle-yes label').attr('for','radio_limityes_'+count);
+  $(".tkt-details:last-of-type").find('.match-event-start label').attr('for','radio_startmatch_'+count);
+  $(".tkt-details:last-of-type").find('.new-start-time > label').attr('for','radio_startnew_'+count);
+   $(".tkt-details:last-of-type").find('.start-datepicker label').attr('for','tkt_start_date_'+count);
+  $(".tkt-details:last-of-type").find('.match-event-end label').attr('for','radio_endmatch_'+count);
+  $(".tkt-details:last-of-type").find('.new-end-time > label').attr('for','radio_endmatch_'+count);
+    $(".tkt-details:last-of-type").find('.end-datepicker label').attr('for','tkt_end_date_'+count);
+  $(".tkt-details:last-of-type").find('.release-imm label').attr('for','radio_releaseimm_'+count);
+  $(".tkt-details:last-of-type").find('.release-sch > label').attr('for','radio_releasesched_'+count);
+  $(".tkt-details:last-of-type").find('.release-sch-datepicker label').attr('for','release_start_date_'+count);
+  $(".tkt-details:last-of-type").find('.release-sch-datepicker label input').attr('data-counter',count);
+  $(".tkt-details:last-of-type").find('.exp-none label').attr('for','radio_expnone_'+count);
+  $(".tkt-details:last-of-type").find('.exp-sch > label').attr('for','radio_exptime_'+count);
+   $(".tkt-details:last-of-type").find('.release-end-datepicker label').attr('for','release_end_date_'+count);
+   $(".tkt-details:last-of-type").find('.prom-disable label').attr('for','radio_promodisabled_'+count);
+  $(".tkt-details:last-of-type").find('.radio-dollar label').attr('for','radio_promodollar_'+count);
+  $(".tkt-details:last-of-type").find('.radio-percent label').attr('for','radio_promopercent_'+count);
+
+  //custom
+}); // end of clone click
+
+
+//adremo();
+
+function adremo()
+{
+  var count = $('#count').val();
+  console.log("adremo " + count);
+
+  if(count != '1')
+  {
+    $('.del-tkt').show();
+  }
+  else
+  {
+    $('.del-tkt').hide();
+  }
+
+  // also set the numbers displayed on the tickets
+  // and set all the ids, data-counts and names
+
+  // There is actually a problem with radio buttons getting cleared, because two names can exist at the same time
+  // so we will do two passes to ensure they are all unique
+
+  var tickets = $(".tkt-details");
+  tickets.each(function(count) {
+    var html = $(this);
+    SetupTicket(html, count+999);
+  });
+  tickets.each(function(count) {
+    var html = $(this);
+    SetupTicket(html, count);
+  });
+
+  CalculateTicketAllocation();
+}
+
+function SetupTicket(html, count)
+{
+    html.find('[name]').attr('name', function (_, name) {
+        return name.replace(/_\d+/g, '_' + count);
+    });
+    html.find('[id]').attr('id', function (_, id) {
+        return id.replace(/_\d+/g, '_' + count);
+    });
+    html.find('[onclick]').attr('onclick', function (_, onclick) {
+        return onclick.replace(/_\d+/g, '_' + count);
+    });
+    html.find('[data-count]').attr('data-count', function (_, datacount) {
+        return datacount.replace(/\d+/g, count);
+    });
+    html.attr('id', "tkt_"+count);
+    html.find('.tkt-no').text(count);
+}
+
+// when ANY select on page changes its value so that clone works properly
+$(document).on("change", "select", function(){
+  var val = $(this).val(); //get new value
+  // find selected option
+  $("option", this).removeAttr("selected").filter(function(){
+    return $(this).attr("value") == val;
+  }).first().attr("selected", "selected"); //add selected attribute to selected option
+});
+
+//$('#tkt_0').remove();
+
+$(document).on("change", ".nota", function() {
+  var t = $(this).val();
+  $(this).val(parseFloat(t,10));
+});
+
+
+$('.code-name input').keypress(function( e ) {
+    if(e.which === 32) 
+        return false;
+});
+
+$('.code-name input').on("input", function () {
+    $(this).val($(this).val().replace(/ /g, ""));
+});
+
+/*$('[id^="code_name_"]').change(function() {
+
+    var current = $(this);
+    console.log(current + 'ueioueiowrew');
+
+    $('[id^="code_name_"]').each(function() {
+        if ($(this).val() == current.val() && $(this).attr('id') != $current.attr('id'))
+        {
+            alert('duplicate found!');
+        }
+
+    });
+  });*/
+  
+   $('.next-btn').click(function () {
+         var valid = true;
+         $('.code-name input').each(function (index1, item1){
+             var a = $(this).val();
+             //console.log('sfsdfdsfsd'+ a);
+             if($('#div_promo_code_'+index1).css('display') != 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') == 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    //$(item2).after('<label class="error code-error">please enter unique code</label>');
+                     // $(this).focus();
+                     $(".code-error").remove();
+                    valid = true;
+                }
+              }
+            });
+             }
+         }
+           if($('#div_promo_code_'+index1).css('display') == 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') != 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    //$(item2).after('<label class="error code-error">please enter unique code</label>');
+                     // $(this).focus();
+                     $(".code-error").remove();
+                    valid = true;
+                }
+              }
+            });
+             }
+         }
+         
+         if($('#div_promo_code_'+index1).css('display') != 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') != 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    $(item2).after('<label class="error code-error">please enter unique code</label>');
+                      $(this).focus();
+                    valid = false;
+                }
+              }
+            });
+             }
+         }
+        });
+
+        return valid;
+    });
+    
+    
+     $('.code-name input').on('input',function () {
+         var valid = true;
+         $('.code-name input').each(function (index1, item1){
+             var a = $(this).val();
+             //console.log('sfsdfdsfsd'+ a);
+             if($('#div_promo_code_'+index1).css('display') != 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') == 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    //$(item2).after('<label class="error code-error">please enter unique code</label>');
+                     // $(this).focus();
+                     $(".code-error").remove();
+                    valid = true;
+                }
+              }
+            });
+             }
+         }
+           if($('#div_promo_code_'+index1).css('display') == 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') != 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    //$(item2).after('<label class="error code-error">please enter unique code</label>');
+                     // $(this).focus();
+                     $(".code-error").remove();
+                    valid = true;
+                }
+              }
+            });
+             }
+         }
+         
+         if($('#div_promo_code_'+index1).css('display') != 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                    if($('#div_promo_code_'+index2).css('display') != 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                    console.log('ert'.index2);
+                    $(item2).after('<label class="error code-error">please enter unique code</label>');
+                      $(this).focus();
+                    valid = false;
+                }
+              }
+            });
+             }
+         }
+        });
+
+        return valid;
+    });
+    
+    
+   /* $('.code-name input').on('input',function () {
+        var valid = true;
+         $('.code-name input').each(function (index1, item1){
+             var a = $(this).val();
+             //console.log('sfsdfdsfsd'+ a);
+              if($('#div_promo_code_'+index1).css('display') != 'none'){
+                 console.log($('#div_promo_code_'+index1));
+             if($(this).val()){
+                 $(".code-error").remove();
+                 $('.code-name input').not(this).each(function(index2, item2){
+                      if($('#div_promo_code_'+index2).css('display') != 'none'){  
+                if ($(item1).val() == $(item2).val()) {
+                   // var b = $(item1).val();
+                   // var c = $(item2).val();
+                   //  console.log('sfsdfdsfsd'+ b +c);
+                    $(item2).after('<label class="error code-error">please enter unique code</label>');
+                     $(this).focus();
+                    valid = false;
+                }
+                      }
+            });
+             }
+         }
+        });
+
+        return valid;
+    });*/
+
+</script>
+
+%%FOOTER%%

@@ -1,0 +1,20 @@
+User: 99.253.182.252 - November 10, 2020, 6:26 pm
+Event ID: 89
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNTAzMDk1NX0.u4R1n5NLOGgo-Rzl7LlW_Vu_2zzpu8ryzab1N6J7PNc
+Response: {"photo":{"id":340,"event_id":"89","file_id":1039,"caption":""},"success":true}
+-------------------------
+User: 99.253.182.252 - November 10, 2020, 6:26 pm
+Event ID: 89
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNTAzMDk1NX0.u4R1n5NLOGgo-Rzl7LlW_Vu_2zzpu8ryzab1N6J7PNc
+Response: {"photo":{"id":341,"event_id":"89","file_id":1040,"caption":""},"success":true}
+-------------------------
+User: 172.83.47.29 - November 10, 2020, 7:21 pm
+Event ID: 94
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwiaWF0IjoxNjA1MDMzNzI2fQ.mNh4FWnT_8T_n2yMzAcgDYXowrceR9yNGUVa2iOuX4c
+Response: {"photo":{"id":342,"event_id":"94","file_id":1041,"caption":""},"success":true}
+-------------------------
+User: 172.83.47.29 - November 10, 2020, 7:22 pm
+Event ID: 94
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwiaWF0IjoxNjA1MDMzNzI2fQ.mNh4FWnT_8T_n2yMzAcgDYXowrceR9yNGUVa2iOuX4c
+Response: {"photo":{"id":343,"event_id":"94","file_id":1042,"caption":""},"success":true}
+-------------------------

@@ -1,0 +1,508 @@
+<div class="tkt-details" id="tkt_%%TICKETNUM%%" style="padding: 0px;">
+    <input type="hidden" class="t-field" name="ticket_id[]" value="%%TICKETID%%"> 
+  <!-- ticket detail start -->
+  <div class="accordion">
+    <div class="acc-head active">
+      <div class="tkt-name">
+        <i class="fa fa-bars handler"></i>
+        <div class="tkt-no">%%TICKETNUM%%</div>
+        <p class="tkt_name_div"><input type="text" class="t-name t-field" name="ticket_name[]" value="%%TICKET_NAME%%" placeholder="Ticket Name" required title="Please enter Ticket Name"> </p>
+      </div>
+      <span class="t-edit"><i class="fa fa-pencil"></i></span>
+      <span class="t-clone"><i class="fa fa-clone"></i></span>
+      <div class="tickets-total-sidebar">
+        <div class="tkt-total-sold">%%TOTAL_SOLD%%</div>
+        <input type="hidden" name="total_sold" value="%%TOTAL_SOLD%%">
+        <div class="tkt-outof">SOLD OUT OF<span class="total_tkt_available" id="total_tkt_available_%%TICKETNUM%%">%%TICKET_MAX%%</span></div>
+      </div>
+      <div class="s_h-arrow"></div>
+    </div>
+    <div class="inner_ticket" style="padding: 20px;">
+      <div class="row">
+        <div class="col-md-8">
+          <label>Details (optional)</label>
+          <p><textarea name="ticket_details[]">%%TICKET_DETAILS%%</textarea></p>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <label>% Convenience Fee Paid By You.</label>
+          </div>
+          <div class="row">
+            <select class="convenience_fee" style="width: 100%;" name="select_per[]">
+              <option value="0" %%FEE_0_SELECTED%%>0%</option>
+              <option value="25" %%FEE_25_SELECTED%%>25%</option>
+              <option value="50" %%FEE_50_SELECTED%%>50%</option>
+              <option value="75" %%FEE_75_SELECTED%%>75%</option>
+              <option value="100" %%FEE_100_SELECTED%%>100%</option>
+            </select>
+          </div>
+          <div class="row tx_incl">
+            <label>Tax Inclusion</label>
+            <div class="tooltip2"><i class="fa fa-info"></i>
+              <span class="tooltiptext2"><b>Tax Inclusion</b><br>
+                ADDED will display ticket price as stated.<br>
+                INCLUDED will display ticket price before taxes.
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <select class="tax_inclusion" style="width: 100%;" name="tax_inclusion[]">
+              <option value="0" %%TAX_INCLUSION_0_SELECTED%%>No</option>
+              <option value="1" %%TAX_INCLUSION_1_SELECTED%%>Yes, tax ADDED to ticket price</option>
+              <option value="2" %%TAX_INCLUSION_2_SELECTED%%>Yes, tax INCLUDED in ticket price</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-start">
+        <div class="w-100 d-none d-md-block"></div>
+        <div class="col-12">
+          <label>Ticket type</label>
+        </div>
+      </div>
+      <div class="row align-items-start">
+        <div class="col-md-2 radio-chk radio-single">
+          <label for="radio_single_%%TICKETNUM%%">
+            <input type="radio" class="tkt_type" data-count="%%TICKETNUM%%" name="radio_tkt_type_%%TICKETNUM%%" id="radio_single_%%TICKETNUM%%" value="Single Tickets" %%TICKET_SINGLE_CHECKED%%>
+            <span class="checkmark1"></span>Single Tickets
+          </label>
+        </div>
+        <div class="col-md-2 radio-chk radio-bundle">
+          <label for="radio_bundled_%%TICKETNUM%%">
+            <input type="radio" class="tkt_type" data-count="%%TICKETNUM%%" name="radio_tkt_type_%%TICKETNUM%%" id="radio_bundled_%%TICKETNUM%%" value="Bundled Tickets" %%TICKET_BUNDLE_CHECKED%%>
+            <span class="checkmark1"></span>Bundled Tickets
+          </label>
+        </div>
+        <div class="col">
+          <p class="tkt-type">Use Bundled tickets when you want to sell group tickets package (i.e. table of 10, golf foursome, family package) </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label>Price type</label>
+        </div>
+      </div>
+      <div class="row align-items-start">
+        <div class="col-md-2 radio-chk radio-paid">
+            <label for="radio_paid_%%TICKETNUM%%">
+              <input onClick="jQuery('#price_per_tkt_%%TICKETNUM%%').attr('readonly',false);" type="radio" data-count="%%TICKETNUM%%" class="price_radio" id="radio_paid_%%TICKETNUM%%" name="price_radio_%%TICKETNUM%%" value="Paid" %%TICKET_PAID_CHECKED%%>
+              <span class="checkmark1"></span> Paid
+            </label>
+        </div>
+        <div class="col-md-2 radio-chk radio-free">
+          <label for="radio_free_%%TICKETNUM%%">
+            <input onClick="jQuery('#price_per_tkt_%%TICKETNUM%%').val(0);jQuery('#price_per_tkt_%%TICKETNUM%%').attr('readonly',true);" type="radio" data-count="%%TICKETNUM%%" class="price_radio" id="radio_free_%%TICKETNUM%%" name="price_radio_%%TICKETNUM%%" value="Free" %%TICKET_FREE_CHECKED%%>
+            <span class="checkmark1"></span> Free
+          </label>
+        </div>
+      </div>
+      <div class="row rowspace">
+        <br>
+        <div class="col-md-3 ppt" id="div_price_per_tkt_%%TICKETNUM%%" style="display: %%TICKET_PRICE_DISPLAY%%">
+            <label>Price Per Ticket ($%%CURRENCY%%)*</label>
+            <p><input min="0" type="number" name="price_per_tkt[]" id="price_per_tkt_%%TICKETNUM%%" placeholder="100.00" required class="price_class" title="Please enter Price per ticket" value="%%TICKET_PRICE_VAL%%" %%TICKET_PRICE_DISABLED%%></p>
+        </div>
+        <div class="col-md-3 qty-avi" id="div_no_of_tkt_available_%%TICKETNUM%%" style="display: %%TICKET_QTY_DISPLAY%%">
+            <label>Quantity Available*</label>
+            <p><input min="%%TICKET_QTY_MIN%%" type="number" class="nota" data-count="%%TICKETNUM%%" name="no_of_tkt_available[]" id="nota_%%TICKETNUM%%" placeholder="100" required value="%%TICKET_QTY_VAL%%" title="" %%TICKET_QTY_DISABLED%%></p>
+        </div>
+        %%TICKET_PRICE_SCRIPT%%
+        <div class="col-md-6 brk-down" id="div_price_brk_%%TICKETNUM%%">
+          <span class="tkt-breakdown">
+            <div class="tooltip2">
+              Breakdown <i class="fa fa-info"></i>
+              <span class="tooltiptext2" style="left: 0;">
+                <b>Ticket Breakdown</b>
+                <table>
+                  <tr>
+                    <th></th>
+                    <th>Customer<br /> Pays</th>
+                    <th>You <br /> Receive</th>
+                  </tr>
+                  <tr class="bdprice">
+                    <td class="bold">Ticket</td>
+                    <td class="cus_tkt_price">$100.00</td>
+                    <td class="org_tkt_price">$100.00</td>
+                  </tr>
+                  <tr class="bdtax">
+                    <td class="bold">Ticket tax </td>
+                    <td class="cus_tkt_tax">$0.00</td>
+                    <td class="org_tkt_tax">$0.00</td>
+                  </tr>
+                  <tr class="bdfee">
+                    <td class="bold">Fee</td>
+                    <td class="cus_fee">$0.00</td>
+                    <td class="org_fee">-$6.88</td>
+                  </tr>
+                  <tr class="bdtaxfee">
+                    <td class="bold">Fee tax</td>
+                    <td class="cus_fee_tax">$0.00</td>
+                    <td class="org_fee_tax">-$0.89</td>
+                  </tr>
+                  <tr class="bdtotal">
+                    <td class="bold">Total</td>
+                    <td class="cus_total bold1">$100.00</td>
+                    <td class="org_total bold1">$92.23</td>
+                  </tr>
+                </table>
+              </span>
+            </div>
+          </span>
+          Buyer Pays: <span class="cus_total">$100</span>; Fees: <span class="viw_org_fee">$6.88</span>; You Receive: <span class="org_total">$92.23</span>
+        </div>
+      </div>
+      <div class="div_bundled" style="display: %%TICKET_BUNDLE_DISPLAY%%;" id="div_bundle_%%TICKETNUM%%">
+        <div class="row">
+          <div class="col-md-4">
+            <label>Tickets Per Bundle</label>
+          </div>
+          <div class="col-md-4">
+            <label>Bundles Available</label>
+          </div>
+          <div class="col-md-4">
+            <label>Total Tickets</label>
+          </div>
+        </div>
+        <div class="row rowspace">
+          <div class="col-md-4">
+            <input min="0" type="number" class="tkb" name="ticket_per_bundle[]" data-count="%%TICKETNUM%%" id="tkb_%%TICKETNUM%%" value="%%TICKETS_PER_BUNDLE_VAL%%" placeholder="0" required> x
+          </div>
+          <div class="col-md-4">
+            <input min="0" type="number" class="tba" name="bundles_available[]" value="%%TICKET_BUNDLES_AVAILABLE_VAL%%" data-count="%%TICKETNUM%%" id="tba_%%TICKETNUM%%" placeholder="100" required> =
+          </div>
+          <div class="col-md-4">
+            <input min="0" readonly type="text" class="tbtkt" id="tbtkt_%%TICKETNUM%%" name="total_tickets[]" value="%%TICKET_TOTAL_TICKETS_VAL%%" placeholder="200" required>
+          </div>
+        </div>
+      </div>
+
+     <div class="bundle_ticket_limit">
+      <div class="row bundle-ticket-%%TICKETNUM%% bundle">
+            <div class="col">
+                 <!-- <label class="single-tkting">Single Limit Per Order</label>-->
+                  <label class="bundle-tkting-%%TICKETNUM%%">Single Limit Per Order</label>
+         </div>
+      </div>
+      <div class="row bundle-ticket-%%TICKETNUM%% bundle">
+        <div class="col-lg-3 col-md-12 radio-chk tlpo bundle-no">
+           
+          <label for="radio_limitno_%%TICKETNUM%%">
+            <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_limit" id="radio_limitno_%%TICKETNUM%%" name="radio_tkt_limit_%%TICKETNUM%%" value="no" %%TICKET_LIMIT_NO_CHECKED%%>
+            <span class="checkmark1"></span>No
+          </label>
+         
+        </div>
+        <div class="col-lg-3 col-md-12 radio-chk bundle-yes">
+          <label class="label-radio" for="radio_limityes_%%TICKETNUM%%">
+            <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_limit" id="radio_limityes_%%TICKETNUM%%" name="radio_tkt_limit_%%TICKETNUM%%" value="yes" %%TICKET_LIMIT_YES_CHECKED%%>
+            <span class="checkmark1"></span>Yes
+          </label>
+          <input class="radio-input float-md-right float-left" type="number" min="0" name="tkt_order_limit[]" value="%%TICKET_LIMIT_VAL%%" id="tkt_order_limit_%%TICKETNUM%%" style="display: %%TICKET_LIMIT_DISPLAY%%; width:120px; height:38px; opacity:100; color:black;" required="required">
+          <div>
+            
+          </div>
+        </div>
+      </div>
+</div>
+
+
+
+      <!--%%EDIT_INPUT%%-->
+      <div class="row rowspace ticket-none">
+        <div class="col-md-6">
+          <label>Ticket Start Time</label>
+          <div class="row">
+            <div class="col-md-6 radio-chk match-event-start">
+              <label for="radio_startmatch_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_start_time" id="radio_startmatch_%%TICKETNUM%%" name="radio_tkt_start_time_%%TICKETNUM%%" value="Match Event" %%TICKET_MATCH_EVENT_CHECKED%%>
+                <span class="checkmark1"></span>Match Event
+              </label>
+            </div>
+            <div class="col-md-6 radio-chk new-start-time">
+              <label for="radio_startnew_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_start_time" id="radio_startnew_%%TICKETNUM%%" name="radio_tkt_start_time_%%TICKETNUM%%" value="New Start Time" %%TICKET_START_TIME_CHECKED%%>
+                <span class="checkmark1"></span>New Start Time
+              </label>
+              <div style="width: 100%; display: %%TICKET_START_DISPLAY%%;" id="div_tkt_start_date_%%TICKETNUM%%" class="start-datepicker">
+                <label style="cursor: pointer;" class="start-date" for="tkt_start_date_%%TICKETNUM%%">Start
+                  <input type="text" id="tkt_start_date_%%TICKETNUM%%" data-counter="%%TICKETNUM%%" class="start_datepicker tkt_start_date" name="tkt_start_date[]" required="required"
+                    style="cursor:pointer; background: #f56d3a !important; width: 90% !important; padding: 0px !important;" value="%%TICKET_START_VAL%%">
+                  <small style="font-size: 12px;">Select to change</small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Ticket End Time</label>
+          <div class="row">
+            <div class="col-md-6 radio-chk match-event-end">
+              <label for="radio_endmatch_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_end_time" id="radio_endmatch_%%TICKETNUM%%" name="radio_tkt_end_time_%%TICKETNUM%%" value="Match Event" %%TICKET_END_MATCH_CHECKED%%>
+                <span class="checkmark1"></span>Match Event
+              </label>
+            </div>
+            <div class="col-md-6 radio-chk new-end-time">
+              <label for="radio_endnew_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_tkt_end_time" id="radio_endnew_%%TICKETNUM%%" name="radio_tkt_end_time_%%TICKETNUM%%" value="New End Time" %%TICKET_END_NEW_CHECKED%%>
+                <span class="checkmark1"></span>New End Time
+              </label>
+              <div style="width: 100%; display: %%TICKET_END_DISPLAY%%;" id="div_tkt_end_date_%%TICKETNUM%%" class="end-datepicker">
+                <label style="cursor: pointer;" class="start-date" for="tkt_end_date_%%TICKETNUM%%">End
+                  <input type="text" id="tkt_end_date_%%TICKETNUM%%" data-counter="%%TICKETNUM%%" class="start_datepicker tkt_end_date" name="tkt_end_date[]"
+                    style="cursor:pointer; background: #f56d3a !important; width: 90% !important; padding: 0px !important;" value="%%TICKET_END_VAL%%" required="required">
+                  <small style="font-size: 12px;">Select to change</small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row rowspace">
+        <div class="col-md-6">
+          <label>Release Start Date & Time</label>
+          <div class="row">
+            <div class="col-md-6 radio-chk my-chk release-imm">
+              <label for="radio_releaseimm_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_release_time" id="radio_releaseimm_%%TICKETNUM%%" name="radio_release_time_%%TICKETNUM%%" value="Immediately" %%TICKET_RELEASE_IMMEDIATELY_CHECKED%%>
+                <span class="checkmark1"></span>Immediately
+              </label>
+            </div>
+            <div class="col-md-6 radio-chk release-sch">
+              <label for="radio_releasesched_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_release_time" id="radio_releasesched_%%TICKETNUM%%" name="radio_release_time_%%TICKETNUM%%" value="Scheduled" %%TICKET_RELEASE_SCHEDULED_CHECKED%%>
+                <span class="checkmark1"></span>Scheduled
+              </label>
+              <div style="width: 100%; display: %%TICKET_RELEASE_START_DISPLAY%%;" id="div_release_start_date_%%TICKETNUM%%" class="release-sch-datepicker">
+                <label style="cursor: pointer;" class="start-date" for="release_start_date_%%TICKETNUM%%">Start
+                  <input type="text" id="release_start_date_%%TICKETNUM%%" class="start_datepicker release_start_date" required="required" data-counter="%%TICKETNUM%%" name="release_start_date[]"
+                    style="cursor:pointer; background: #f56d3a !important; width: 90% !important; padding: 0px !important;" value="%%TICKET_RELEASE_START_VAL%%">
+                  <small style="font-size: 12px;">Select to change</small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Expiration Start Date & Time</label>
+          <div class="row">
+            <div class="col-md-6 radio-chk exp-none">
+              <label for="radio_expnone_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_expiration_time" id="radio_expnone_%%TICKETNUM%%" name="radio_expiration_time_%%TICKETNUM%%" value="None" %%TICKET_EXPIRE_NONE_CHECKED%%>
+                <span class="checkmark1"></span>None
+              </label>
+            </div>
+            <div class="col-md-6 radio-chk exp-sch">
+              <label for="radio_exptime_%%TICKETNUM%%">
+                <input type="radio" data-count="%%TICKETNUM%%" class="radio_expiration_time" id="radio_exptime_%%TICKETNUM%%" name="radio_expiration_time_%%TICKETNUM%%" value="Scheduled" %%TICKET_EXPIRE_SCHEDULED_CHECKED%%>
+                <span class="checkmark1"></span>Scheduled
+              </label>
+              <div style="width: 100%; display: %%TICKET_EXPIRE_START_DISPLAY%%;" id="div_release_end_date_%%TICKETNUM%%" class="release-end-datepicker">
+                <label style="cursor: pointer;" class="start-date" for="release_end_date_%%TICKETNUM%%">End
+                  <input required="required" type="text" id="release_end_date_%%TICKETNUM%%" class="start_datepicker release_end_date" name="release_end_date[]"
+                    style="cursor:pointer; background: #f56d3a !important; width: 90% !important; padding: 0px !important;" value="%%TICKET_EXPIRE_START_VAL%%">
+                  <small style="font-size: 12px;">Select to change</small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+      %%CLONE_INPUT%%
+
+
+
+
+      <div class="row rowspace">
+        <div class="col">
+          <label> Promo Code</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-2 radio-chk prom-disable">
+          <label for="radio_promodisabled_%%TICKETNUM%%">
+            <input type="radio" data-count="%%TICKETNUM%%" class="promo_code" id="radio_promodisabled_%%TICKETNUM%%" name="radio_promo_code_%%TICKETNUM%%" value="disabled" %%TICKET_PROMO_DISABLED_CHECKED%%>
+            <span class="checkmark1"></span>Disabled
+          </label>
+        </div>
+        <div class="col-md-3 radio-chk radio-dollar">
+          <label for="radio_promodollar_%%TICKETNUM%%">
+            <input class="promo_code" data-count="%%TICKETNUM%%" type="radio" id="radio_promodollar_%%TICKETNUM%%" name="radio_promo_code_%%TICKETNUM%%" value="dollar" %%TICKET_PROMO_DOLLAR_CHECKED%%>
+            <span class="checkmark1"></span>Dollar Amount ($%%CURRENCY%%)
+          </label>
+        </div>
+        <div class="col-md-3 radio-chk radio-percent">
+          <label for="radio_promopercent_%%TICKETNUM%%">
+            <input type="radio" data-count="%%TICKETNUM%%" class="promo_code" id="radio_promopercent_%%TICKETNUM%%" name="radio_promo_code_%%TICKETNUM%%" value="percentage" %%TICKET_PROMO_PERCENTAGE_CHECKED%%>
+            <span class="checkmark1"></span>Percentage Amount (%)
+          </label>
+        </div>
+      </div>
+      <div class="row" id="div_promo_code_%%TICKETNUM%%" style="display: %%TICKET_PROMO_DISPLAY%%;">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-3 code-name">
+          <label>Code Name (min. 6 characters)</label>
+          <p><input data-count ="%%TICKETNUM%%" id="code_name_%%TICKETNUM%%" type="text" style="height:38px;" minlength="6" required="required" name="code_name[]" placeholder="SAVE10" value="%%TICKET_PROMO_CODE_NAME%%">
+        </div>
+        <div class="col-md-3">
+          <label>Code value</label>
+          <p><input id="code_value_%%TICKETNUM%%" class="code-value" data-count="%%TICKETNUM%%" required="required" type="number" name="code_value[]" placeholder="10.00" value="%%TICKET_PROMO_CODE_VAL%%" > </p>
+        </div>
+      </div>
+      
+
+
+      <div class="row rowspace">
+        <div class="col"><!--div class="date-tkt-typ" -->
+          <label> Select Date(s) for this Ticket Type</label>
+
+          %%TICKET_DATES%%
+
+        </div>
+      </div>
+
+
+    </div>
+    <p style="cursor:pointer;" class="del-tkt"><i class="fa fa-minus-circle"></i> Remove Ticket Type </p>
+    <p style="cursor:pointer;" class="clone_tkt"><i class="fa fa-clone"></i> Copy Ticket Type</p>
+  </div>
+
+</div>
+<script>
+
+jQuery( function() {
+    
+    
+//   jQuery(document).on('change', '.radio-single .tkt_type', function () {
+//       var count = jQuery(this).attr("data-count");
+//       console.log(count);
+     
+//       if(jQuery('#radio_single_'+count).is(':checked')) {
+         
+//           jQuery('.bundle_ticket_limit').hide();
+          
+//       }
+
+     
+     
+//       jQuery('#div_price_brk_'+count).removeClass("col-md-9");
+      
+//       jQuery('#div_price_brk_'+count).addClass("col-md-6");
+//   });
+//      jQuery(document).on('change', '.radio-bundle .tkt_type', function () {
+//           var count = jQuery(this).attr("data-count");
+        
+     
+//       if(jQuery('#radio_bundle_'+count).is(':checked')) {
+        
+//           jQuery('.bundle-ticket-'+count).show();
+          
+//           jQuery('.bundle-ticket-'+count+'.bundle').show();
+         
+//       }
+   
+     
+    
+    
+//       jQuery('#div_price_brk_'+count).removeClass("col-md-6");
+//       jQuery('#div_price_brk_'+count).addClass("col-md-9");
+//       });
+});
+//   if(jQuery('#radio_single_1').is(':checked')) {jQuery('.bundle-ticket-1').hide(); }
+   
+   
+/*if ( jQuery('.radio-single .tkt_type').is(':checked')) {
+    jQuery('.bundle-tkting').hide();
+}*/
+/*jQuery(document).on('click', '.radio-single .tkt_type', function () {
+       var count = jQuery(this).attr("data-count");
+       console.log(count);
+      if(jQuery('#radio_single_'+count).is(':checked')) {
+         jQuery('.bundle_ticket_limit').show();
+         jQuery('.bundle-tkting').hide();
+           jQuery('.single-tkting').show();
+      }
+      else{ jQuery('.bundle-tkting').show();}
+ });
+ 
+ jQuery(document).on('click', '.radio-bundle .tkt_type', function () {
+       var count = jQuery(this).attr("data-count");
+       console.log(count);
+      if(jQuery('#radio_bundle_'+count).is(':checked')) {
+          jQuery('.bundle_ticket_limit').show();
+          jQuery('.single-tkting').hide();
+          jQuery('.bundle-tkting').show();
+      }
+      
+      else{
+           jQuery('.single-tkting').show();
+      }
+ });*/
+ 
+  jQuery(document).on('change', '.radio-bundle .tkt_type', function () {
+       var count = jQuery(this).attr("data-count");
+       console.log('.bundle-tkting-'+count);
+          jQuery('.bundle-tkting-'+count).empty();
+          jQuery('.bundle-tkting-'+count).append('Bundled Limit Per Order');
+  });
+
+jQuery(document).on('change', '.radio-single .tkt_type', function () {
+       var count = jQuery(this).attr("data-count");
+       console.log('.bundle-tkting-'+count);
+         jQuery('.bundle-tkting-'+count).empty();
+          jQuery('.bundle-tkting-'+count).append('Single Limit Per Order');
+  });
+  
+ jQuery(document).on('change', '.promo_code, .code-value', function () {
+       var count = jQuery(this).attr("data-count");
+       console.log('.radio_promodollar-'+count);
+        var t = $("#code_value_"+count).val();
+       if($("#radio_promodollar_"+count).is(':checked')){
+           console.log('checked');
+            var t = $("#code_value_"+count).val();
+            console.log('value'+t);
+          $("#code_value_"+count).val(parseFloat(t).toFixed(2));
+          //console.log('junaid update');
+       }
+    if($("#radio_promopercent_"+count).is(':checked')){
+         console.log('checked11');
+          console.log('value'+t);
+         $("#code_value_"+count).val(parseFloat(t).toFixed(2));
+    }
+  });
+  
+  //custom
+  /* jQuery(document).on('change', '.code-value', function () {
+   var count = jQuery(this).attr("data-count");
+       console.log('.radio_promodollar-'+count);
+        var t = $("#code_value_"+count).val();
+       if($("#radio_promodollar_"+count).is(':checked')){
+           console.log('checked');
+            var t = $("#code_value_"+count).val();
+            console.log('value'+t);
+          $("#code_value_"+count).val(parseFloat(t).toFixed(2));
+       }
+    if($("#radio_promopercent_"+count).is(':checked')){
+         console.log('checked11');
+          console.log('value'+t);
+         $("#code_value_"+count).val(parseInt(t));
+    }
+  });*/
+  //custom
+  
+  
+   jQuery(document).on('keyup', '.code-value', function () {
+      if (jQuery(this).val() > 100){
+          jQuery(this).val('100');
+      }
+          else if (jQuery(this).val() < 0){
+          jQuery(this).val('1');
+      }
+  });
+</script>

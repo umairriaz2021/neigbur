@@ -1,0 +1,449 @@
+   .error {
+   color: red; 
+   padding-bottom: 10px;
+   font-size: smaller;
+   }  
+   #dropZone {
+   margin-top: 0px;
+   position: relative;
+   }
+   #dropZone .btn-eventimg {
+    margin-left:94px;
+   }
+   #logodropZone {
+   text-align: center;
+   }
+ 
+   #fileupload {
+   border: none;
+   left: 0px;
+   top: 0px;
+   width: 100%;
+   height: 100%;
+   padding: 0px 0px 0px 20px;
+   }
+   #pdfdropZone h1 {
+   font-size: 15px;
+   }
+   #logodropZone h1 {
+   font-size: 15px;
+   }
+   #files a span.remove-img {
+   top: -248px!important;
+   right: -7px!important;
+   }
+   /*.logo-details .remove-img {
+    top: 25px;
+    }*/
+
+   .btn-eventimg {
+   color: rgb(32, 201, 255);
+   background-color: #ffffff;
+   border-color: rgb(32, 201, 255);
+   border-radius: 4px;
+   padding: 6px 12px;
+   border: 1px solid;
+   font-weight: 800;
+   }
+   label#fileupload-error {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
+    left: 0;
+   }
+   .remove_logo {
+    top: 1086px!important;
+    right: 475px!important;
+    background: red;
+    display: block!important;
+    width: 20px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: -11px;
+    border-radius: 50%;
+    height: 20px;
+    line-height: 18px;
+    font-weight: bold;
+    right: -8px;
+   }
+   .image-area{
+       position:absolute;
+       width:100%;
+       height:94%;
+       top:0px;
+       left:0px;
+       z-index:3;
+       border:none; 
+       border-radius: 5px;
+   }
+
+   .icon_droparea{
+        width: 45%;
+        border: 1px solid #ece7e7!important;
+        margin-bottom: 10px;
+        padding: 13px;
+        background: #fff;
+        float: left;
+        margin-right: 5px;
+   }
+   #pdfdropZone {
+        border: 2px dashed #b9b7b7!important;
+        height: 140px;
+        width: 100%!important;
+        background: url(http://webdev.snapd.com/wp-content/uploads/2019/09/upload-image.jpg);
+        background-repeat: no-repeat;
+        background-position: center 10px;
+        background-size: 40px;
+        position: relative;
+        padding-top: 50px;
+        text-align: center;
+    }
+    #logodropZone {
+        border: 2px dashed #b9b7b7!important;
+        height: 140px;
+        width: 100%!important;
+        background: url(http://webdev.snapd.com/wp-content/uploads/2019/09/upload-image.jpg);
+        background-repeat: no-repeat;
+        background-position: center 10px;
+        background-size: 40px;
+        position: relative;
+        padding-top: 50px;
+        text-align: center;
+    }   
+    .logo-details h3 {
+    font-size:17px;
+    float: none !important;
+    }
+    #logo_files img {
+    height: 136px;
+    object-fit: contain;
+    width: 100%;
+    background: #fff;
+    }
+    .remove-file {
+    background: red;
+    display: block;
+    width: 20px !important;
+    text-align: center;
+    color: #fff !important;
+    position: absolute;
+    top: -11px;
+    border-radius: 50%;
+    height: 20px;
+    line-height: 18px !important;
+    font-weight: bold;
+    right: -8px;
+    }
+    .PDF-btn{
+        font-size: 16px;
+        margin-top: 0px !important;        
+    }
+    .pdf_input{
+        border: none;
+        position: absolute;
+        width: 100%;
+        height:100%;
+        top:0;
+        left:0;
+        z-index:2;
+        opacity:0;
+        cursor:pointer;
+    }
+    .Logo_btn{
+        font-size: 16px;
+        margin-top: 0px !important;
+    }
+    .icon_droparea{
+        border: none;
+        position: absolute;
+        width: 100%;
+        height:100%;
+        top:0;
+        left:0;
+        z-index:2;
+        opacity:0;
+        cursor: pointer;
+    }
+    .event_imgzone{
+        border: none;
+        position: absolute;
+        width: 100%;
+        height:100%;
+        top:0;
+        left:0;
+        z-index:2;
+        opacity:0;
+        cursor: pointer;
+    }
+    .upload-image h1{
+    font-size: 17px;
+    }
+    .up-attach span {
+    float: none !important;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+   /* loaders and popups start */
+
+   .modal-open {
+   overflow: hidden;
+   }
+   .modal {
+   background: #00000054;
+   position: fixed;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   z-index: 2000000;
+   display: none;
+   overflow: hidden;
+   outline: 0;
+   }
+   .modal-open .modal {
+   overflow-x: hidden;
+   overflow-y: auto;
+   }
+   .modal-dialog {
+   position: relative;
+   width: auto;
+   margin: 0.5rem;
+   pointer-events: none;
+   }
+   .modal.fade .modal-dialog {
+   transition: -webkit-transform 0.3s ease-out;
+   transition: transform 0.3s ease-out;
+   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+   -webkit-transform: translate(0, -25%);
+   transform: translate(0, -25%);
+   }
+   .btn-default {
+   color: #fefefe;
+   background-color: #333;
+   border-color: #000;
+   padding: 4px 11px;
+   font-size: 18px;
+   border-radius: 30px;
+   border: 0;
+   }
+   @media screen and (prefers-reduced-motion: reduce) {
+   .modal.fade .modal-dialog {
+   transition: none;
+   }
+   }
+   .modal.show .modal-dialog {
+   -webkit-transform: translate(0, 0);
+   transform: translate(0, 0);
+   }
+   .modal-dialog-centered {
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-align: center;
+   align-items: center;
+   min-height: calc(100% - (0.5rem * 2));
+   }
+   .modal-content {
+   position: relative;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   width: 100%;
+   pointer-events: auto;
+   background-color: #fff;
+   background-clip: padding-box;
+   border: 1px solid rgba(0, 0, 0, 0.2);
+   border-radius: 0.3rem;
+   outline: 0;
+   }
+   .modal-backdrop {
+   position: fixed;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   z-index: 1040;
+   background-color: #000;
+   }
+   .modal-backdrop.fade {
+   opacity: 0;
+   }
+   .modal-backdrop.show {
+   opacity: 0.5;
+   }
+   .modal-header {
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-align: start;
+   align-items: flex-start;
+   -ms-flex-pack: justify;
+   justify-content: space-between;
+   padding: 1rem;
+   border-bottom: 1px solid #e9ecef;
+   border-top-left-radius: 0.3rem;
+   border-top-right-radius: 0.3rem;background: #333333;
+   }
+   .modal-header .close {
+   padding: 1rem;
+   margin: -1rem -1rem -1rem auto;
+   }
+   .modal-title {
+   margin-bottom: 0;
+   line-height: 1.5;
+   padding-bottom: 0;
+   font-size: 26px;
+   font-weight: bold;
+   color: #fff;
+   }
+   .modal-dialog.modal-lg {
+   margin-top: 10%;
+   }
+   h4.modal-title {
+   width: 100%;
+   }
+   .modal-body {
+   position: relative;
+   -ms-flex: 1 1 auto;
+   flex: 1 1 auto;
+   padding: 1.3rem;
+   max-height: 600px;
+   overflow-x: hidden;;
+   }
+   .modal-footer {
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-align: center;
+   align-items: center;
+   -ms-flex-pack: end;
+   justify-content: flex-end;
+   padding: 1rem;
+   border-top: 1px solid #e9ecef;
+   }
+   .modal-footer > :not(:first-child) {
+   margin-left: .25rem;
+   }
+   .modal-footer > :not(:last-child) {
+   margin-right: .25rem;
+   }
+   .modal-scrollbar-measure {
+   position: absolute;
+   top: -9999px;
+   width: 50px;
+   height: 50px;
+   overflow: scroll;
+   }
+   @media (min-width: 576px) {
+   .modal-dialog {
+   max-width: 500px;
+   margin: 1.75rem auto;
+   }
+   .modal-dialog-centered {
+   min-height: calc(100% - (1.75rem * 2));
+   }
+   .modal-sm {
+   max-width: 300px;
+   }
+   }
+   @media (min-width: 992px) {
+   .modal-lg {
+   max-width: 800px;
+   }
+   }
+   .valid strong, .valid {
+    color: #333333 !important;
+}
+.email-confomation {
+    margin: 0px auto !important;
+    width: 100% !important;
+    background: #ede9e7 !important;
+    padding: 10px !important;
+}
+p#edit_modal_loader_text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f56e3a;
+    padding: 5px 0!important;
+}
+.modal-content {
+    padding: 13px;
+}
+
+
+/* loaders and popups end */
+
+
+
+.img_crop button.close {
+   background: #fff;
+   border: 0;
+   color: #f56d3a;
+   font-size: 30px;
+   padding: 0 10px !important;
+   border-radius: 40px;
+   margin: 0;
+}
+
+.img_crop .modal-header {
+   padding: 10px;
+}
+
+.img_crop button.btn {
+   padding: 5px 30px;
+   border: 0;
+   font-size: 18px;
+}
+
+.img_crop .modal-dialog {
+   max-width: 900px;
+   margin: 60px auto;
+}
+
+.img_crop .modal-footer {
+   padding: 11px;
+}
+
+.pre-image {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    height: 254px;
+    
+}
+.pre-logo {
+    position: absolute;
+    top: 0px;
+    height: 136px;
+    width: 100%;
+}
+.modalconfirm {
+    color: #fff;
+    padding: 10px 0px;
+    font-size: 20px;
+    background: #f56d3a;
+    margin: 0 auto;
+    text-align: center;
+    border: 0;
+    width: 120px;
+    border-radius: 2px;
+}
+.modaldenied{
+    color: #f56d3a;
+    padding: 10px 0px;
+    font-size: 20px;
+    background: #ffffff;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid;
+    width: 120px;
+    border-radius: 2px;
+}

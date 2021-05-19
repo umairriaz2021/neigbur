@@ -1,0 +1,42 @@
+User: 99.253.182.252 - October 29, 2020, 10:41 pm
+Event ID: 87
+File size: 0
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 10:49 pm
+Event ID: 87
+File size: 0
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 10:51 pm
+Event ID: 87
+File size: 0
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:08 pm
+Event ID: 87
+Authorization: Authorization: 
+Body: 
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:18 pm
+Event ID: 87
+Authorization: Authorization: 
+Body: 
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:44 pm
+Event ID: 87
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNDAxMTcxNn0.j1kN5McMqvxhG4U39Ln6ZpFN28swtpq9h8Kp7-ArpZM
+Response: {"success":false,"error":"Upload not found with id: form"}
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:47 pm
+Event ID: 87
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNDAxMTcxNn0.j1kN5McMqvxhG4U39Ln6ZpFN28swtpq9h8Kp7-ArpZM
+Response: Unauthorized
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:50 pm
+Event ID: 87
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNDAxMTcxNn0.j1kN5McMqvxhG4U39Ln6ZpFN28swtpq9h8Kp7-ArpZM
+Response: {"photo":{"id":333,"event_id":"87","file_id":1022,"caption":"Please enter caption."},"success":true}
+-------------------------
+User: 99.253.182.252 - October 29, 2020, 11:50 pm
+Event ID: 87
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNDAxMTcxNn0.j1kN5McMqvxhG4U39Ln6ZpFN28swtpq9h8Kp7-ArpZM
+Response: {"photo":{"id":334,"event_id":"87","file_id":1023,"caption":"Please enter caption."},"success":true}
+-------------------------

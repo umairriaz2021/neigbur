@@ -1,0 +1,5 @@
+User: 97.109.10.26 - May 6, 2021, 8:55 pm
+Event ID: 424
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwiaWF0IjoxNjIwMzMzMzI3fQ.y7TBLFFk4yU7QWKSQcG5V8BpAlXPUjmNXKYn47LRZRU
+Response: {"photo":{"id":428,"event_id":"424","file_id":1509,"caption":""},"success":true}
+-------------------------

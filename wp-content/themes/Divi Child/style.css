@@ -1,0 +1,850 @@
+/*
+Theme Name: Divi Child Theme
+Description: Divi Child Theme
+Author:  David Tierney
+Author URI:  http://designsbytierney.com
+Template: Divi
+Version:  4.4.3
+*/
+/* =Theme customizations
+
+
+------------------------------------------------------- */
+ /* Responsive */
+
+/*
+@media screen and (min-width:320px) and (max-width:640px) {
+    *{
+        box-sizing:border-box;
+    }
+	#footer-widgets .footer-widget{
+    width: 50%!important;
+    min-height: 208px;
+}
+	div#footer-widgets {
+    padding-bottom: 0 !important;
+    padding-top: 22px;
+    margin-bottom: -37px;
+}
+	#main-footer .container {
+    width: 94%;
+}
+	.category-sec-1 {
+   width: 100%;
+   }
+   .Search-radius {
+   width: 100%;
+   margin-bottom: 11px;
+   }
+   .search_inputs input {
+   width: 40%;
+   padding: 13px 7px 12px 9px;
+   }
+   .search_inputs button {
+   padding: 14px 0px;
+   }
+   .search_inputs .btn-search {
+   font-size: 14px;
+   }
+   ul.list-checkbox {
+   margin-bottom: 0px;
+   }
+    .mobile_menu_bar:before {
+    background: #38ba00 !important;
+    color: #fff !important;
+}
+.top-header33 {
+    margin-right: 0 !important;
+    top: 9px !important;
+}
+input.form-control1.inSty {
+    width: 100% !important;
+    margin-right: 0;
+    padding: 10px !important ;
+    border-bottom: 1px solid #ccc !important;
+    margin-bottom: 6px !important;
+    border-left: 0 !important;
+}
+button.d-inline-block.w-100.read_btn.btn_search {
+    width: 100% !important;
+    padding: 10px 0 !important;
+}
+.serach-form {
+    position: unset !important;
+}
+.container.container-home {
+    width: 94% !important;
+}
+.row1 {
+    padding-top: 0 !important;
+	margin-top:10px !important;
+}
+.search-catgory {
+    margin-top: 20px !important;  width: 100% !important; text-align: center !important;
+}.slider_catgory {
+    width: 100% !important;
+}
+.search-catgory h1 {
+    font-size: 30px !important;
+}
+.post_item {
+    width: 100% !important;
+    margin: 0 0 15px 0 !important;
+}
+.bottom-icon li {
+    width: 100% !important;
+}
+.home-catg button.owl-next, .home-catg button.owl-prev {
+    top: 130px;
+}
+.bottom-icon #owl-two .owl-nav button.owl-next {
+    right: -15px !important;
+}
+.bottom-icon #owl-two .owl-nav button.owl-prev {
+    left: -15px !important;
+}
+.login-form2 {
+    width: 100% !important;
+}
+.login-form {
+    width: 90% !important;
+    margin: 35px auto !important;
+}
+h3.h3-title {
+    font-size: 26px !important;
+}div#PerInfo {
+    width: 100% !important; margin-top: 0 !important;
+}.progressbar li {
+    font-size: 15px !important;
+    width: 83px !important;
+    line-height: 19px;
+}
+.upload-image {
+    width: 100% !important;
+}
+.event-details {
+    width: 99% !important;
+    padding-left: 0 !important;
+}
+.event-details input[type="text"], .event-details input[type="email"], #tkt_form .form-left input[type="text"], #tkt_form .form-left input[type="number"] {
+    width: 98% !important;
+}
+.logo-details {
+    width: 100% !important;
+}
+.map-details {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+.next-btn, .next-btn button {
+    margin-bottom: 10px !important;
+}#footer-widgets .footer-widget:nth-child(n) {
+    margin-bottom: 0%!important;
+}
+button.btn-return {
+    height: auto !important;
+    margin-top: 30px;
+    margin: 30px auto 0 auto;
+    width: 100%;
+    text-align: center; position: unset !important;
+}
+.btn-return span, .form-left, .form-right, .row-out .row  {
+    width: 100%  !important; margin-left: 0 !important;
+}
+.h-left {
+    width: 100% !important;
+}
+.tkt_avail h3 {
+    width: 100% !important;
+    line-height: 25px !important;
+    text-align: left !important;
+    font-size: 18px;
+}
+p.help-text {
+    width: 100% !important;
+    line-height: 19px;
+    padding: 10px 3px;
+}
+p.tkt-type {
+    width: 100% !important;
+    padding: 10px 0 !important;
+}.ticket-setup h3 {
+    font-size: 18px !important;
+}.web-url input[type="text"] {
+    width: 80% !important;
+}
+.help-btn {
+    font-size: 18px !important;
+    line-height: 33px !important;
+}form.event-btn {
+    width: 100% !important;
+	margin-bottom:15px;
+}
+	.e-search input#s {
+    width: 84% !important;
+}
+	.progressbar li:after {
+    width: 63% !important; 
+	left: -34% !important;
+	}
+form.edit-search {
+    width: 100% !important;
+}
+span.e-search {
+    float: left !important;
+    margin-right: 0 !important;
+}
+.event-type span.radio-chk {
+    margin-right: 16px !important;
+}
+	.event-details {
+    margin-top: 15px;
+}
+.events_links {
+    margin-bottom: 20px;
+}
+.edit-event button {
+    font-size: 16px !important;
+    padding: 7px 17px !important;
+	
+}
+.sale-rep .event-detail {
+    width: 100% !important;
+}
+.edit-event.sale-rep .upload-image-sale img {
+    width: 100% !important;
+}
+div#scanned {
+    width: 100% !important;
+    margin-bottom: 30px;
+}
+.tkt-sold, .tkt-scanned {
+    font-size: 22px !important;
+    line-height: 29px !important;
+}
+	.email-confomation {
+	box-sizing:border-box;
+    width: 100%;
+    padding: 10px !important;
+    margin: 10px auto !important;
+}
+.modal-dialog.modal-lg {
+    width: 85%;
+    margin: 29% auto;
+}
+.email-confomation p {
+    padding: 0;
+    font-size: 16px;
+}
+.modal-body {
+    padding: 10px;
+}
+.social-login-link img {
+    width: 100%  !important;
+    padding: 5px 0 !important;
+}
+	.filter-icon {
+    width: 100% !important;
+    margin-top: 5px !important;
+}
+	#metaslider-id-1621 .nivo-caption {
+    font-size: 14px !important;
+    line-height: 18px !important;
+    top: 51px;
+    margin-bottom: 4px !important;
+    padding: 10px 5px !important;
+}
+	div#metaslider_1621 {
+    margin-top: 15px;
+}
+	.serach-form .col {
+    width: 50% !important;
+}
+.owl-item .item a span {
+    float: left;
+    width: 100%;
+}
+	.owl-item {
+    text-align: center;
+}
+	.outer-wrapper.grey {
+    width: 98% !important;
+}
+	.new-ticket-setup span.radio-chk {
+    width: 87% !important;
+    float: left;
+    margin-right: 0 !important;
+}
+	span#event_message {
+    float: left;
+    width: 100%;
+}
+span.event-preview {
+    margin-top: 20px;     width: 100%;
+}
+span.event-preview a {
+    padding: 9px 10px !important;
+    font-size: 16px !important;
+}
+label.start-date {
+    width: 151px !important;
+}
+.event-dates {
+    margin-right: 0 !important;
+}
+input#single_start_date,  input#single_end_date {
+    font-size: 13px !important;
+}
+	label.start-date:last-child {
+    margin-right: 0 !important;
+}
+div .modal {
+		padding-left:10px !important;
+		padding-right:10px !important;
+	}	
+select.charge-tax, select.charge-tax2.Charitable {
+    width: 83% !important;
+}
+.accordion .s_h-arrow.mvright {
+    height: 32px !important;
+    width: 34px !important;
+    position: absolute !important;
+    right: 0 !important;
+}
+.tax-outer {
+    width: 60% !important;
+}
+.tickets-total-sidebar {
+    margin-right: 0;
+}
+	span.t-clone {
+    margin-left: -5px !important;
+}
+.tooltip2 .tooltiptext2 {
+    left: -305px !important;
+}
+	button.next-btn, .back-btn {
+    margin-top: 0 !important;
+	padding: 8px 15px !important;
+}
+a button.next-btn.cancel-btn {
+    margin-left: 10px !important;
+    margin-top: 0px !important;
+    float: right;
+    padding: 6px 5px !important;
+}
+	.tax-yes {
+    width: 100% !important;
+}
+div.tkt-type {
+    width: 100% !important;
+}
+.outer-wrapper {
+    width: 97% !important;
+}
+.d-optional, .tkt-details textarea {
+    width: 100% !important;
+}
+	.row.tx_incl .tooltip2 .tooltiptext2 {
+    left: -107px !important;
+}
+	div#demo-pie-1 {
+    width: 100% !important;
+    padding-top: 0px !important;
+}
+.c100.p50.big {
+    margin-right: 0 !important;
+    margin: 0 auto 10px auto !important;
+    float: none;
+}
+.page-template-ticket-payment .progressbar li, page-template-get-ticket-order-detail .progressbar li{
+    width: 94px !important;
+}
+	.time-sec p {
+    font-size: 24px;
+}
+	.credit-card {
+    width: 100% !important;
+}
+	.time-sec span {
+    font-size: 28px !important;
+}
+	.payout2 button.signupbtn {
+    margin-left: 36px !important;
+}
+	button.signupbtn {
+		font-size:16px !important;
+	}
+	.message-box p {
+    font-size: 18px !important;
+    padding: 0px 10px;
+}
+	.charitable-receipt h2, .special-request h2, .ticketholders h2 {
+    font-size: 24px!important;
+}
+
+}
+*/
+
+
+ @media (max-width:767px){
+	 .credit-card {
+    width: 80% !important;
+}
+	.btn-return span {
+    font-size: 14px !important;
+    width: 80px !important;
+    line-height: 16px !important;
+}
+.Search-radius {
+    width: 100% !important;
+}
+.category-sec-1 {
+  width: 100% !important;
+}
+span.event-preview {
+    margin-top: 20px;
+    margin-bottom: 0 !important;
+}
+.search-catgory h1,.container-home h2{
+    font-size:25px !important;
+}
+.container-home h4{
+    line-height:1.6 !important;
+}
+.serach-form {
+    top: 0 !important;
+    position: relative !important;
+}
+ .filter-icon {
+    width: 40%;
+    padding: 10px 0 0 0;
+    margin-top: 0px;
+}
+.search-catgory {
+    text-align: center !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+}
+/*    .category-sec-1 {
+   width: 25%;
+   float: left;
+   } */
+/*    .Search-radius {
+   width: 25%;
+   } */
+	.slider_catgory {
+    width: 100% !important;
+}
+	.container {
+    width: 94% !important;
+}
+   .maincheck {
+   font-size: 15px;
+   }
+   .rad-style {
+   font-size: 15px;
+   }
+.post_item {
+    margin: 0px 7px !important;
+    /*padding: 6px !important;*/
+    float:none !important;
+    width:100% !important;
+    margin-bottom:20px !important;
+}
+.post_item:last-child {
+    margin-right: 0 !important;
+}
+	   .mobile_menu_bar:before {
+    color: #f56d3a !important;
+}
+	   .bottom-icon #owl-two .owl-nav button.owl-next {
+    right: -19px !important;
+}
+.bottom-icon #owl-two .owl-nav button.owl-prev {
+    left: -19px !important;
+}
+	   #main-footer #footer-widgets .footer-widget {
+    width: 100% !important;
+    margin-bottom: 0px !important;
+    float: left;
+    height: 200px;
+    padding-left: 10px;
+    padding-right: 20px;
+    line-height: 22px;
+}
+	   #footer-widgets {
+    padding: 5% 0px 1% 0 !important;
+}
+	 .modal {
+		padding-left:10px !important;
+		padding-right:10px !important;
+	}
+	 .sale-outer {
+    float: left;
+    width: 98%;
+}
+ select.charge-tax2.Charitable, select.charge-tax {
+    width: 88% !important;
+}
+.tkt_avail h3 {
+    line-height: 27px !important;
+}
+	 input#total_ticket_available, span#current_ticket_allocation {
+    width: 80px !important;
+    font-size: 18px !important;
+    margin-left: 15px !important;
+}
+	 .tooltip2 .tooltiptext2 {
+		 left:-295px !important;
+ }
+	 .accordion .mvright {
+    right: -207px !important;
+}
+
+.login-form2 {
+    width: 100% !important;
+}
+.remember span.chkbox{
+    margin-top:15px;
+}
+
+/*Header Welcome msg*/
+ul#top-menu{
+    display:none;
+}
+#top-menu{
+    display:block;
+}
+.login-form{
+    width:100% !important;
+}
+/*Header Welcome Msg ends*/
+
+   }
+
+@media (max-width: 767px) and (orientation: landscape){
+    div#footer-widgets{
+        display:flex;
+    }
+    .Search-radius {
+    float: right !important;
+    width: 30% !important;
+}
+.category-sec-1 {
+    width: 20% !important;
+    float: left !important;
+}
+.maincheck,.rad-style{
+    font-size:13px !important;
+}
+.search-main-section h1, .search-main-section h2{
+    font-size: 20px !important;
+}
+}
+
+
+/*
+ @media only screen and (min-width:641px) and (max-width:767px) {
+	 .credit-card {
+    width: 80% !important;
+}
+	.btn-return span {
+    font-size: 14px !important;
+    width: 80px !important;
+    line-height: 16px !important;
+}
+span.event-preview {
+    margin-top: 20px;
+    margin-bottom: 0 !important;
+}
+.serach-form {
+    top: 0 !important;
+    position: relative !important;
+}
+ .filter-icon {
+    width: 40%;
+    padding: 10px 0 0 0;
+    margin-top: 0px;
+}
+.search-catgory {
+    text-align: center !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+}
+   .category-sec-1 {
+   width: 25%;
+   float: left;
+   }
+   .Search-radius {
+   width: 25%;
+   }
+	.slider_catgory {
+    width: 100% !important;
+}
+	.container {
+    width: 94% !important;
+}
+   .maincheck {
+   font-size: 15px;
+   }
+   .rad-style {
+   font-size: 15px;
+   }
+.post_item {
+    margin: 0px 7px !important;
+    padding: 6px !important;
+}.post_item:last-child {
+    margin-right: 0 !important;
+}
+	   .mobile_menu_bar:before {
+    color: #f56d3a !important;
+}
+	   .bottom-icon #owl-two .owl-nav button.owl-next {
+    right: -19px !important;
+}
+.bottom-icon #owl-two .owl-nav button.owl-prev {
+    left: -19px !important;
+}
+	   #main-footer #footer-widgets .footer-widget {
+    width: 25% !important;
+    margin-bottom: 0px !important;
+    float: left;
+    height: 200px;
+    padding-left: 10px;
+    padding-right: 20px;
+    line-height: 22px;
+}
+	   #footer-widgets {
+    padding: 5% 0px 1% 0 !important;
+}
+	 .modal {
+		padding-left:10px !important;
+		padding-right:10px !important;
+	}
+	 .sale-outer {
+    float: left;
+    width: 98%;
+}
+ select.charge-tax2.Charitable, select.charge-tax {
+    width: 88% !important;
+}
+.tkt_avail h3 {
+    line-height: 27px !important;
+}
+	 input#total_ticket_available, span#current_ticket_allocation {
+    width: 80px !important;
+    font-size: 18px !important;
+    margin-left: 15px !important;
+}
+	 .tooltip2 .tooltiptext2 {
+		 left:-295px !important;
+ }
+	 .accordion .mvright {
+    right: -207px !important;
+}
+   }
+*/
+/*    @media only screen and (min-width:768px) and (max-width:1023px) {
+.sale-outer {
+    float: left;
+    width: 98%;
+}
+ span.event-preview {
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+  .serach-form {
+    top: 0 !important;
+    position: relative !important;
+}
+	   .filter-icon {
+    width: 40%;
+    padding: 10px 0 0 0;
+    margin-top: 0px;
+}
+.search-catgory {
+    text-align: center !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+}
+   .category-sec-1 {
+   width: 25%;
+   float: left;
+   }
+   .Search-radius {
+   width: 25%;
+   }
+	.slider_catgory {
+    width: 100% !important;
+}
+	.container {
+    width: 94% !important;
+}
+   .maincheck {
+   font-size: 15px;
+   }
+   .rad-style {
+   font-size: 15px;
+   }
+.post_item {
+    margin: 0px 9px !important;
+    padding: 6px !important;
+}.post_item:last-child {
+    margin-right: 0 !important;
+}
+	.mobile_menu_bar:before {
+    color: #f56d3a !important;
+}
+	.bottom-icon #owl-two .owl-nav button.owl-next {
+    right: -19px !important;
+}
+.bottom-icon #owl-two .owl-nav button.owl-prev {
+    left: -19px !important;
+}
+	#main-footer #footer-widgets .footer-widget {
+    width: 25% !important;
+    margin-bottom: 0px !important;
+    float: left;
+    height: 200px;
+    padding-left: 10px;
+    padding-right: 20px;
+    line-height: 22px;
+    margin-right: 0 !important;
+}
+   #footer-widgets {
+    padding: 5% 0px 1% 0 !important;
+}
+	   .modal {
+		padding-left:10% !important;
+		padding-right:10% !important;
+	}	
+} */
+/*---------------------------------- table Responsive --------------------------- */
+/* 
+@media only screen and (min-width:320px) and (max-width:930px) {
+	
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+ .tkt-summary th { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	.tkt-summary td { 
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; height:40px;
+	}
+  .tkt-summary td:before { 
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 17px;
+    color: #f56d3a;
+	}
+	.page-template-Attendee .tkt-summary td:nth-of-type(1):before { content: "Contact"; }
+	.page-template-Attendee .tkt-summary td:nth-of-type(2):before { content: "Ticket Type"; }
+	.page-template-Attendee .tkt-summary td:nth-of-type(3):before { content: "Ticket#"; }
+	.page-template-Attendee .tkt-summary td:nth-of-type(4):before { content: "Order#"; }
+	.page-template-Attendee .tkt-summary td:nth-of-type(5):before { content: "Purchase Date"; }
+	.page-template-Attendee .tkt-summary td:nth-of-type(6):before { content: "Check-in"; }
+	   
+	span.tname {
+    float: right;
+}
+span.temail {
+text-align: right;
+}
+.page-template-Attendee .tkt-summary td:nth-of-type(1) {
+    height: 61px;
+}
+ h3.h3-title.sales-rep {
+    margin-top: 15px;
+}
+.et_fixed_nav.et_show_nav #page-container {
+    padding-top: 30px;
+}
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(1):before { content: "Ticket Type"; }
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(2):before { content: "Price"; }
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(3):before { content: "Sold"; }
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(4):before { content: "Available"; }
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(5):before { content: "Total"; }
+	 .tkt-summary.sale_tkt_brk td:nth-of-type(6):before { content: "%"; }
+	   
+.tkt-summary.sale_tkt_brk td:nth-of-type(1) {
+    text-align: right;
+}
+	   .tkt-summary td:last-child {
+    border-bottom: 0;
+}
+     .tkt-summary.sale_prch_brk td:nth-of-type(1):before { content: "Date Purchased"; }
+	 .tkt-summary.sale_prch_brk td:nth-of-type(2):before { content: "Order No."; }
+	 .tkt-summary.sale_prch_brk td:nth-of-type(3):before { content: "Order No."; }
+	 .tkt-summary.sale_prch_brk td:nth-of-type(4):before { content: "Ticket Type"; }
+	 .tkt-summary.sale_prch_brk td:nth-of-type(5):before { content: "Tickets Total"; }
+	 .tkt-summary.sale_prch_brk td:nth-of-type(6):before { content: "Your Payout"; }
+	   
+.tkt-summary.sale_prch_brk td:nth-of-type(1) {
+    text-align: right;
+}	   
+}
+*/
+
+/*Mobile Menu*/
+
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+  font-size: 40px;
+  top: 15px;
+  right: 35px;
+  }
+}
+

@@ -1,0 +1,422 @@
+<?php
+/*Template Name: Register Page*/
+
+$error = '';
+if (isset($_POST['signupbtn'])) {
+	
+    extract($_POST);
+    $data    = array(
+				'first' => $fname,
+				'last' => $lname,
+				'email' => $uemail,
+				'phone' => $uphone,
+				'age_range' => $age_range,
+				'password' => $psw,
+				"address" => "",
+				"city" => "",
+				"province" => 'ON',
+				"postalcode" => "",
+				"country" => "CA",
+				"user_domain" => "newmarket.snapd.com",
+				'created' => date('Y-m-d h:i:s'),
+				'updated' => date('Y-m-d h:i:s')
+			);
+ 
+    $payload = json_encode($data);
+    $ch      = curl_init(API_URL.'users');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length:' . strlen($payload)
+    ));
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $apirespons = json_decode($result);
+
+
+    if ($apirespons->success) {
+
+        if(isset($apirespons->error)) {
+
+            $error = "Email already exists !";
+
+        } else {
+
+            if (null == username_exists($uemail)) {
+                $user_id = wp_create_user($uemail, $psw, $uemail);
+                wp_update_user(array(
+                    'ID' => $user_id,
+                    'nickname' => $fname . ' ' . $lname,
+                    'first_name' => $fname,
+                    'last_name' => $lname
+                ));
+                update_user_meta($user_id, 'phone', $uphone);
+                update_user_meta($user_id, 'age_range', $age_range);
+                update_user_meta($user_id, 'uid', $apirespons->user->id);
+                update_user_meta($user_id, 'user_domain', $apirespons->user->user_domain);
+                update_user_meta($user_id, 'franchise_id', $apirespons->user->franchise_id);
+            }
+            $processrespons = "Created successfully !";
+
+        }
+
+    } else {
+       /*  $errorres    = explode(' - ', $apirespons->error->error);
+        $errorres1   = json_decode($errorres[1]);
+        $form_errors = $errorres1->form_errors; */
+		
+		$apierror = $apirespons->error->error;
+    }
+}
+
+get_header();
+?>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+<style>
+
+    .error {
+        color: red; padding-left: 10px;padding-bottom: 10px;
+    }
+</style>
+    <div id="main-content">
+        <div class="outer-wrapper ">
+            <div class="container container-home">
+                 <h3 class="h3-title">Create Your Next Big Event</h3>
+                  <div class="login-form3">
+                 <div class="clearfix">
+                                <p class="event-login"> <a href="<?php echo site_url(); ?>/event-signin/">Sign In </a> <span>or </span> Sign Up</p>
+                          </div>
+                 
+            <?php 	if (isset($processrespons)) { ?>
+                <script>
+                    $(function(){
+                        $('#myModal').show();
+                    });
+                </script>
+                   <!-- <div class="email-confomation" style="margin:20px auto;">
+                        <h3>Check your email</h3>
+                        <p>A verification email has been sent to you.You must click on the link to activate your account before you can sign-in.</p>
+                        <p class="mail-img"><img src="<?php /* echo site_url(); */?>/wp-content/uploads/2019/08/chk-mail.png"></p>
+                        <p class="thx-btn"><a href="<?php /*echo site_url(); */?>/sign-in">OK, THANKS</a></p>
+                    </div>-->
+            <?php 	} else {
+
+                ?>
+                        <div class="login-form">
+                            
+                            
+                            <form action="" method="post" id="RegisterUser">
+								<?php
+									/* if (isset($form_errors) && count($form_errors) > 0) {
+										foreach ($form_errors as $key => $val) {
+											echo "<p style='color:red;font-size:16px'><b>" . $val . "</b></p>";
+										}
+									} */
+
+									if($apierror != '') {
+                                        echo "<p style='color:red;font-size:16px'><b>" . $apierror . "</b></p>";
+                                    }
+								?>
+                                    <p style="margin-left:5px;">Please complete the required fields</p>
+                                    <div class="frow">
+                                        <input type="text" placeholder="First Name" name="fname" pattern="[A-Za-z ]{1,30}" title="Must contain letter" required oninvalid="scroll_to_validator(this)">
+                                        <input type="text" placeholder="Last Name" name="lname" pattern="[A-Za-z ]{1,30}" title="Must contain letter" required oninvalid="scroll_to_validator(this)">
+                                    </div>
+                                    <div class="frow">
+                                        <input type="password" placeholder="Enter Password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required oninvalid="scroll_to_validator(this)">
+                                        <input type="password" placeholder="Confirm Password" name="psw-repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required oninvalid="scroll_to_validator(this)">
+                                    </div>
+                                    <div class="frow">
+                                        <input type="email" placeholder="Email" name="uemail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                        <input type="text" placeholder="(XXX) XXX-XXXX" name="uphone" id="uphone">
+                                    </div>
+                                    <div class="frow">
+                                        <select name="age_range" required>
+                                            <option value="">Age Range</option>
+                                            <option value="13-17">13-17</option>
+                                            <option value="18-29">18-29</option>
+                                            <option value="30-39">30-39</option>
+                                            <option value="40-49">40-49</option>
+                                            <option value="50-59">50-59</option>
+                                            <option value="60-69">60-69</option>
+                                            <option value="70-79">70-79</option>
+                                            <option value="80-89">80-89</option>
+                                            <option value="90-99">90-99</option>
+                                            <option value="Over 100">Over 100 (Congratulations)</option>
+                                        </select>
+                                    </div>
+                                    <p class="agree">
+                                        <span class="chkbox">
+                                        <input type="checkbox" name="remember" required> <span class="checkmark"></span>  &nbsp; By creating an account you agree to our <a href="javascript:void(0);" style="color:dodgerblue" onClick="jQuery('#myTermModal').show();">Terms & Privacy</a>. </span> </p>
+                                    <div class="clearfix">
+                                        <button type="submit" name="signupbtn" class="signupbtn">Sign Up</button>
+                                    </div>
+                            </form>
+                        </div>
+                        <?php
+					}
+					?>
+            </div></div>
+        </div>
+        <!-- #content-area -->
+        <!--Email Confirmation  -->
+    </div>
+<style>
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+    background: #00000054;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000000;
+  display: none;
+  overflow: hidden;
+  outline: 0;
+}
+
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+}
+
+.modal.fade .modal-dialog {
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  -webkit-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+}
+.btn-default {
+    color: #fefefe;
+    background-color: #333;
+    border-color: #000;
+    padding: 4px 11px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: 0;
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  .modal.fade .modal-dialog {
+    transition: none;
+  }
+}
+
+.modal.show .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.modal-dialog-centered {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: calc(100% - (0.5rem * 2));
+}
+
+.modal-content {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+.modal-header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;background: #333333;
+}
+
+.modal-header .close {
+  padding: 1rem;
+  margin: -1rem -1rem -1rem auto;
+}
+
+.modal-title {
+ margin-bottom: 0;
+    line-height: 1.5;
+    padding-bottom: 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+}
+.modal-dialog.modal-lg {
+    margin-top: 10%;
+}
+h4.modal-title {
+    width: 100%;
+}
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.3rem;
+  max-height: 600px;
+overflow-x: hidden;;
+}
+
+.modal-footer {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.modal-footer > :not(:first-child) {
+  margin-left: .25rem;
+}
+
+.modal-footer > :not(:last-child) {
+  margin-right: .25rem;
+}
+
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+  .modal-dialog-centered {
+    min-height: calc(100% - (1.75rem * 2));
+  }
+  .modal-sm {
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-lg {
+    max-width: 800px;
+  }
+}
+
+</style>
+<div class="modal" id="myTermModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h4 class="modal-title">Terms & Privacy</h4> <button type="button" class="btn btn-default" onClick="jQuery('#myTermModal').hide();">X</button>
+		</div>
+		<div class="modal-body">
+		  <?php 	
+		$args = array('page_id' => 3);
+		$loop = new WP_Query( $args );
+		while($loop->have_posts()) { $loop->the_post();
+		the_content(); } ?>
+		</div>
+	
+	  </div>
+	</div>
+</div>
+
+<div class="modal" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Check your email</h3>
+            </div>
+            <div class="modal-body">
+                <div class="email-confomation" style="margin:20px auto;">
+                    <p>A verification email has been sent to you.You must click on the link to activate your account before you can sign-in.</p>
+                    <p class="mail-img"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/chk-mail.png"></p>
+                    <p class="thx-btn"><a href="<?php echo site_url(); ?>/sign-in/">OK, THANKS</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<?php
+get_footer();
+?>
+
+<script>
+
+    function scroll_to_validator(input)
+    {
+        input.focus();
+    }
+    $(function() {
+
+        $('#uphone').mask('(000) 000-0000');
+
+      /*  $("#RegisterUser").validate({
+
+            rules: {
+
+                uemail: {
+                    required: true
+                },
+                lname: {
+                    required: true
+                },
+                fname: {
+                    required: true
+                },
+                uphone: {
+                    required: true
+                }
+            }
+        });*/
+    });
+
+</script>

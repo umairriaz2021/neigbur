@@ -1,0 +1,5 @@
+User: 110.38.39.142 - March 8, 2021, 10:41 am
+Event ID: 140
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozODYsImlhdCI6MTYxNTE5NTAzOH0.J1p4B4c-UtVXCnnhS2J8TCfZJ6gjsXMN50ujS2bvDxE
+Response: {"photo":{"id":356,"event_id":"140","file_id":1116,"caption":""},"success":true}
+-------------------------

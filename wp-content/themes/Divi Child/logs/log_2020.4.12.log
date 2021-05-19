@@ -1,0 +1,10 @@
+User: 97.109.10.21 - December 4, 2020, 4:05 pm
+Event ID: 105
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwiaWF0IjoxNjA3MDk3NjU3fQ.CoW4N_YBSvM2jL9gNLe8lA8VjwcjFKuLiMYCNKqdGyo
+Response: {"photo":{"id":344,"event_id":"105","file_id":1056,"caption":""},"success":true}
+-------------------------
+User: 97.109.10.21 - December 4, 2020, 4:07 pm
+Event ID: 105
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwiaWF0IjoxNjA3MDk3NjU3fQ.CoW4N_YBSvM2jL9gNLe8lA8VjwcjFKuLiMYCNKqdGyo
+Response: {"photo":{"id":345,"event_id":"105","file_id":1057,"caption":""},"success":true}
+-------------------------

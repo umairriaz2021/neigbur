@@ -1,0 +1,5 @@
+User: 99.253.182.252 - November 3, 2020, 7:39 pm
+Event ID: 87
+Authorization: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNjAsImlhdCI6MTYwNDQyNjUwOX0.duoWZSkKPwvw1bZWGsusKM7eK3M5tYi0z7BSpMD2XXk
+Response: {"photo":{"id":335,"event_id":"87","file_id":1024,"caption":"Please enter caption."},"success":true}
+-------------------------
