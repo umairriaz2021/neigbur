@@ -847,17 +847,20 @@ if (isset($_POST['btnFinalSubmit']))
                         $result22 = curl_exec($ch);
                         curl_close($ch);
                         $taxProfileResponse = json_decode($result22);
-
+}
                         if ($tickets['radio_promo_code_'.$number] != 'disabled') {
                             $pdata=array(
                                               "name"=> $tickets['code_name'][$number],
                                               "code"=> $tickets['code_name'][$number],
                                               "metric"=> $tickets['radio_promo_code_'.$number],
                                               "value"=> $tickets['code_value'][$number],
-                                              "ticket_type_id" => $tickets['id'][$number]);
-                            echo $payloadpromo = json_encode($pdata);
+                                              "ticket_type_id" => $tickets['ticket_id'][$number]);
+                             $payloadpromo = json_encode($pdata);
+                             echo "<br/><br/>promo code request<br/>";
+                    print_r($pdata);
+                    echo $payloadpromo;
 
-                            $ch      = curl_init(API_URL.'ticketPromos/'.$tickets['ticket_id'][$number]);
+                            $ch      = curl_init(API_URL.'ticketPromos/'.$tickets['promo_id'][$number]);
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -875,7 +878,7 @@ if (isset($_POST['btnFinalSubmit']))
                             echo "<pre>";
                             print_r($response);
                         }
-                    }
+                   // }
                 }
                 unset($_SESSION["event_edit_data"]);
                 unset($_SESSION["edit_ticket_data"]);

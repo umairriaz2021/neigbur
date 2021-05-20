@@ -416,11 +416,12 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 	//	}
 
 		$tk['%%TICKET_PROMO_DISABLED_CHECKED%%'] = !isset($val->ticketPromo)? "checked" : "";
-		$tk['%%TICKET_PROMO_DOLLAR_CHECKED%%'] =  $val->ticketPromo->metric = 'dollar' ? "checked" : "";
-		$tk['%%TICKET_PROMO_PERCENTAGE_CHECKED%%'] =  $val->ticketPromo->metric = 'percentage' ? "checked" : "";
+		$tk['%%TICKET_PROMO_DOLLAR_CHECKED%%'] =  $val->ticketPromo->metric == 'dollar' ? "checked" : "";
+		$tk['%%TICKET_PROMO_PERCENTAGE_CHECKED%%'] =  $val->ticketPromo->metric == 'percentage' ? "checked" : "";
 		$tk['%%TICKET_PROMO_DISPLAY%%'] = isset($val->ticketPromo) ? 'block' : 'none';
 		$tk['%%TICKET_PROMO_CODE_NAME%%'] = isset($val->ticketPromo) ? $val->ticketPromo->code : '';
 		$tk['%%TICKET_PROMO_CODE_VAL%%'] = isset($val->ticketPromo) ? $val->ticketPromo->value : '';
+			 $tk['%%PROMO_ID%%'] = $val->ticketPromo->id;
  //foreach($tk as $key => $val)
 	//{
 //	  $out = str_replace($key, $val, $out);
