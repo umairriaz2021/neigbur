@@ -645,6 +645,26 @@ $(".edit-tkt-class .release_end_date").datetimepicker({
  // value: now
 });
 
+$( ".edit-tkt-class .release_end_date" ).each(function() {
+if($(this).val() == 'NOT SET'){
+ var value =   $(this).attr("data-count");
+  $(".edit-tkt-class #release_end_date_"+value).datetimepicker({
+  step: 15,
+  format: 'MMM D YYYY h:mm a',
+  formatTime: 'h:mma',
+  formatDate: 'YYYY-MM-DD',
+  closeOnDateSelect: false,
+  closeOnTimeSelect: true,
+  validateOnBlur: false,
+  maxDateTime: stdte,
+  minDateTime: now,
+ // defaultDate: now,
+ // defaultTime: now.getHours() + ":" + now.getMinutes(),
+ value: now
+});  
+}
+});
+
 //for edit ticket end 
 
 function setReleaseEndMinDate(e) {

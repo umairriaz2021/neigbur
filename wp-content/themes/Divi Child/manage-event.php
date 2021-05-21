@@ -431,7 +431,7 @@ get_header(); ?>
                                            class="view_event">View Event </a>
                                         <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming') { ?>
 
-                                            <a href="#" class="cancel_event" id="cancel_event"
+                                            <a href="#" class="cancel_event" id="cancel_event" data-eventurl="<?php echo site_url(); ?>/edit-event?eventstate=<?php echo $event_state; ?>&event_id=<?php echo $row->id; ?>"
                                                data-eventid=<?php echo $row->id; ?>>Cancel Event </a>
                                         <?php } ?>
                                     </div>
@@ -482,7 +482,11 @@ get_header(); ?>
       <div class="modal-content">
          <div class="modal-body">
             <div class="email-confomation" id="cancel_evnt">
-               <p class="wnat_to_cancel" id="modal_loader_text">Do you really want to cancel this event ?</p>
+               <p class="wnat_to_cancel" id="modal_loader_text">
+                   Are you sure you want to cancel the event? Did you know simple changes like date, time or description updates can be completed using the 
+                   <a class="edit-link" dataeventid="" href="">EDIT</a> feature?
+                   If you proceed to cancel, all ticket purchasers will receive a notification email. Please contact
+                   <a href="mailto:support@neighbur.com">support@neighbur.com</a> if you would like to discuss your options.</p>
                <p><input type="text" name="reason" id="reason_text" class="reason" placeholder="Reason for Cancelling Event"></p>
                <span class="reason_err" id="reason_err">Please Enter Reason to Cancel Event</span>
             <p class="cancel_btn">
@@ -557,8 +561,11 @@ get_header(); ?>
             jQuery(document).on('click', '#cancel_event', function (e) {
                 e.preventDefault();
                 var dataId = $(this).attr("data-eventid");
+                var url = $(this).attr("data-eventurl");
                 console.log(dataId);
 	            $('#yesCancel').attr('onclick','cancel_eve('+dataId+')');
+	            $('.edit-link').attr('dataeventid', dataId);
+	             $('.edit-link').attr('href', url);
                 jQuery('#Cancel_eveModal').show();
             });
 
