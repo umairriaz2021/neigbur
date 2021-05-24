@@ -14,6 +14,7 @@
       <div class="tickets-total-sidebar">
         <div class="tkt-total-sold">%%TOTAL_SOLD%%</div>
         <input type="hidden" name="total_sold" value="%%TOTAL_SOLD%%">
+        
         <div class="tkt-outof">SOLD OUT OF<span class="total_tkt_available" id="total_tkt_available_%%TICKETNUM%%">%%TICKET_MAX%%</span></div>
       </div>
       <div class="s_h-arrow"></div>
@@ -314,8 +315,8 @@
       <div class="row">
       </div>
       %%CLONE_INPUT%%
-
-
+      
+    
 
 
       <div class="row rowspace">
@@ -349,7 +350,7 @@
         </div>
         <div class="col-md-3 code-name">
           <label>Code Name (min. 6 characters)</label>
-          <p><input data-count ="%%TICKETNUM%%" id="code_name_%%TICKETNUM%%" type="text" style="height:38px;" minlength="6" required="required" name="code_name[]" placeholder="SAVE10" value="%%TICKET_PROMO_CODE_NAME%%">
+          <p><input data-count ="%%TICKETNUM%%" class="code-name-input" id="code_name_%%TICKETNUM%%" type="text" style="height:38px;" minlength="6" required="required" name="code_name[]" placeholder="SAVE10" value="%%TICKET_PROMO_CODE_NAME%%">
         </div>
         <div class="col-md-3">
           <label>Code value</label>
@@ -451,6 +452,8 @@ jQuery( function() {
        console.log('.bundle-tkting-'+count);
           jQuery('.bundle-tkting-'+count).empty();
           jQuery('.bundle-tkting-'+count).append('Bundled Limit Per Order');
+           jQuery('#div_no_of_tkt_available_'+count).hide();
+         
   });
 
 jQuery(document).on('change', '.radio-single .tkt_type', function () {

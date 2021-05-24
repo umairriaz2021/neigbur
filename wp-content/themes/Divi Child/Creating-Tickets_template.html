@@ -1208,6 +1208,8 @@ $(document).on('click', ' .t-clone ,.clone_tkt ', function () {
   $(".tkt-details:last-of-type").find('.radio-dollar label').attr('for','radio_promodollar_'+count);
   $(".tkt-details:last-of-type").find('.radio-percent label').attr('for','radio_promopercent_'+count);
 
+
+$(".tkt-details:last-of-type").find('.code-name input').val('');
   //custom
 }); // end of clone click
 
@@ -1328,6 +1330,7 @@ $('.code-name input').on("input", function () {
               }
             });
              }
+             
          }
            if($('#div_promo_code_'+index1).css('display') == 'none'){
                  console.log($('#div_promo_code_'+index1));
@@ -1365,6 +1368,12 @@ $('.code-name input').on("input", function () {
                 }
               }
             });
+             }
+             
+             if($(this).val() == ""){
+                  $(this).after('<label class="error code-error">This field is required</label>');
+                      $(this).focus();
+                    valid = false;
              }
          }
         });
