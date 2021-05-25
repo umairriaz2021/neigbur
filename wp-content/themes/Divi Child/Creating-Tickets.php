@@ -272,11 +272,11 @@ if (isset($_SESSION['ticket_data']))
 	$t['%%TAX_RATE_VAL%%'] = $_SESSION['ticket_data']['tax_rate'];
 	
 	
- $t['%%TIX_NO_CHECKED%%'] = !empty($_SESSION['ticket_data']['tkt_setup']) ? '' : 'checked';
+ $t['%%TIX_NO_CHECKED%%'] = ($_SESSION['ticket_data']['tkt_setup']) == "No"  ? 'checked' : '';
   $t['%%TIX_DISABLED%%'] = (isset($event_state) && $event_state == 'past') ? 'disabled' : '';
-  $t['%%TIX_YES_CHECKED%%'] = !empty($_SESSION['ticket_data']['tkt_setup']) ? 'checked' : '';
-  $t['%%TIX_3RD_CHECKED%%'] = '';
-  $t['%%TICKET_SETUP_OPTIONS_DISPLAY%%'] = $t['%%TIX_YES_CHECKED%%'] == 'checked' ? 'block' : 'none';
+  $t['%%TIX_YES_CHECKED%%'] = ($_SESSION['ticket_data']['tkt_setup']) == "Yes Tix" ? 'checked' : '';
+  $t['%%TIX_3RD_CHECKED%%'] = ($_SESSION['ticket_data']['tkt_setup']) == "Yes 3rd party" ? 'checked' : '';
+  $t['%%TICKET_SETUP_OPTIONS_DISPLAY%%'] =isset($_SESSION['ticket_data']) && $_SESSION['ticket_data']['tkt_setup'] == 'Yes Tix' ? 'block' : 'none';
    $t['%%CHARITABLE_NO_SELECTED%%'] = ($_SESSION['ticket_data']['charitablereceipt'] == "no") ? 'selected' : '';
   $t['%%CHARITABLE_YES_SELECTED%%'] = ($_SESSION['ticket_data']['charitablereceipt'] == "yes") ? 'selected' : '';
   $t['%%CHARITABLE_DISPLAY%%'] = ($_SESSION['ticket_data']['charitablereceipt'] == "yes") ? '' : 'none';
@@ -295,44 +295,129 @@ if (isset($_SESSION['ticket_data']))
 		// %%TICKETS%%
 		$t['%%TICKETNUM%%'] = $j;
 		$t['%%TICKET_NAME%%'] = $_SESSION['ticket_data']['ticket_name'][$j];
-		$t['%%TOTAL_SOLD%%'] = $val->$_SESSION['ticket_data']['ticket_allocation'][$j] == ''  ? '0' : $_SESSION['ticket_data']['ticket_allocation'][$j];
-		$t['%%TICKET_MAX%%'] = $_SESSION['ticket_data']['no_of_tkt_available'][$j];
-		$t['%%FEE_0_SELECTED%%'] = (isset($_SESSION['ticket_data']['fee_percentage'][$j]) && $_SESSION['ticket_data']['fee_percentage'][$j] == '0') ? 'selected' : '';
-		$t['%%FEE_25_SELECTED%%'] = (isset($val->fee_percentage) && $val->fee_percentage == '25') ? 'selected' : '';
-		$t['%%FEE_50_SELECTED%%'] = (isset($val->fee_percentage) && $val->fee_percentage == '50') ? 'selected' : '';
-		$t['%%FEE_75_SELECTED%%'] = (isset($val->fee_percentage) && $val->fee_percentage == '75') ? 'selected' : '';
-		$t['%%FEE_100_SELECTED%%'] = (isset($val->fee_percentage) && $val->fee_percentage == '100') ? 'selected' : '';
-		$t['%%TAX_INCLUSION_0_SELECTED%%'] = (isset($val->tax_inclusion) && $val->tax_inclusion == '0') ? 'selected' : '';
-		$t['%%TAX_INCLUSION_1_SELECTED%%'] = (isset($val->tax_inclusion) && $val->tax_inclusion == '1') ? 'selected' : '';
-		$t['%%TAX_INCLUSION_2_SELECTED%%'] = (isset($val->tax_inclusion) && $val->tax_inclusion == '2') ? 'selected' : '';
+		$t['%%TOTAL_SOLD%%'] = $_SESSION['ticket_data']['ticket_allocation'][$j] == ''  ? '0' : $_SESSION['ticket_data']['ticket_allocation'][$j];
+		$t['%%TICKET_MAX%%'] =($_SESSION['ticket_data']['radio_tkt_type_'.$j]) == "Bundled Tickets" ? $_SESSION['ticket_data']['total_tickets'][$j] : $_SESSION['ticket_data']['no_of_tkt_available'][$j];
+		$t['%%FEE_0_SELECTED%%'] = (isset($_SESSION['ticket_data']['select_per'][$j]) && $_SESSION['ticket_data']['select_per'][$j] == '0') ? 'selected' : '';
+		$t['%%FEE_25_SELECTED%%'] =(isset($_SESSION['ticket_data']['select_per'][$j]) && $_SESSION['ticket_data']['select_per'][$j] == '25') ? 'selected' : '';
+		$t['%%FEE_50_SELECTED%%'] = (isset($_SESSION['ticket_data']['select_per'][$j]) && $_SESSION['ticket_data']['select_per'][$j] == '50') ? 'selected' : '';
+		$t['%%FEE_75_SELECTED%%'] = (isset($_SESSION['ticket_data']['select_per'][$j]) && $_SESSION['ticket_data']['select_per'][$j] == '75') ? 'selected' : '';
+		$t['%%FEE_100_SELECTED%%'] = (isset($_SESSION['ticket_data']['select_per'][$j]) && $_SESSION['ticket_data']['select_per'][$j] == '100') ? 'selected' : '';
+		$t['%%TAX_INCLUSION_0_SELECTED%%'] = (isset($_SESSION['ticket_data']['tax_inclusion'][$j]) && $_SESSION['ticket_data']['tax_inclusion'][$j] == '0') ? 'selected' : '';
+		$t['%%TAX_INCLUSION_1_SELECTED%%'] = (isset($_SESSION['ticket_data']['tax_inclusion'][$j]) && $_SESSION['ticket_data']['tax_inclusion'][$j] == '1') ? 'selected' : '';
+		$t['%%TAX_INCLUSION_2_SELECTED%%'] = (isset($_SESSION['ticket_data']['tax_inclusion'][$j]) && $_SESSION['ticket_data']['tax_inclusion'][$j] == '2') ? 'selected' : '';
 		$t['%%TICKET_DETAILS%%'] = $_SESSION['ticket_data']['ticket_details'][$j];
-		$t['%%TICKET_SINGLE_CHECKED%%'] =  ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) ? '' : 'checked' ;
-		$t['%%TICKET_BUNDLE_CHECKED%%'] =  ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) ? 'checked' : '';
-		$t['%%TICKET_PAID_CHECKED%%'] = ($_SESSION['ticket_data']['price_radio_'.$j]) ? 'checked' : '';
-		$t['%%TICKET_FREE_CHECKED%%'] = ($_SESSION['ticket_data']['price_radio_'.$j]) ? '' : 'checked';
+		$t['%%TICKET_SINGLE_CHECKED%%'] =  ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) == "Single Tickets" ? 'checked' : '' ;
+		$t['%%TICKET_BUNDLE_CHECKED%%'] =  ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) == "Bundled Tickets"  ? 'checked' : '';
+		$t['%%TICKET_PAID_CHECKED%%'] = ($_SESSION['ticket_data']['price_radio_'.$j]) == "Paid" ? 'checked' : '';
+		$t['%%TICKET_FREE_CHECKED%%'] = ($_SESSION['ticket_data']['price_radio_'.$j] != "Paid") ? 'checked' : '';
 		$t['%%CURRENCY%%'] = $currency;
-		$t['%%TICKET_PRICE_DISPLAY%%'] = ($_SESSION['ticket_data']['price_radio_'.$j]) ? '' : 'none;';
+		$t['%%TICKET_PRICE_DISPLAY%%'] = ($_SESSION['ticket_data']['price_radio_'.$j]) == "Paid"? '' : 'none;';
 		$t['%%TICKET_PRICE_VAL%%'] = number_format($_SESSION['ticket_data']['price_per_tkt'][$j], 2);
 		$t['%%TICKET_PRICE_DISABLED%%'] = (isset($event_state) && $event_state == 'past') ? 'disabled' : '';
-		$t['%%TICKET_QTY_DISPLAY%%'] = ($val->bundled_yn) ? 'none' : '';
-		$t['%%TICKET_QTY_MIN%%'] = $val->ticket_allocation == ''  ? '0' : $val->ticket_allocation;
+		$t['%%TICKET_QTY_DISPLAY%%'] = ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) == "Bundled Tickets" ? 'none' : '';
+		$t['%%TICKET_QTY_MIN%%'] = $_SESSION['ticket_data']['ticket_allocation'][$j] == ''  ? '0' :  $_SESSION['ticket_data']['ticket_allocation'][$j];
 		$t['%%TICKET_QTY_VAL%%'] = $_SESSION['ticket_data']['no_of_tkt_available'][$j];
 		$t['%%TICKET_QTY_DISABLED%%'] = (isset($event_state) && $event_state == 'past') ? 'disabled' : '';
 		$t['%%TICKET_PRICE_SCRIPT%%'] = "";
 		
-			if (($_SESSION['ticket_data']['price_radio_'.$j]) == 0)
+			if (($_SESSION['ticket_data']['price_radio_'.$j]) == "Paid")
 		{
 			$tk['%%TICKET_PRICE_SCRIPT%%'] = "<script>jQuery('#price_per_tkt_" . $j . "').val(0);jQuery('#price_per_tkt_" . $j . "').attr('readonly',true);</script>";
 		} 
 		
 		
-		$t['%%TICKET_PROMO_DISABLED_CHECKED%%'] = !isset($val->ticketPromo)? "checked" : "";
-		$t['%%TICKET_PROMO_DOLLAR_CHECKED%%'] =  $val->ticketPromo->metric == 'dollar' ? "checked" : "";
-		$t['%%TICKET_PROMO_PERCENTAGE_CHECKED%%'] =  $val->ticketPromo->metric == 'percentage' ? "checked" : "";
-		$t['%%TICKET_PROMO_DISPLAY%%'] = isset($val->ticketPromo) ? 'block' : 'none';
-		$t['%%TICKET_PROMO_CODE_NAME%%'] = isset($val->ticketPromo) ? $val->ticketPromo->code : '';
-		$t['%%TICKET_PROMO_CODE_VAL%%'] = isset($val->ticketPromo) ? $val->ticketPromo->value : '';
-		$t['%%PROMO_ID%%'] = $val->ticketPromo->id;
+		$t['%%TICKET_BUNDLE_DISPLAY%%'] = ($_SESSION['ticket_data']['radio_tkt_type_'.$j])=="Bundled Tickets" ? '' : 'none';
+		$t['%%TICKETS_PER_BUNDLE_VAL%%'] = ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) ?  ($_SESSION['ticket_data']['ticket_per_bundle'][
+		    $j]) : 0;
+		$t['%%TICKET_BUNDLES_AVAILABLE_VAL%%'] = ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) ? $_SESSION['ticket_data']['bundles_available'][
+		    $j] : 0;
+		$t['%%TICKET_TOTAL_TICKETS_VAL%%'] = ($_SESSION['ticket_data']['radio_tkt_type_'.$j]) ? $_SESSION['ticket_data']['total_tickets'][$j] : 0;
+		
+		
+		$t['%%TICKET_MATCH_EVENT_CHECKED%%'] = $_SESSION['ticket_data']['radio_tkt_start_time_'.$j] == "Match Event" ? 'checked' : '';
+		$t['%%TICKET_START_TIME_CHECKED%%'] =$_SESSION['ticket_data']['radio_tkt_start_time_'.$j] != "Match Event" ? 'checked' : '';
+		$t['%%TICKET_START_DISPLAY%%'] = $_SESSION['ticket_data']['radio_tkt_start_time_'.$j] == "Match Event" ? 'none' : 'block';
+		$t['%%TICKET_START_VAL%%'] = $_SESSION['ticket_data']['tkt_start_date'] [$j]? date('M d, Y h:i a', strtotime($_SESSION['ticket_data']['tkt_start_date'] [$j])) :  'NOT SET';
+		$t['%%TICKET_END_MATCH_CHECKED%%'] = $_SESSION['ticket_data']['radio_tkt_end_time_'.$j] == "Match Event" ? 'checked' : '';
+		$t['%%TICKET_END_NEW_CHECKED%%'] = $_SESSION['ticket_data']['radio_tkt_end_time_'.$j] != "Match Event" ? 'checked' : '';
+		$t['%%TICKET_END_DISPLAY%%'] = $_SESSION['ticket_data']['radio_tkt_end_time_'.$j] == "Match Event" ? 'none' : 'block';
+		$t['%%TICKET_END_VAL%%'] =$_SESSION['ticket_data']['tkt_end_date'][$j]? date('M d, Y h:i a', strtotime($_SESSION['ticket_data']['tkt_end_date'][$j])) :  'NOT SET';
+		$t['%%TICKET_LIMIT_NO_CHECKED%%'] = $_SESSION['ticket_data']['radio_tkt_limit_'.$j] == "no" ? 'checked' : '' ;
+		$t['%%TICKET_LIMIT_YES_CHECKED%%'] =$_SESSION['ticket_data']['radio_tkt_limit_'.$j] == "yes" ? 'checked' : '' ;
+		$t['%%TICKET_LIMIT_VAL%%'] = ($_SESSION['ticket_data']['tkt_order_limit'][$j]) ? $_SESSION['ticket_data']['tkt_order_limit'][$j] : '';
+		$t['%%TICKET_LIMIT_DISPLAY%%'] = $_SESSION['ticket_data']['radio_tkt_limit_'.$j] == "no"  ? 'none' : 'block' ;
+		
+		
+		$immediately = true;
+		//$date = new DateTime($val->release);
+		//$now = new DateTime();
+
+		//if ($date > $now)
+		//{
+			//$immediately = false;
+	//	}
+		$t['%%TICKET_RELEASE_IMMEDIATELY_CHECKED%%'] = ($immediately) ? 'checked':'';
+		$t['%%TICKET_RELEASE_SCHEDULED_CHECKED%%'] =($_SESSION['ticket_data']['radio_release_time_'.$j]) !="Immediately" ? 'checked':'';
+		$t['%%TICKET_RELEASE_START_DISPLAY%%'] = ($_SESSION['ticket_data']['radio_release_time_'.$j]) =="Immediately"  ? 'none' : '';
+		$t['%%TICKET_RELEASE_START_VAL%%'] = $_SESSION['ticket_data']['release_start_date'][$j] ?date('M d, Y h:i a', strtotime($_SESSION['ticket_data']['release_start_date'][$j])) :  'NOT SET';
+		     // TODO: use value
+		$t['%%TICKET_EXPIRE_NONE_CHECKED%%'] = ($_SESSION['ticket_data']['radio_expiration_time_'.$j]) == "None" ? 'checked':'';
+		$t['%%TICKET_EXPIRE_SCHEDULED_CHECKED%%'] =($_SESSION['ticket_data']['radio_expiration_time_'.$j]) != "None" ? 'checked':'';
+		$t['%%TICKET_EXPIRE_START_DISPLAY%%'] = $_SESSION['ticket_data']['radio_expiration_time_'.$j] == "None"  ? 'none' : 'block';
+		$t['%%TICKET_EXPIRE_START_VAL%%'] = $_SESSION['ticket_data']['release_end_date'][$j] ?date('M d, Y h:i a', strtotime($_SESSION['ticket_data']['release_end_date'][$j])) :  'NOT SET';
+			$start_date = $_SESSION['event_data']['event_start_date'][0];
+			$end_date = $_SESSION['event_data']['event_end_date'][count($_SESSION['event_data']['event_start_date'])-1];
+			$t['%%CLONE_INPUT%%'] = '<input type="hidden" id="EVENTSTRATDATE" value="' . date('Y/m/d h:i a', strtotime($start_date)) .'"/>';
+			$t['%%CLONE_INPUT%%'] .= '<input type="hidden" id="EVENTENDDATE" value="' . date('Y/m/d h:i a', strtotime($end_date)) .'"/>';
+
+		
+		$t['%%TICKET_PROMO_DISABLED_CHECKED%%'] = ($_SESSION['ticket_data']['radio_promo_code_'.$j]) == "disabled"? "checked" : "";
+		$t['%%TICKET_PROMO_DOLLAR_CHECKED%%'] = $_SESSION['ticket_data']['radio_promo_code_'.$j] == 'dollar' ? "checked" : "";
+		$t['%%TICKET_PROMO_PERCENTAGE_CHECKED%%'] =  $_SESSION['ticket_data']['radio_promo_code_'.$j] == 'percentage' ? "checked" : "";
+		$t['%%TICKET_PROMO_DISPLAY%%'] = (($_SESSION['ticket_data']['radio_promo_code_'.$j] == "dollar") ||  ($_SESSION['ticket_data']['radio_promo_code_'.$j] == "percentage") ) ? 'block' : 'none';
+		$t['%%TICKET_PROMO_CODE_NAME%%'] = isset($_SESSION['ticket_data']['radio_promo_code_'.$j]) ? $_SESSION['ticket_data']['code_name'][$j] : '';
+		$t['%%TICKET_PROMO_CODE_VAL%%'] = isset($_SESSION['ticket_data']['radio_promo_code_'.$j]) ? $_SESSION['ticket_data']['code_value'][$j] : '';
+		
+		
+		
+		
+		$t['%%TICKET_DATES%%'] = "";
+
+		///if (isset($_GET['clone']))
+		//{
+			$i=1;
+			$check = array();
+		//	print_r($_SESSION['event_data']);die;
+			foreach ($_SESSION['event_data']['event_start_date'] as $key=>$val)
+			{
+				$start_date = $_SESSION['event_data']['event_start_date'][$key];
+				$end_date = $_SESSION['event_data']['event_end_date'][$key];
+				if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date)))
+				{
+					$selctdatae = $start_date.' '.'to'.' '.date('h:i a', strtotime($end_date));
+				}
+				else
+				{
+					$selctdatae = $start_date.' '.'to'.' '.$end_date;
+				}
+				for ($m=0;$m<count($_SESSION['event_data']['event_start_date']);$m++)
+				{
+					if ($_SESSION['ticket_data']['ticket_type_dates'][$j][$m] == $selctdatae)
+					{
+						$check[$i] ="true";
+					}
+				}
+				$checked = ($check[$i] == "true") ? 'checked' : '';
+				$t['%%TICKET_DATES%%'] .= '<span class="chkbox">&nbsp;<input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $j . '][]">&nbsp;<span class="checkmark"></span>&nbsp;' . $selctdatae . '&nbsp;</span>';
+				
+				$i++;
+			} // end of each date
+	//	} // end of if clone
+		
+	/*	$checked = ($_SESSION['ticket_data']['checked_'.$j] == "true") ? 'checked' : '';
+		
+				$t['%%TICKET_DATES%%'] = '<span class="chkbox"><input type="checkbox" value="' . $_SESSION['ticket_data']['ticket_type_dates']['num'][$j] . '" '.$checked.' name="ticket_type_dates['.$j.'][]"><span class="checkmark"></span>&nbsp;&nbsp;' . $_SESSION['ticket_data']['ticket_type_dates']['num'][$j] . '</span>';   */
+
 		
 	foreach($t as $key => $val)
 	{
