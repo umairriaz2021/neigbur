@@ -657,7 +657,7 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 	  				  */
 	  			}  // end of foreach date
 	  				$checked = ($check[$a] == "true") ? 'checked' : '';
-				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">  <input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $a . '][]"> <span class="checkmark"></span>  ' . $selctdatae . '  </span>';
+				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">&nbsp;<input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $a . '][]">&nbsp;<span class="checkmark"></span>&nbsp;' . $selctdatae . '&nbsp;</span>';
 				$a++;
 				
 			//custom	

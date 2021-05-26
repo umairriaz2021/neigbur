@@ -1,5 +1,47 @@
 <?php
-/* echo "<pre>"; print_r($_SESSION); die; */
+
+function debug($val){
+    echo "<pre>";
+    print_r($val);
+}
+
+//debug($_SESSION['ticket_data']);die;
+
+if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
+    $est = $_SESSION['ticket_data']['ticket_type_dates'];
+  
+    $dotes = $est;
+    $keys = array_keys($dotes);
+
+    
+    for($i = 0; $i < count($dotes); $i++) {
+  
+    foreach($dotes[$keys[$i]] as $key => $value) {
+        $eventdotes[] = $value;
+    }
+
+}
+}
+elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
+    $est = $_SESSION['edit_ticket_data']['ticket_type_dates'];
+ 
+    $dotes = $est;
+    $keys = array_keys($dotes);
+
+    for($i = 0; $i < count($dotes); $i++) {
+  
+    foreach($dotes[$keys[$i]] as $key => $value) {
+        $eventdotes[] = $value;
+    }
+
+}
+         
+}
+
+
+
+
+
 if (isset($_POST['btnFinalSubmit']))
 {
     if (isset($_SESSION['event_data']))
@@ -334,7 +376,7 @@ if (isset($_POST['btnFinalSubmit']))
                               'note' => stripslashes($tickets['ticket_details'][$i]),
                               'event_id' => $apirespons->event->id,
                               'currency_code' => $currency,
-                              'event_dates' => $eventdates
+                              'event_dates' => $eventdotes
                               
                           );
 
@@ -400,14 +442,11 @@ if (isset($_POST['btnFinalSubmit']))
                           } else {
                               $tdata['order_limit'] = $tickets['no_of_tkt_available'][$i];
                           }
-                          if (isset($tickets['ticket_type_dates'])) {
-                            $tdata['event_dates'][] = $tickets['ticket_type_dates']['num'][$i];
-                            } else {
-                                $tdata['event_dates'] = "";
-                            }
+                         
                           //if ($tickets['ticket_type_dates[num]'] != 'no') {        
-
-
+                           echo "<pre>";
+                           //print_r($payload);die;
+                
                           $payload = json_encode($tdata);
 
                           //echo "<br/><br/>ticketTypes create /ticketTypes<br/>";
@@ -429,8 +468,7 @@ if (isset($_POST['btnFinalSubmit']))
                           $result = curl_exec($ch);
                           curl_close($ch);
                           $response = json_decode($result);
-                          echo "<pre>";
-                          print_r($response);
+                         
                           
                           
 
