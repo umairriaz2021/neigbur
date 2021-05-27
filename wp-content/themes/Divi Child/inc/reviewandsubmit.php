@@ -161,7 +161,7 @@ if (isset($_POST['btnFinalSubmit']))
           if ($apirespons->success)
           {
               
-               header("Location: ".site_url().'?page_id=664&event_id='.$apirespons->event->id);
+         header("Location: ".site_url().'?page_id=664&event_id='.$apirespons->event->id);
               $eventfiles=array();
               if (isset($_SESSION['event_data']['filetouploadname']) && count($_SESSION['event_data']['filetouploadname'])> 0) {
                   foreach ($_SESSION['event_data']['filetouploadname'] as $row) {
@@ -723,6 +723,11 @@ if (isset($_POST['btnFinalSubmit']))
 
 
         if (isset($_SESSION['edit_ticket_data'])) {
+            
+            
+            
+                if (!empty($apirespons->event->ticketTypes->id)){
+            
             echo "<br/><br/>Session Data for Updation /ticketTypes<br/>";
             print_r($_SESSION['edit_ticket_data']);
             $tickets = $_SESSION['edit_ticket_data'];
@@ -921,6 +926,214 @@ if (isset($_POST['btnFinalSubmit']))
                 unset($_SESSION["event_edit_data"]);
                 unset($_SESSION["edit_ticket_data"]);
             }
+            
+            } // end of else
+            
+            //custom
+                 
+              else if(empty($apirespons->event->ticketTypes->id)) {
+                  
+                   echo "<br/><br/>rwerweSession Data for Updation /ticketTypes<br/>";
+            print_r($_SESSION['edit_ticket_data']);
+            $tickets = $_SESSION['edit_ticket_data'];
+            if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
+                for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
+                    $n = $i;
+                    $number = $n+1;
+
+                    if (isset($tickets['ticket_type_dates'])) {
+                        if (isset($editresponse->event->event_dates)) {
+                            foreach ($editresponse->event->event_dates  as $key=>$val) {
+                                $start_date = $val->start_date;
+                                $end_date = $val->end_date;
+                                $datrid = $val->id;
+                                if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date))) {
+                                    $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('h:i a', strtotime($end_date));
+                                } else {
+                                    $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('M d, Y h:i a', strtotime($end_date));
+                                }
+                                for ($lt=0;$lt<count($tickets['ticket_type_dates'][$number]);$lt++) {
+                                    if ($tickets['ticket_type_dates'][$number][$lt] == $selctdatae) {
+                                        $eventdates[$lt] = $datrid;
+                                    }
+                                }
+                            }
+                        }
+                        echo "Date Array:-";
+                        print_r($eventdates);
+                    }
+
+                    $tdata = array(
+                            'name' => stripslashes($tickets['ticket_name'][$number]),
+                            'note' => stripslashes($tickets['ticket_details'][$number]),
+                           'event_id' => $_GET['edit'],
+                            'currency_code' => $currency,
+                            'event_dates' => $eventdates
+                        );
+
+                    if ($tickets['no_of_tkt_available'][$number]!=0) {
+                        $tdata['max'] = $tickets['no_of_tkt_available'][$number];
+                    } else {
+                        $tdata['max'] = $tickets['ticket_per_bundle'][$number] * $tickets['bundles_available'][$number] ;
+                    }
+
+                    if (isset($taxProfile)) {
+                        $tdata['tax_profile_id'] = $tickets['tax_pro_id'];
+                    }
+
+
+                    if ($tickets['radio_tkt_start_time_'.$number] != 'Match Event') {
+                        $tdata['start'] = date('Y-m-d H:i', strtotime('+5 hour', strtotime($tickets['tkt_start_date'][$number])));
+                    } else {
+                        $tdata['start'] = $ticket_start_date;
+                    }
+
+
+                    if ($tickets['radio_tkt_end_time_'.$number] != 'Match Event') {
+                        $tdata['end'] = date('Y-m-d H:i', strtotime('+5 hour', strtotime($tickets['tkt_end_date'][$number])));
+                    } else {
+                        $tdata['end'] = $ticket_end_date;
+                    }
+
+                    if ($tickets['radio_release_time_'.$number] != 'Immediately') {
+                        $tdata['release'] = date('Y-m-d H:i', strtotime('+5 hour', strtotime($tickets['release_start_date'][$number])));
+                    } else {
+                        $tdata['release'] = date('Y-m-d H:i');
+                    }
+
+                    if ($tickets['radio_expiration_time_'.$number] != 'None') {
+                       // $tdata['expiration_date'] = strtotime('+5 hour', date('Y-m-d H:i', strtotime($tickets['release_end_date'][$number])));
+                         $tdata['expiration_date'] = date('Y-m-d H:i', strtotime('+5 hour', strtotime($tickets['release_end_date'][$number])));
+                        
+                    } else {
+                        $tdata['expiration_date'] = $ticket_end_date;
+                    }
+
+
+                    if ($tickets['price_radio_'.$number] == 'Paid') {
+                        $tdata['paid_yn'] = true;
+                        $tdata['price'] = $tickets['price_per_tkt'][$number];
+                    } else {
+                        $tdata['paid_yn'] = false;
+                    }
+                    $tdata['fee_percentage'] = $tickets['select_per'][$number];
+                    $tdata['tax_inclusion'] = $tickets['tax_inclusion'][$number];
+
+                    if ($tickets['radio_tkt_type_'.$number] != 'Single Tickets') {
+                        $tdata['bundled_yn'] = true;
+                        $tdata['bundle_size'] = $tickets['bundles_available'][$number];
+                    //$tdata['order_limit'] = $tickets['total_tickets'][$i];
+                    } else {
+                        $tdata['bundled_yn'] = false;
+                        //$tdata['order_limit'] = $tickets['tkt_order_limit'][$i];
+                    }
+
+                    if ($tickets['radio_tkt_limit_'.$number] != 'no') {
+                        $tdata['order_limit'] = $tickets['tkt_order_limit'][$number];
+                    } else {
+                        $tdata['order_limit'] = $tickets['no_of_tkt_available'][$number];
+                    }
+                    if (isset($tickets['ticket_type_dates'])) {
+                        $tdata['event_dates'][] = $tickets['ticket_type_dates']['num'][$number];
+                    } else {
+                        $tdata['event_dates'] = "";
+                    }
+
+                    $payload = json_encode($tdata);
+
+                    echo "<br/><br/>ticketTypes data edit request /ticketTypes<br/>";
+                    print_r($tdata);
+                    echo $payload;
+
+                    $ch      = curl_init(API_URL.'ticketTypes');
+                    
+                      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length:' . strlen($payload),
+                'Authorization: ' . $token
+            ));
+
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                    $response = json_decode($result);
+                    echo "<br>Edit data Response<pre>";
+                    print_r($response);
+
+                  /*  if ($tickets['tkt_tax'] == 'yes') {
+                        $taxrat = $tickets['tax_rate']/100;
+                        $tpdata = array(
+                        'name' => $tickets['tax_name'],
+                        'tax_id'=> $tickets['tax_id'],
+                        'country_id' => $tickets['country'],
+                        'tax_rate_aggregate' => $taxrat
+                    );
+
+                        $payload = json_encode($tpdata);
+
+                        echo "<br/><br/>taxProfiles edit /taxProfiles<br/>";
+                        print_r($tpdata);
+                        echo $payload;
+
+                        $ch      = curl_init(API_URL.'taxProfiles/'.$_GET['edit']);
+                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length:' . strlen($payload),
+                'Authorization: ' . $token
+            ));
+
+                        $result22 = curl_exec($ch);
+                        curl_close($ch);
+                        $taxProfileResponse = json_decode($result22);
+}*/
+                       if ($tickets['radio_promo_code_'.$number] != 'disabled') {
+                            $pdata=array(
+                                              "name"=> $tickets['code_name'][$number],
+                                              "code"=> $tickets['code_name'][$number],
+                                              "metric"=> $tickets['radio_promo_code_'.$number],
+                                              "value"=> $tickets['code_value'][$number],
+                                         "ticket_type_id" => $response->ticketType->id,
+                                        
+                                            );
+                             $payloadpromo = json_encode($pdata);
+                             echo "<br/><br/>promo code request<br/>";
+                    print_r($pdata);
+                    echo $payloadpromo;
+
+                            $ch      = curl_init(API_URL.'ticketPromos/');
+                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadpromo);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length:' . strlen($payloadpromo),
+                'Authorization: ' . $token
+            ));
+                          
+                            
+                            $result = curl_exec($ch);
+                            curl_close($ch);
+                            $response = json_decode($result);
+                            echo "<pre>";
+                            print_r($response);
+                        }
+                   // }
+                }
+                unset($_SESSION["event_edit_data"]);
+                unset($_SESSION["edit_ticket_data"]);
+            }
+              }
+            //custom
+            
+        
         }
        header("Location: ".site_url().'/manage-my-events?success='.base64_encode($event_id).'&state='.$event_state);?>
         <a href="<?php echo site_url().'/manage-my-events?success='.base64_encode($event_id).'&state='.$event_state; ?>"><h2>Manage event page</h2></a>
