@@ -724,9 +724,15 @@ if (isset($_POST['btnFinalSubmit']))
 
         if (isset($_SESSION['edit_ticket_data'])) {
             
+            	$ch = curl_init(API_URL.'ticketTypes?eventId='.$_GET['edit']);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Authorization: ' . $token));
+	$tkt_response = curl_exec($ch);
+	curl_close($ch);
+	$tkt = json_decode($tkt_response);
             
-            
-                if (!empty($apirespons->event->ticketTypes->id)){
+                //if (!empty($apirespons->event->ticketTypes)){
+                	if ($tkt->success && !empty($tkt->ticketType)){
             
             echo "<br/><br/>Session Data for Updation /ticketTypes<br/>";
             print_r($_SESSION['edit_ticket_data']);
@@ -890,8 +896,63 @@ if (isset($_POST['btnFinalSubmit']))
                         $result22 = curl_exec($ch);
                         curl_close($ch);
                         $taxProfileResponse = json_decode($result22);
-}
+                       }
+
+                        
+
                         if ($tickets['radio_promo_code_'.$number] != 'disabled') {
+                            
+                            
+                            //custom
+                            $ch = curl_init(API_URL.'ticketTypes?eventId='.$_GET['edit']);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Authorization: ' . $token));
+	$tkt_response = curl_exec($ch);
+	curl_close($ch);
+	$tkt = json_decode($tkt_response);
+            
+                //if (!empty($apirespons->event->ticketTypes)){
+                //if ($tkt->success && count($tkt->ticketType) != $_SESSION['edit_ticket_data']['count']){
+                	if ($tkt->success && empty($tkt->ticketType->ticketPromo)){
+                               
+                               echo "empty promocode";
+                               
+                            $pdata=array(
+                                              "name"=> $tickets['code_name'][$number],
+                                              "code"=> $tickets['code_name'][$number],
+                                              "metric"=> $tickets['radio_promo_code_'.$number],
+                                              "value"=> $tickets['code_value'][$number],
+                                         "ticket_type_id" => $response->ticketType->id,
+                                        
+                                            );
+                             $payloadpromo = json_encode($pdata);
+                             echo "<br/><br/>promo code request<br/>";
+                    print_r($pdata);
+                    echo $payloadpromo;
+
+                            $ch      = curl_init(API_URL.'ticketPromos/');
+                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadpromo);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length:' . strlen($payloadpromo),
+                'Authorization: ' . $token
+            ));
+                          
+                            
+                            $result = curl_exec($ch);
+                            curl_close($ch);
+                            $response = json_decode($result);
+                            echo "<pre>";
+                            print_r($response);
+                        }
+                            
+                            //custom
+                            else{
+                                
+                                   echo "update promocode";
                             $pdata=array(
                                               "name"=> $tickets['code_name'][$number],
                                               "code"=> $tickets['code_name'][$number],
@@ -920,6 +981,11 @@ if (isset($_POST['btnFinalSubmit']))
                             $response = json_decode($result);
                             echo "<pre>";
                             print_r($response);
+                            
+                            
+                        }//else
+                        
+                        
                         }
                    // }
                 }
@@ -931,8 +997,8 @@ if (isset($_POST['btnFinalSubmit']))
             
             //custom
                  
-              else if(empty($apirespons->event->ticketTypes->id)) {
-                  
+              else if ($tkt->success && empty($tkt->ticketType)) {
+                  echo "ryery" . $apirespons->event->ticketTypes;
                    echo "<br/><br/>rwerweSession Data for Updation /ticketTypes<br/>";
             print_r($_SESSION['edit_ticket_data']);
             $tickets = $_SESSION['edit_ticket_data'];
