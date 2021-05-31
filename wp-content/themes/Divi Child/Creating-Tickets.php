@@ -518,7 +518,7 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 			$tk['%%TICKET_PRICE_SCRIPT%%'] = "<script>jQuery('#price_per_tkt_" . $j . "').val(0);jQuery('#price_per_tkt_" . $j . "').attr('readonly',true);</script>";
 		}
 		$tk['%%TICKET_BUNDLE_DISPLAY%%'] = ($val->bundled_yn) ? '' : 'none';
-		$tk['%%TICKETS_PER_BUNDLE_VAL%%'] = ($val->bundled_yn) ? $val->order_limit/$val->bundle_size : 0;
+		$tk['%%TICKETS_PER_BUNDLE_VAL%%'] = ($val->bundled_yn) ? $val->max / $val->bundle_size : 0;
 		$tk['%%TICKET_BUNDLES_AVAILABLE_VAL%%'] = ($val->bundled_yn) ? $val->bundle_size : 0;
 		$tk['%%TICKET_TOTAL_TICKETS_VAL%%'] = ($val->bundled_yn) ? $val->max : 0;
 
@@ -536,10 +536,10 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 		$tk['%%TICKET_END_NEW_CHECKED%%'] = $val->end == $val->event->end ? '' : 'checked';
 		$tk['%%TICKET_END_DISPLAY%%'] = $val->end == $val->event->end ? 'none' : 'block';
 		$tk['%%TICKET_END_VAL%%'] = $val->end ? date('M d, Y h:i a', strtotime($val->end)) :  'NOT SET';
-		$tk['%%TICKET_LIMIT_NO_CHECKED%%'] = $val->order_limit == $val->max ? 'checked' : '' ;
-		$tk['%%TICKET_LIMIT_YES_CHECKED%%'] = $val->order_limit == $val->max ? '' : 'checked' ;
+		$tk['%%TICKET_LIMIT_NO_CHECKED%%'] = $val->order_limit == 0 ? 'checked' : '' ;
+		$tk['%%TICKET_LIMIT_YES_CHECKED%%'] = $val->order_limit == 0 ? '' : 'checked' ;
 		$tk['%%TICKET_LIMIT_VAL%%'] = ($val->order_limit) ? $val->order_limit : '';
-		$tk['%%TICKET_LIMIT_DISPLAY%%'] = $val->order_limit == $val->max  ? 'none' : 'block' ;
+		$tk['%%TICKET_LIMIT_DISPLAY%%'] = $val->order_limit == 0  ? 'none' : 'block' ;
 
 		$immediately = true;
 		$date = new DateTime($val->release);
@@ -553,10 +553,10 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 		$tk['%%TICKET_RELEASE_SCHEDULED_CHECKED%%'] = ($val->release) ? '':'checked';
 		$tk['%%TICKET_RELEASE_START_DISPLAY%%'] = ($immediately) ? 'none' : '';
 		$tk['%%TICKET_RELEASE_START_VAL%%'] = date('M d, Y h:i a');      // TODO: use value
-		$tk['%%TICKET_EXPIRE_NONE_CHECKED%%'] = $val->event->end == $val->expiration_date ? 'checked' : '';
-		$tk['%%TICKET_EXPIRE_SCHEDULED_CHECKED%%'] = $val->event->end == $val->expiration_date ? '' : 'checked';
-		$tk['%%TICKET_EXPIRE_START_DISPLAY%%'] = $val->event->end == $val->expiration_date ? 'none' : 'block';
-		$tk['%%TICKET_EXPIRE_START_VAL%%'] = $val->event->end == $val->expiration_date ? 'NOT SET' :  date('M d, Y h:i a', strtotime($val->expiration_date));
+		$tk['%%TICKET_EXPIRE_NONE_CHECKED%%'] = $val->end == $val->expiration_date ? 'checked' : '';
+		$tk['%%TICKET_EXPIRE_SCHEDULED_CHECKED%%'] = $val->end == $val->expiration_date ? '' : 'checked';
+		$tk['%%TICKET_EXPIRE_START_DISPLAY%%'] = $val->end == $val->expiration_date ? 'none' : 'block';
+		$tk['%%TICKET_EXPIRE_START_VAL%%'] = $val->end == $val->expiration_date ? 'NOT SET' :  date('M d, Y h:i a', strtotime($val->expiration_date));
 
 	//	if (isset($_GET['clone']))
 	//	{
