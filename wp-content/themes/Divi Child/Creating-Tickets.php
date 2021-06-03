@@ -536,10 +536,22 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 		$tk['%%TICKET_END_NEW_CHECKED%%'] = $val->end == $val->event->end ? '' : 'checked';
 		$tk['%%TICKET_END_DISPLAY%%'] = $val->end == $val->event->end ? 'none' : 'block';
 		$tk['%%TICKET_END_VAL%%'] = $val->end ? date('M d, Y h:i a', strtotime($val->end)) :  'NOT SET';
-		$tk['%%TICKET_LIMIT_NO_CHECKED%%'] = $val->order_limit == 0 ? 'checked' : '' ;
+		
+		if($val->bundled_yn){
+		    
+		    		$tk['%%TICKET_LIMIT_NO_CHECKED%%'] = $val->order_limit == 0 ? 'checked' : '' ;
 		$tk['%%TICKET_LIMIT_YES_CHECKED%%'] = $val->order_limit == 0 ? '' : 'checked' ;
+			$tk['%%TICKET_LIMIT_DISPLAY%%'] = $val->order_limit == 0  ? 'none' : 'block' ;
+				$tk['%%TICKET_LIMIT_VAL%%'] = ($val->order_limit) ? $val->order_limit : '';
+		}
+  else{
+      $tk['%%TICKET_LIMIT_NO_CHECKED%%'] = $val->order_limit == $val->max ? 'checked' : '' ;
+	$tk['%%TICKET_LIMIT_YES_CHECKED%%'] = $val->order_limit == $val->max ? '' : 'checked' ;
 		$tk['%%TICKET_LIMIT_VAL%%'] = ($val->order_limit) ? $val->order_limit : '';
-		$tk['%%TICKET_LIMIT_DISPLAY%%'] = $val->order_limit == 0  ? 'none' : 'block' ;
+
+	$tk['%%TICKET_LIMIT_DISPLAY%%'] = $val->order_limit == $val->max  ? 'none' : 'block' ;
+  }
+	
 
 		$immediately = true;
 		$date = new DateTime($val->release);
@@ -854,8 +866,8 @@ function GetEmptyTicket($num)
 	  		$check = array();
 	  		foreach ($_SESSION['event_edit_data']['dateRanges'] as $key=>$v)
 	  		{
-	  		   // $start_date = date('M d, Y h:i a', strtotime($_SESSION["event_edit_data"]["dateRanges"][$key][0]));
-	  			$start_date = date('M d, Y h:i a', strtotime($_SESSION["event_edit_data"]["dateRanges"][0][0]));
+	  		   // $start_date = date('M d, Y h:i a', strtotime($_SESSION["event_edit_data"]["dateRanges"][0][0]));
+	  			$start_date = date('M d, Y h:i a', strtotime($_SESSION["event_edit_data"]["dateRanges"][$key][0]));
 	  			$end_date = date('M d, Y h:i a', strtotime($_SESSION["event_edit_data"]["dateRanges"][$key][1]));
 	  			if (date("Y-m-d", strtotime($start_date)) == date("Y-m-d", strtotime($end_date)))
 	  			{
@@ -891,7 +903,7 @@ function GetEmptyTicket($num)
 	  				  */
 	  			}  // end of foreach date
 	  				$checked = ($check[$a] == "true") ? 'checked' : '';
-				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">  <input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $a . '][]"> <span class="checkmark"></span>  ' . $selctdatae . '  </span>';
+				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">&nbsp;<input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $a . '][]">&nbsp;<span class="checkmark"></span>&nbsp;&nbsp;' . $selctdatae . '&nbsp;&nbsp;</span>';
 				$a++;
 				
 					$tk['%%CLONE_INPUT%%'] = '<input type="hidden" id="EVENTSTRATDATE" value="' . date('Y/m/d h:i a', strtotime($start_date)) .'"/>';
