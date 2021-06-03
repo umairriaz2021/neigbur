@@ -535,7 +535,8 @@ jQuery( function() {
 //	jQuery('#span_end_date').text('');
 
 	//if($('.single_start_date').length)
-//	{
+//	{	
+if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 		$.datetimepicker.setDateFormatter('moment');
 		jQuery(".create-event .single_start_date").datetimepicker({
        //jQuery(".single_start_date").datetimepicker({
@@ -572,6 +573,45 @@ jQuery( function() {
 			setEndMinDate();
 		}
 		});
+}
+		if(jQuery(".create-event .single_start_date").val() != "NOT SET"){
+		$.datetimepicker.setDateFormatter('moment');
+		jQuery(".create-event .single_start_date").datetimepicker({
+       //jQuery(".single_start_date").datetimepicker({
+
+		/* minDate: 0, */
+		/* minTime: 0, */
+		/* minDateTime:0, */
+		//minDateTime: new Date().toString,
+		//value: dateToday,
+		minDateTime: new Date(),
+		step: 15,
+		validateOnBlur: false,
+		//format:'M j, Y g:i a',
+		//formatTime:	'g:i a',
+		format: 'MMM D YYYY h:mm a',
+		formatTime: 'h:mma',
+		formatDate: 'YYYY-MM-DD',
+		closeOnDateSelect:false,
+		closeOnTimeSelect:true,
+	//	onGenerate:function (e) {
+		  //  setEndMinDate();
+		    
+//}
+		onClose:function (e) {
+
+			var start_date = jQuery('.single_start_date').val();
+			//jQuery('.single_end_date').val(start_date);
+			jQuery('#single_start_date-error').hide();
+			jQuery('#single_end_date-error').hide();
+			jQuery('#span_start_date').text(start_date);
+			jQuery('#span_end_date').text('');
+			/* jQuery('#prev_start_date').text(start_date); */
+			/* dateCompare(); */
+			setEndMinDate();
+		}
+		});
+		}
 		
 		//for edit
 			jQuery(".edit_event .single_start_date").datetimepicker({
@@ -640,11 +680,36 @@ jQuery( function() {
 	}
 
 	// moved dateCompare out of here
-	if ($(".create-event .single_end_date").length)
+	//if ($(".create-event .single_end_date").length)
+	if ($(".create-event .single_end_date").val() == "NOT SET")
 	{
 		$.datetimepicker.setDateFormatter('moment');
 		jQuery(".create-event .single_end_date").datetimepicker({
         value: dateToday,
+		// minDate: '2019/12/29',
+			step: 15,
+			//formatTime:	'g:i a',
+			//format:'M j, Y g:i a',
+			format: 'MMM D YYYY h:mm a',
+			formatTime: 'h:mma',
+			formatDate: 'YYYY-MM-DD',
+			closeOnDateSelect:false,
+			closeOnTimeSelect:true,
+			validateOnBlur: false,
+			onClose:function (e) {
+			if(jQuery(".single_end_date").val() != 'NOT SET'){
+				jQuery('#single_end_date-error').hide();
+			}
+				dateCompare();
+			}
+		});
+	}
+	
+		if ($(".create-event .single_end_date").val() != "NOT SET")
+	{
+		$.datetimepicker.setDateFormatter('moment');
+		jQuery(".create-event .single_end_date").datetimepicker({
+        //value: dateToday,
 		// minDate: '2019/12/29',
 			step: 15,
 			//formatTime:	'g:i a',
@@ -825,6 +890,7 @@ jQuery(document).on('click', '#add_more', function (e) {
 				formatDate: 'YYYY-MM-DD',
 		    minDateTime: minDT,
 		    validateOnBlur: false,
+		    value: start_date,
 		    step: 15,
 		    closeOnDateSelect:false,
 		    closeOnTimeSelect:true,
@@ -832,7 +898,7 @@ jQuery(document).on('click', '#add_more', function (e) {
 				if(jQuery("#multi_end_date_"+start_number).val() != 'NOT SET'){
 				// 	jQuery("#multi_end_date_"+start_number+"-error").hide();
 				    jQuery("#multi_end_date_"+start_number).val(convertDate(e));
-                    //var d = capitalizeWords(convertDate(e));
+                    
 				    jQuery("#span_end_date_"+start_number).text('to '+convertDate(e).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
 				jQuery("#prev_end_date_"+start_number).text('to '+convertDate(e).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
 				}
@@ -853,8 +919,14 @@ var dateToday = new Date();
 // moved dateCompare out of here
 	if ($(".multi_end_date").length > 0)
 	{
+	
 	var tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);  
+    tomorrow.setDate(today.getDate() + 1);
+
+    //console.log('Defence '+enddates);
+    //var enddate =  jQuery("#multi_end_date_"+start_number).val(convertDate(e));
+   let enddates = jQuery("#multi_start_date_"+inc_count).val();
+   console.log(enddates);
 //	$.datetimepicker.setDateFormatter('moment');
 	jQuery("#multi_end_date_"+inc_count).datetimepicker({
 	    	
@@ -869,9 +941,10 @@ var dateToday = new Date();
 		closeOnDateSelect:false,
 		closeOnTimeSelect:true,
 		validateOnBlur: false,
-        value: tomorrow,
+        value: enddates,
 		onClose:function (e) {
-
+		    
+                //tomorrow.setDate(convertDate(e));
 			var start_number = jQuery('#end').val();
 			if(jQuery("#multi_end_date_"+start_number).val() != 'NOT SET'){
 			jQuery("#multi_end_date_"+start_number+"-error").hide();
