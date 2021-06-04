@@ -735,7 +735,9 @@ if (isset($_POST['btnFinalSubmit']))
                 	if ($tkt->success && !empty($tkt->ticketType)){
             
             echo "<br/><br/>Session Data for Updation /ticketTypes<br/>";
-            print_r($_SESSION['edit_ticket_data']);
+             echo "hghgh". $_SESSION["edit_ticket_data"]["count"];
+             echo "utyuytu" .count($tkt->ticketType);
+            //print_r($_SESSION['edit_ticket_data']);
             $tickets = $_SESSION['edit_ticket_data'];
             if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
                 for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
@@ -989,15 +991,18 @@ if (isset($_POST['btnFinalSubmit']))
                         }
                    // }
                 }
-                unset($_SESSION["event_edit_data"]);
-                unset($_SESSION["edit_ticket_data"]);
+                //unset($_SESSION["event_edit_data"]);
+               // unset($_SESSION["edit_ticket_data"]);
             }
             
             } // end of else
             
             //custom
-                 
-              else if ($tkt->success && empty($tkt->ticketType)) {
+               
+                
+               if ($tkt->success && empty($tkt->ticketType) || count($tkt->ticketType) != $_SESSION["edit_ticket_data"]["count"]) {
+                   
+                
                   echo "ryery" . $apirespons->event->ticketTypes;
                    echo "<br/><br/>rwerweSession Data for Updation /ticketTypes<br/>";
             print_r($_SESSION['edit_ticket_data']);
@@ -1006,8 +1011,13 @@ if (isset($_POST['btnFinalSubmit']))
                 for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
                     $n = $i;
                     $number = $n+1;
-
-                    if (isset($tickets['ticket_type_dates'])) {
+                        echo "rwe" .  $tickets['ticket_id'][$number];
+                        echo "78789" . $tkt->ticketType->id;
+                        
+                         foreach ($tkt->ticketType as $key=>$val) {
+                              delete_tickettype($val->id);
+                         }
+                                if (isset($tickets['ticket_type_dates'])) {
                         if (isset($editresponse->event->event_dates)) {
                             foreach ($editresponse->event->event_dates  as $key=>$val) {
                                 $start_date = $val->start_date;
@@ -1111,7 +1121,7 @@ if (isset($_POST['btnFinalSubmit']))
                     print_r($tdata);
                     echo $payload;
 
-                    $ch      = curl_init(API_URL.'ticketTypes');
+                    $ch= curl_init(API_URL.'ticketTypes');
                     
                       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
@@ -1192,6 +1202,7 @@ if (isset($_POST['btnFinalSubmit']))
                             print_r($response);
                         }
                    // }
+             
                 }
                 unset($_SESSION["event_edit_data"]);
                 unset($_SESSION["edit_ticket_data"]);
@@ -1224,6 +1235,25 @@ function delete_file($id)
     $result = curl_exec($ch);
     $del_response = json_decode($result);
     echo "<br>Deleted File response <pre>";
+    print_r($del_response);
+}
+
+
+function delete_tickettype($id)
+{
+    global $token;
+    $ch = curl_init(API_URL.'ticketTypes/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+           'Content-Type: application/json',
+           'Authorization: ' . $token
+       ));
+    $result = curl_exec($ch);
+    $del_response = json_decode($result);
+    echo "<br>Deleted ticket response <pre>";
     print_r($del_response);
 }
 ?>
