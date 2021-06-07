@@ -205,11 +205,18 @@ jQuery(document).on('input', '.tqty', function () {
 		qty=torderlimit;
 	}
 	
-/*	else
-	{
-		jQuery(this).parent().find('.limitMessage').hide();
-		jQuery(this).parent().find('.remainingMessage').show();
-	}*/
+    if(parseInt(tremaining) == parseInt(torderlimit) || parseInt(tremaining) < parseInt(torderlimit)){
+    	 if (parseInt(qty) < parseInt(tremaining)){
+    	
+    		jQuery(this).parent().find('.limitMessage').hide();
+    		jQuery(this).parent().find('.remainingMessage').show();
+    	}
+    }
+
+    if(parseInt(qty) < parseInt(torderlimit)){ 
+        	jQuery(this).parent().find('.limitMessage').hide();
+    		jQuery(this).parent().find('.remainingMessage').show();
+    }
 
 	var price = jQuery(this).parent().parent().find('.tprice').val();
 	var tax = jQuery(this).parent().parent().find('.ttax').val();
