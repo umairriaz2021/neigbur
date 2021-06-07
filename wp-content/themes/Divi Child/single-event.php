@@ -293,7 +293,7 @@ HTML;
 						
 							
 							    
-						        	<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>"><button class="buy-ticket" type="button" name="btnSubmit">BUY TICKETS</button></a>
+						        	<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>"><button class="buy-ticket" type="button" name="btnSubmit">GET TICKETS</button></a>
 							
 					       
 					<?php
@@ -314,9 +314,9 @@ HTML;
 					    <?php if($ticket_price != 0):?>
 			<?php $sendUrl =  site_url().'/get-tickets/'.$event_id;?>
 					    
-						<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $idss;?>/&abc=<?php echo $ticket_date;?>"><button class="buy-ticket" value="<?php echo $ticket_price;?>"  type="button" name="btnSubmit">BUY TICKETS</button></a>
+						<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $idss;?>/&abc=<?php echo $ticket_date;?>"><button class="buy-ticket" value="<?php echo $ticket_price;?>"  type="button" name="btnSubmit">GET TICKETS</button></a>
 						  <?php elseif(empty($idss)): ?>
-						  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?abc=<?php echo $event_detail->start;?>"><button class="buy-ticket"  type="button" name="btnSubmit">BUY TICKETS</button></a>
+						  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?abc=<?php echo $event_detail->start;?>"><button class="buy-ticket"  type="button" name="btnSubmit">GET TICKETS</button></a>
 					    <?php endif;?>
 						<div class="ticket-range">
 						<?php foreach ($event_detail->ticketTypes as $ticket) { ?>
@@ -437,7 +437,7 @@ HTML;
 				}
                ?>
                <?php if(!empty($event_detail-> third_party_url)){ ?>
-               <a href="<?php echo isset($event_detail-> third_party_url) ? $event_detail-> third_party_url : '';  ?>" class="ticket-url" target="_blank">Get Tickets</a>
+               <a href="<?php echo isset($event_detail-> third_party_url) ? $event_detail-> third_party_url : '';  ?>" class="ticket-url" target="_blank">GET TICKETS</a>
                
               <?php }?>
                <p>
