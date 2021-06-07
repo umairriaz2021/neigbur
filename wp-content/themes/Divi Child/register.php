@@ -39,7 +39,7 @@ if (isset($_POST['signupbtn'])) {
     $result = curl_exec($ch);
     curl_close($ch);
     $apirespons = json_decode($result);
-
+    
     if ($apirespons->success) {
         if(isset($apirespons->error)) {
 
