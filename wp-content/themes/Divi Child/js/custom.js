@@ -660,10 +660,6 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
         //minDT.setDate(minDT.getDate() + 1);
 		//console.log('setEndMinDate: ' + minDT.toString());
 		
-		if(jQuery('#single_end_date').val() < jQuery('.single_start_date').val() ){
-		jQuery('#single_end_date').attr("disabled",false);
-     	jQuery('#single_end_date').val(jQuery('.single_start_date').val());
-		}
 		
      	if(jQuery('#single_end_date').val() < jQuery('.single_start_date').val() ){
 		$.datetimepicker.setDateFormatter('moment');
@@ -680,6 +676,12 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 				dateCompare();
 			}});
      	}
+     	
+     	/*if(jQuery('#single_end_date').val() < jQuery('.single_start_date').val() ){
+		jQuery('#single_end_date').attr("disabled",false);
+     	jQuery('#single_end_date').val(jQuery('.single_start_date').val());
+		}*/
+		
      	
      		if(jQuery('#single_end_date').val() > jQuery('.single_start_date').val()){
      	    	jQuery('.single_end_date').datetimepicker({minDateTime: minDT, validateOnBlur: false, step: 15,
