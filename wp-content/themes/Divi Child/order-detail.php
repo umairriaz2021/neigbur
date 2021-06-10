@@ -1,4 +1,5 @@
 <?php
+
 /*
 Template Name: Order Detail Page
 */
@@ -59,7 +60,7 @@ get_header(); ?>
 					 <?php
 						/*important code for qr genration */
 						$filename = $PNG_TEMP_DIR.'ticket'.md5($ticket->uuid.'|H|10').'.png';
-						//QRcode::png($ticket->uuid, $filename, 'H', 10, 2);
+						QRcode::png($ticket->uuid, $filename, 'H', 10, 2);
 						echo '<img style="width:250px;float:right;" src="'.site_url().'/wp-content/themes/Divi Child/'.$PNG_WEB_DIR.basename($filename).'" />'; ?>
 					<h5 class="tkt-del2"><?php echo $apirespons->ticketOrder->event->name; ?></h5>
 					 <strong>TICKET ID : <?php echo $ticket->uuid ?></strong><br/>

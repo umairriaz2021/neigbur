@@ -97,7 +97,7 @@ for ($toi = 0; $toi < count($order->ticket_order_item); $toi++)
 	}
 	else
 	{
-		$typetime = date('l F j, Y g:ia',$estart) . '<br/>to<br/>' . date('l F j, Y g:ia', $eend);
+		$typetime = date('l F j, Y g:ia',$estart) . ' to ' . date('l F j, Y g:ia', $eend);
 	}
 
 	for ($toit = 0; $toit < count($order->ticket_order_item[$toi]->tickets); $toit++)
@@ -119,6 +119,7 @@ for ($toi = 0; $toi < count($order->ticket_order_item); $toi++)
 }
 
 $contentPage1 = get_post(2547);
+//$contentPage1 = get_post(2852);
 $contentPage1 =  apply_filters( 'the_content', $contentPage1->post_content );
 
 $contentPage2 = get_post(2549);
