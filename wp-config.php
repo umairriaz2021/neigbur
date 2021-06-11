@@ -72,9 +72,6 @@ define( 'NONCE_SALT',       'T|]iMpQG|`(%_pM]S4)3Heq%1Y*jZ^<,:S:+i!R?8).fZ4gBz0+
 define('API_URL', 'http://35.203.116.207/v1/'); // 35.203.116.207
 
 
-
-
-
 /**
  * WordPress Database Table prefix.
  *
