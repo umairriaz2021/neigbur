@@ -18,7 +18,7 @@ global $wpdb;
        $result = curl_exec($ch);
        curl_close($ch);
        $apirespons=json_decode($result);
-
+   
        if($apirespons->success) {
 
            $event_detail = $apirespons->event;
@@ -49,7 +49,7 @@ global $wpdb;
   //if(isset($_POST['share']))
   {
         $eve_img = 'https://storage.googleapis.com/' . $event_detail->files[0]->bucket . '/' . $event_detail->files[0]->filename;
-        $eve_img = "<img src='$eve_img'>";
+        $eve_img = "<img src='$eve_img' width='250' height='auto'>";
         $eve_name = $event_detail->name;
         foreach($event_detail->event_dates as $edate) {
             if($edate->start_date == $edate->end_date) {
@@ -74,6 +74,7 @@ global $wpdb;
         $emailtemplate = get_post(2432);
         $emailoutput =  apply_filters('the_content', $emailtemplate->post_content );
         $eventURL = site_url() . "/view-event/" . $event_detail->id;
+        $logo_img = 'https://webdev.snapd.com/wp-content/uploads/2019/09/neighbur_logo.png';
         $eventURL = "<a href='$eventURL'>$eventURL</a>";
         $contactName = $event_detail->contact_name;
 
@@ -92,7 +93,7 @@ global $wpdb;
                             </head>
                             <body style="font-family:sans-serif;font-size:14px;color:black;font-size:16px;">
                                 <div class="container" style="margin:0 auto;max-width:1080px;">
-                                    <img src="'.site_url().'/wp-content/themes/Divi Child/img/neighbur_logo.png">
+                                    <img src="'.$logo_img.'" width="100px" height="50px">
                                     <hr style="padding:3px 0px;border:0px;background-color:#80808021;">
                                     '.$emailContent.'
                               </div>

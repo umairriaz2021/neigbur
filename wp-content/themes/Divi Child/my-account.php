@@ -413,9 +413,9 @@ get_header();
                                 </p>
                             </div>
                             <div class="tab-row1">
-                                <strong>Age*</strong>
+                                <strong>Age</strong>
                                 <p>
-                                    <select name="age_range" required title="Please select Age Range">
+                                    <select name="age_range" title="Please select Age Range">
                                         <option value="">Age Range</option>
                                         <option value="1" <?php echo ($userdata->age_range->id == '1' ? 'selected' : '')?>>13-17</option>
                                         <option value="2" <?php echo ($userdata->age_range->id == '2' ? 'selected' : '')?>>18-29</option>
