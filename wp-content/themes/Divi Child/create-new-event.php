@@ -79,6 +79,7 @@ function get_base64($path){
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/cropper.css">
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/createevent.css">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/min/dropzone.min.js"></script>
 <script src="<?php echo site_url()?>/wp-content/themes/Divi Child/js/select2.js"></script>
@@ -86,18 +87,17 @@ function get_base64($path){
 <script src="<?php echo site_url()?>/wp-content/themes/Divi Child/js/jquery.iframe-transport.js"></script>
 <script src="<?php echo site_url()?>/wp-content/themes/Divi Child/js/jquery.fileupload.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
-
 <div id="main-content">
     
    <div class="outer-wrapper ">
       <div class="container container-home">
          <h3 class="h3-title">Create Your Next Big Event</h3>
-         <ul class="progressbar">
+         <ul class="progressbar desktop-visible">
             <li class="active">Page Design</li>
             <li>Ticket Options</li>
             <li>Options & Submit</li>
          </ul>
-         <p style="float:left;width:100%;text-align:center;margin-bottom:10px;font-size: 15px;">Complete each required section. Select NEXT to proceed.</p>
+         <p class="d-none d-lg-block" style="float:left;width:100%;text-align:center;margin-bottom:10px;font-size: 15px;">Complete each required section. Select NEXT to proceed.</p>
          <hr/>
 
          <form autocomplete="off"  class="create-event" id="event_form" method="post" action="<?php echo site_url(); ?>/create-tickets<?php echo isset($events)? '?clone='.$event_id : '' ; ?>" enctype="multipart/form-data" class="box">
@@ -110,13 +110,13 @@ function get_base64($path){
                <label class="radio-chk"> <input class="check-radio" type="radio" name="event_status_id" value="1" checked id="check_single"><span class="checkmark1"> </span> Single day Event</label>
                <label class="radio-chk">  <input class="check-radio" type="radio" name="event_status_id" value="2" id="check_multi"><span class="checkmark1"> </span> Multi-day event</label>
                <?php }?>
-               <span id="event_message">This event will start and end on the same date</span>
+               <div id="event_message">This event will start and end on the same date</div>
                 <br/>
                <!-- <input type="hidden" name="event_status_id" id="event_status_id" value="1">-->
                <?php if(isset($events)) { ?>
-               <div class="event-dates">
-                  <label style="cursor: pointer;" class="start-date" for="single_start_date">Start <input type="text" required id="single_start_date" class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
-                  <label style="cursor: pointer;" class="start-date" for="single_end_date">End <input type="text" required id="single_end_date" class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+                  <div class="event-dates row justify-content-center">
+                  <label style="cursor: pointer;"class="start-date col-lg-3 mb-2 pb-2" for="single_start_date">Start <input type="text" required id="single_start_date" class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+                  <label style="cursor: pointer;" class="start-date col-lg-3 mb-2 pb-2" for="single_end_date">End <input type="text" required id="single_end_date" class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
                </div>
                <a href="#" style="display: none" id="add_more"><span> + </span>Add a new date</a>
             </div>
@@ -150,7 +150,7 @@ function get_base64($path){
                   <p>Select an image related to your event to display in search results. Use a high resolution image of 1280 x 720</p>
 
                </div>-->
-               <div class="upload-image">
+               <div class="upload-image col-lg-5">
                    <h3>Event Image*</h3>
             <div class="img-upload-outer" id="DragAReahight" onmouseout="HighlightArea(this.id, false)" ondragleave="    HighlightArea(this.id, false)" ondragenter="HighlightArea(this.id, true)" ondrop="HighlightArea(this.id, false)">
             <input type="file" id="fileupload" name="fileToUpload" value="https://storage.googleapis.com/<?php echo $events->files[0]->bucket?>/<?php echo $events->files[0]->filename;?>" style="border: none; position: absolute;top: 50px;left: 0;z-index: 2;opacity: 0;cursor: pointer;height: 254px;width: 100%;" <?php echo isset($events) && isset($events->files[0])  ? '' : 'required';?> title="Please Upload Event Image.">
@@ -190,7 +190,7 @@ function get_base64($path){
               </div>
               <p class="img-resolution">Select an image related to your event to display in search results. Use a high resolution image of 1280 x 720</p>
                </div>
-               <div class="event-details">
+               <div class="event-details col-lg-8">
                   <input type="hidden" id="start" value="0">
                   <input type="hidden" id="end" value="0">
                   <h3>Venue Information*</h3>
@@ -360,8 +360,8 @@ function get_base64($path){
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184551.80858184173!2d-79.51814199446795!3d43.718403811497105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb90d7c63ba5%3A0x323555502ab4c477!2sToronto%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sin!4v1568367410679!5m2!1sen!2sin" width="100%" height="290" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                      </div>
                   </div> -->
-            <div class="attachemnts">
-                     <div class="logo-details">
+            <div class="attachemnts row">
+                     <div class="logo-details col-lg">
                   <h3>Logo</h3>
                   <div style="clear:both"></div>
                   <div id="logodropZone" style="position: relative;" onmouseout="HighlightArea(this.id, false)" ondragleave="    HighlightArea(this.id, false)" ondragenter="HighlightArea(this.id, true)" ondrop="HighlightArea(this.id, false)">
@@ -472,7 +472,7 @@ function get_base64($path){
                            <a href="#"> Download here </a>-->
 
                      </div>
-                     <div class="map-details">
+                     <div class="map-details col-lg-6">
                         <h3>Map Details</h3>
                   <?php
                   $mapsrc= (isset($events)&& isset($events->long)) ?"https://webdev.snapd.com/map.php?lat=".$events->lat."&lng=".$events->long :"https://webdev.snapd.com/map.php?lat=56.1304&lng=-106.346771";
@@ -490,9 +490,9 @@ function get_base64($path){
                   for($i=0; $i<count($_SESSION['event_data']['event_start_date']); $i++) {
 
                       if($i == 0) { ?>
-               <div class="event-dates">
-                  <label style="cursor: pointer;" class="start-date" for="single_start_date">Start <input type="text" id="single_start_date" required class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="<?php echo $_SESSION['event_data']['event_start_date'][$i];?>"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
-                  <label style="cursor: pointer;" class="start-date" for="single_end_date">End <input type="text" id="single_end_date" required class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="<?php echo $_SESSION['event_data']['event_end_date'][$i];?>"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+               <div class="event-dates row justify-content-center">
+                  <label style="cursor: pointer;" class="start-date col-lg-3 mb-2 pb-2" for="single_start_date">Start <input type="text" id="single_start_date" required class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="<?php echo $_SESSION['event_data']['event_start_date'][$i];?>"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+                  <label style="cursor: pointer;"class="start-date col-lg-3 mb-2 pb-2" for="single_end_date">End <input type="text" id="single_end_date" required class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="<?php echo $_SESSION['event_data']['event_end_date'][$i];?>"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
                </div>
                <?php } else { ?>
                <div class="add_more_div event-dates" id="multi_div_<?php echo $i;?>">
@@ -503,9 +503,9 @@ function get_base64($path){
                <?php }
                   }
                   } else { ?>
-               <div class="event-dates">
-               <label style="cursor: pointer;" class="start-date" for="single_start_date">Start <input type="text" required id="single_start_date" class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
-               <label style="cursor: pointer;" class="start-date" for="single_end_date">End <input type="text" required id="single_end_date" class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+               <div class="event-dates row justify-content-center">
+               <label style="cursor: pointer;" class="start-date col-lg-3 mb-2 pb-2" for="single_start_date">Start <input type="text" required id="single_start_date" class="start_datepicker single_start_date" name="event_start_date[]" placeholder="Select Start Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
+               <label style="cursor: pointer;" class="start-date col-lg-3 mb-2 pb-2" for="single_end_date">End <input type="text" required id="single_end_date" class="end_datepicker single_end_date" name="event_end_date[]" placeholder="Select End Date/Time" style="cursor:pointer; padding: 0px !important; margin-bottom: 0px !important;" value="NOT SET"><small style="font-size: 12px !important; font-weight: normal;">Select to change</small></label>
                <!--
                   <label style="cursor: pointer;" class="start-date" for="single_start_date">Start
                  <div class="single_start_date_2"> </div>
@@ -530,8 +530,8 @@ function get_base64($path){
             </div>
             <hr/>
             <p><b>All required fields marked with (*).</b></p>
-            <div class="event-detail">
-               <div class="upload-image">
+            <div class="event-detail row">
+               <div class="upload-image col-lg-4">
                    <h3>Event Image*</h3>
             <div class="img-upload-outer" id="DragAReahight" onmouseout="HighlightArea(this.id, false)" ondragleave="HighlightArea(this.id, false)" ondragenter="HighlightArea(this.id, true)" ondrop="HighlightArea(this.id, false)">
             <input type="file" id="fileupload" name="fileToUpload" value="<?php echo isset($_SESSION['event_data']['event_image_base64']) && $_SESSION['event_data']['event_image_base64'] != '' ? $_SESSION['event_data']['event_image_base64'] : 'required';?>" style="border: none; position: absolute;top: 50px;left: 0;z-index: 2;opacity: 0;cursor: pointer;height: 254px;width: 100%;" <?php echo isset($_SESSION['event_data']['event_image_base64']) && $_SESSION['event_data']['event_image_base64'] != '' ? '' : 'required';?> title="Please Upload Event Image.">
@@ -565,7 +565,7 @@ function get_base64($path){
                   <p class="img-resolution">Select an image related to your event to display in search results. Use a high resolution image of 1280 x 720</p>
                </div>
 
-               <div class="event-details">
+               <div class="event-details col-lg-8">
                   <input type="hidden" id="start" value="0">
                   <input type="hidden" id="end" value="0">
                   <h3>Venue Information*</h3>
@@ -686,7 +686,7 @@ function get_base64($path){
                   <div>
                      <input style="width:99%;" type="text" placeholder="Website URL" id="website_url" name="website_url" value="<?php echo isset($_SESSION['event_data']) ? stripslashes($_SESSION['event_data']['website_url']) : '';?>">
                   </div>
-                  <p class="exclude">
+                  <p class="exclude w-100">
                      <input type="text" placeholder="Full Name*" name="contact_name" id="contact_name" class="exclude_input" required title="Please enter First" value="<?php echo isset($_SESSION['event_data']) ? stripslashes($_SESSION['event_data']['contact_name']) : $_SESSION['userdata']->first.' '.$_SESSION['userdata']->last;?>">
                      <span class="chkbox"><input class="tix-tkt" type="checkbox" id="contact_name_check" name="exclude_name" <?php echo isset($_SESSION['event_data']) && $_SESSION['event_data']['exclude_name'] == 'on' ? 'checked' : '';?>>
                      <span class="checkmark"></span> <label class="chkbox" for="contact_name_check">Exclude Name from public listing</label></span>
@@ -714,8 +714,8 @@ function get_base64($path){
                   </p>
                   <input type="hidden" name="exclude_email" value="<?php echo isset($_SESSION['event_data']) && $_SESSION['event_data']['exclude_email'] == 'on' ? 'on' : 'off';?>">
 
-                  <div class="attachemnts">
-                     <div class="logo-details">
+                  <div class="attachemnts row">
+                     <div class="logo-details col-lg">
                   <h3>Logo</h3>
                   <div style="clear:both"></div>
                   <div id="logodropZone" style="position: relative;" onmouseout="HighlightArea(this.id, false)" ondragleave="    HighlightArea(this.id, false)" ondragenter="HighlightArea(this.id, true)" ondrop="HighlightArea(this.id, false)">
@@ -799,7 +799,7 @@ function get_base64($path){
                            <a href="#"> Download here </a>-->
 
                      </div>
-                     <div class="map-details">
+                     <div class="map-details col-lg-6">
                         <h3>Map Details</h3>
                   <?php
                   $mapsrc= (isset($_SESSION['event_data']['lat'])&& isset($_SESSION['event_data']['long']))?"https://webdev.snapd.com/map.php?lat=".$_SESSION['event_data']['lat']."&lng=".$_SESSION['event_data']['long']:"https://webdev.snapd.com/map.php?lat=56.1304&lng=-106.346771";
@@ -832,8 +832,8 @@ function get_base64($path){
 <div class="modal fade img_crop" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 			  	<div class="modal-dialog myModal modal-dialog-centered " role="document">
 			    	<div class="modal-content">
-			      		<div class="modal-header">
-			        		<h5 class="modal-title">Crop Image Before Upload</h5>
+			      		<div class="modal-header d-none d-lg-block">
+			        		<h5 class="modal-title h3  ">Crop Image Before Upload</h5>
 			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          			<span aria-hidden="true">×</span>
 			        		</button>
@@ -851,11 +851,13 @@ function get_base64($path){
 			        		
 			      		</div>
 			      		<div class="modal-footer">
-			      			<div class="instructions"><b>1.</b> Use corner and midpoint grips to resize crop area <br/>
+			      			<div class="d-none d-lg-block"><b>1.</b> Use corner and midpoint grips to resize crop area <br/>
 					         <b> 2.</b> Select crop area to reposition   <br/>
 					         <b>3.</b> Drag on photo for new crop area</div>
-			      			<button type="button" id="crop" class="btn btn-primary">Crop</button>
-			        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			      			<div class="d-flex justify-content-center justify-content-md-start ">
+                        <button type="button" id="crop" class="btn btn-primary mr-2" style="margin-right:1rem;">Crop</button>
+			        		<button type="button" class="ml-2 btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
 			      		</div>
 			    	</div>
 			  	</div>

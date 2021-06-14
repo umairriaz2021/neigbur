@@ -444,3 +444,52 @@ input#pdf_image {
 .t-edit{
     display:none;
 }
+
+  /*Krutik's media query*/
+
+  @media screen and (max-width: 760px) {
+    .desktop-visible { display:none;}
+    .event-details{
+      width: 100% !important;
+    }
+    .exclude > input{
+      width: 100% !important;
+    }
+    .exclude > span{
+      margin-left: -18px;
+    }
+    .attachemnts {
+      width: 100% !important;
+    }
+    .next-btn{
+      width: 35vw !important;
+    }
+    .left-pay-im{
+      width: 100% !important;
+   }
+   .right-total{
+    width: 100% !important;
+   }
+   .tot-li{
+    width: 100% !important;
+   }
+   .mobile-table{
+    display: block;
+  }
+  .desktop-table{
+    display: none;
+  }
+  }
+
+  @media screen and (min-width: 760px) {
+.next-btn{
+  width: 10vw !important;
+}
+.mobile-table{
+  display: none;
+}
+.desktop-table{
+  display: block;
+}
+
+  }
