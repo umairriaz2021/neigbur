@@ -825,6 +825,7 @@ function CalculateTicketAllocation()
     console.log("New total: " + total);
   }
   $("#current_ticket_allocation").text(total);
+  $("#hidden_current_ticket_allocation").val(total);
 }
 
 function alert_max_quantity(thisf) {
