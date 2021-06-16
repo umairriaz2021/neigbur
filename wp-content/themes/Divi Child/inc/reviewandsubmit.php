@@ -443,6 +443,24 @@ if (isset($_POST['btnFinalSubmit']))
                               $tdata['order_limit'] = $tickets['no_of_tkt_available'][$i];
                           }
                          
+                         /* if ($tickets['radio_tkt_type_'.$i] != 'Single Tickets') {
+                          $tdata['order_limit'] =
+                               $tickets['ticket_per_bundle'][$i] * $tickets['bundles_available'][$i];
+                          }*/
+                          
+                          //bundled tkt
+                          if ($tickets['radio_tkt_type_'.$i] != 'Single Tickets') {
+                               if ($tickets['radio_tkt_limit_'.$i] != 'no') {
+                          $tdata['order_limit'] = $tickets['tkt_order_limit'][$i];
+                          }
+                          if ($tickets['radio_tkt_limit_'.$i] == 'no') {
+                          $tdata['order_limit'] =
+                               $tickets['ticket_per_bundle'][$i] * $tickets['bundles_available'][$i];
+                          }
+                          
+                          }
+                          //bundled tkt
+                          
                           //if ($tickets['ticket_type_dates[num]'] != 'no') {        
                            echo "<pre>";
                            //print_r($payload);die;

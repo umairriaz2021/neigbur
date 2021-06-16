@@ -11,7 +11,8 @@ var componentForm = {
 
 
 jQuery(document).ready(function(){
-
+    
+jQuery('#locLocation').val($('#autocomplete').val());
 //var x = document.getElementById("demo");
 var u =  document.getElementById("locLat");
 var q =  document.getElementById("locLong");
@@ -22,14 +23,16 @@ var q =  document.getElementById("locLong");
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
 
+
+
 function showPosition(position) {
  // x.innerHTML = position.coords.latitude;
  var str = jQuery('#autocomplete').val();
 
 
  var country = null;
-  u.value = position.coords.latitude;
-  q.value = position.coords.longitude;
+ // u.value = position.coords.latitude;
+//  q.value = position.coords.longitude;
    var lat = position.coords.latitude;
                 var lang = position.coords.longitude;
   var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lang + "&key=AIzaSyCyPW15L6uIJxk-8lSFDrPo8kB8G2-k4Tw&sensor=false";
@@ -46,11 +49,11 @@ function showPosition(position) {
                                          for (var i = 0; i < addrComponents.length; i++) {
                                 if (addrComponents[i].types[0] == "country") {
                                    // return addrComponents[i].short_name;
-                                    console.log("hjkh"+ addrComponents[i].long_name);
+                                    console.log(addrComponents[i].long_name);
                                     var a = addrComponents[i].long_name;
-                                     // (address.includes("Pakistan")){
-                                     if(a != "Canada"){
-                                            console.log("hjkhkh"+addrComponents[i].long_name);
+                                     // (address.includes("Canada")){
+                                     if(a != "Canada" && autocomplete_val.indexOf("Canada") < 0){
+                                            console.log(addrComponents[i].long_name);
                                          u.value = "51.253775";
                                         q.value = "-85.3232139";
                                         document.getElementById("autocomplete").value = "Ontario, Canada";

@@ -31,17 +31,19 @@ if (isset($_SESSION['sePra']['location']))
 					$_POST['loclat'] = $data->results[0]->geometry->location->lat;
 					$_POST['loclong'] = $data->results[0]->geometry->location->lng;
 				}
-				else
+			/*	else
 				{
 					$_POST['loclat'] = 1;
 					$_POST['loclong'] = 1;
-				}
+				}*/
 			}
 
 
         $searchrequesturl .= '&lat=' . urlencode($_POST['loclat']) . '&long=' . urlencode($_POST['loclong']);
         $searchrequesturl .= '&radius=' . urlencode($_POST['radiusfilter']);
-    }
+        //print_r($searchrequesturl);die;
+		    
+		}
 
     /* if (isset($_POST['pricefilter']) && $_POST['pricefilter'] != '') {
         $searchrequesturl .= ($_POST['pricefilter'] == 1) ? '&priceLow=0' : '&priceHigh=0';
@@ -137,6 +139,7 @@ if (isset($_SESSION['sePra']['location']))
 }
 
 if (isset($_POST['btnReset'])) {
+
 	unset($_SESSION['sePra']);
 	$searchrequesturl = API_URL . 'events?startDate=' . date('Y-m-d') . urlencode(' 00:00:00') . '&endDate=' . date("Y-m-d", strtotime("+ 100 month")) . urlencode(' 23:59:59') . '&sort=ASC&sortType=startDate';
     $ch = curl_init($searchrequesturl);
@@ -148,7 +151,7 @@ if (isset($_POST['btnReset'])) {
     $result = curl_exec($ch);
     curl_close($ch);
     $apirespons = json_decode($result);
-
+    
     if ($apirespons->success) {
         $events = $apirespons->events;
         $cat_arr = [17];
