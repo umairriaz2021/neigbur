@@ -9,7 +9,7 @@ unset($_SESSION['page_refresh']);
 $token   =  $_SESSION['Api_token'];
 $url = $_SERVER['REQUEST_URI'];
 $event = explode('/', $url);
-$event_id = $event[2];
+$event_id = $event[3];
 
 //       $ch   = curl_init(API_URL . 'orders/hold');
 //       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -81,8 +81,8 @@ get_header(); ?>
 				    
 					<h2>Select Tickets</h2>
 					<p style="color:grey; text-transform:uppercase; font-size:1.5rem; font-weight:700; text-align:center;" class="e_name"><?php echo ($event->name);?></p>
-					<button class="btn-return" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
-					<ul class="progressbar">
+					<button class="btn-return desktop-visible" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
+					<ul class="progressbar desktop-visible">
 						<li class="active">Select Tickets</li>
 						<li>Order Details</li>
 						<li class="last-li">Payment</li>
@@ -218,7 +218,7 @@ get_header(); ?>
 				<!-- Desktop Table -->
 				<div class="table-ticket table-responsive">
 					  <table class="table">
-						<tr style="background-color:white;">
+						<tr style="background-color:white;" class="ticket-details">
 							<th style="width: 25%;padding-left:16px;">Ticket(s)</th>
 						<!--	<th style="width: 10%;padding-left:16px;">Details</th>-->
 							<th style="width: 15%;padding-left:16px;">Price</th>
@@ -312,10 +312,13 @@ get_header(); ?>
 					  <label class="label-tab">*Fees include payment gateway and administrative costs</label>
 
 					  <div class="promo-sec">
-						 <div class="sub-promo"> <p class="p-code">Enter Promo Code</p> 
-						 <input type="text" name="promocode" placeholder="Enter Code">
-						 <button class="applybtn" onclick="applyPromo();" disabled>APPLY</button> 
+					  <div class="row">
+						  <div class="sub-promo row col-lg-4 text-nowrap"> <p class="p-code">Enter Promo Code</p> </div>
+						 <div class="row col-lg-8" style="margin-left: 0.2rem;"> 
+						 <input class="col-6 mr-2" type="text" name="promocode" placeholder="Enter Code" style="margin-right:1rem;">
+						 <button class="applybtn btn-sm btn-link col-4 disabled" style="cursor:pointer;" onclick="applyPromo();" disabled>APPLY</button> 
 						 <a href="void:javascript(0)" class="clear-code" onclick="clearcode();">Clear Code</a>
+						 </div>
 						 </div>
 						  <p class="promo-msg"></p>
 						  <p>Only one promotional code per transaction</p>
