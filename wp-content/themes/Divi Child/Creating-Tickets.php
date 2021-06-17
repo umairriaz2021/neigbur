@@ -226,6 +226,8 @@ $t['%%ADD_NEW%%'] = '<p class="add-new" style="cursor:pointer;" id="add_more_tkt
 if(isset($_GET['edit']) && isset($_SESSION['eventstate']))
 {
   $t['%%BACK_BUTTON%%'] = '<a href="/edit-event?eventstate=' . $_SESSION['eventstate'] . '&event_id=' . $_GET['edit'] . '" id="back_page" class="back-btn">BACK</a>';
+  
+
 }
 else
 {
@@ -381,7 +383,7 @@ if (isset($_SESSION['ticket_data']))
 		
 		
 		
-		$t['%%TICKET_DATES%%'] = "";
+		$t['%%TICKET_DATES%%'] ='';
 
 		///if (isset($_GET['clone']))
 		//{
@@ -414,10 +416,12 @@ if (isset($_SESSION['ticket_data']))
 			} // end of each date
 	//	} // end of if clone
 		
-	/*	$checked = ($_SESSION['ticket_data']['checked_'.$j] == "true") ? 'checked' : '';
+// 	$checked = ($_SESSION['ticket_data']['checked_'.$j] == "true") ? 'checked' : '';
 		
-				$t['%%TICKET_DATES%%'] = '<span class="chkbox"><input type="checkbox" value="' . $_SESSION['ticket_data']['ticket_type_dates']['num'][$j] . '" '.$checked.' name="ticket_type_dates['.$j.'][]"><span class="checkmark"></span>&nbsp;&nbsp;' . $_SESSION['ticket_data']['ticket_type_dates']['num'][$j] . '</span>';   */
+				// $t['%%TICKET_DATES%%'] .= '<span class="chkbox"><input type="checkbox" value="'.$selctdatae.'" name="ticket_type_dates['.$j.'][]"><span class="checkmark"></span>"'.$_SESSION['ticket_data'].'"</span>'; 
 
+		
+	
 		
 	foreach($t as $key => $val)
 	{
@@ -597,7 +601,7 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 		{
 			$i=1;
 			$check = array();
-			print_r($_SESSION['event_data']);die;
+			//print_r($_SESSION['event_data']);die;
 			foreach ($_SESSION['event_data']['event_start_date'] as $key=>$val)
 			{
 				$start_date = $_SESSION['event_data']['event_start_date'][$key];
@@ -669,7 +673,7 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 	  				  */
 	  			}  // end of foreach date
 	  				$checked = ($check[$a] == "true") ? 'checked' : '';
-				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">&nbsp;<input type="checkbox" value="' . $selctdatae . '" ' . $checked . ' name="ticket_type_dates[' . $a . '][]">&nbsp;<span class="checkmark"></span>&nbsp;' . $selctdatae . '&nbsp;</span>';
+				$tk['%%TICKET_DATES%%'] .= '<span class="chkbox">&nbsp;<input type="checkbox" value="' . $selctdatae . '" checked name="ticket_type_dates[' . $a . '][]">&nbsp;<span class="checkmark"></span>&nbsp;' . $selctdatae . '&nbsp;</span>';
 				$a++;
 				
 			//custom	
@@ -703,6 +707,29 @@ $t['%%TICKETS%%'] = str_replace('id="tkt_0"', 'id="tkt_0" style="display: none;"
 		$t['%%ADD_NEW%%'] = '<p class="add-new" style="cursor:pointer;" id="add_more_tkt"><i class="fa fa-plus"></i> Add New Ticket Type</p>';
 //	}
 }
+
+
+// thirdpartyurl edit
+$ch = curl_init(API_URL.'events/'.$event_id);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+      'Authorization: ' . $token
+      ));
+		$response = curl_exec($ch);
+		curl_close($ch);
+		$event = json_decode($response)->event;
+if(isset($event)){
+	
+$t['%%TIX_3RD_CHECKED%%'] = !empty($event->third_party_url) ? 'checked' : '';
+$thirdpartyurl = $event->third_party_url;
+$t['%%TIX_THIRD_HTTP_SELECTED%%'] = (strpos($thirdpartyurl, 'http') !== false)? '' : 'selected' ; 
+$t['%%TIX_THIRD_HTTPS_SELECTED%%'] = (strpos($thirdpartyurl, 'http') !== false)? 'selected' : '' ;
+$input = preg_replace( "#^[^:/.]*[:/]+#i", "", $thirdpartyurl );
+$t['%%TIX_THIRD_URL%%'] = $input;
+$t['%%THIRD_PARTY_DISPLAY%%'] = !empty($event->third_party_url )? 'block' : 'none';
+}
+// thirdpartyurl edit
 
 //echo "\n\n\n<!--\n";
 //echo "Loading template...\n";

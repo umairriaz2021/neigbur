@@ -33,9 +33,12 @@ if(isset($event_id) && $event_id != ''){
 
 }
 
+
+
 $event = getEventById($event_id);
 $event = $event->event;
- 
+//  echo "<pre>";
+// print_r($event);die;
 
  
 
@@ -51,8 +54,10 @@ get_header(); ?>
 }
 </style>
 <script src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/js/getticketscript.js"></script>
+
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/createevent.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 <!-- please don't delete these hidden filds -->
 <input type="hidden" value="<?=$_SESSION['userdata']->first;?>" id="holderFirst"/>
 <input type="hidden" value="<?=$_SESSION['userdata']->last;?>" id="holderLast"/>
@@ -76,8 +81,8 @@ get_header(); ?>
 				    
 					<h2>Select Tickets</h2>
 					<p style="color:grey; text-transform:uppercase; font-size:1.5rem; font-weight:700; text-align:center;" class="e_name"><?php echo ($event->name);?></p>
-					<button class="btn-return desktop-visible" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
-					<ul class="progressbar desktop-visible">
+					<button class="btn-return" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
+					<ul class="progressbar">
 						<li class="active">Select Tickets</li>
 						<li>Order Details</li>
 						<li class="last-li">Payment</li>
@@ -213,7 +218,7 @@ get_header(); ?>
 				<!-- Desktop Table -->
 				<div class="table-ticket table-responsive">
 					  <table class="table">
-						<tr style="background-color:white;" class="ticket-details">
+						<tr style="background-color:white;">
 							<th style="width: 25%;padding-left:16px;">Ticket(s)</th>
 						<!--	<th style="width: 10%;padding-left:16px;">Details</th>-->
 							<th style="width: 15%;padding-left:16px;">Price</th>
@@ -272,14 +277,21 @@ get_header(); ?>
                               $remainingtick = $tkt->max - $tkt->ticket_allocation;
                 $limitMessage = "";
                               if($remainingtick > 10){ ?>
-                                <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
+                                <input type="number" min="0" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1"  name="tickets[<?=$key?>][tqty]"  value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
                              <?php }else if(($remainingtick > 0) && ($remainingtick <= 10)){ ?>
                                 <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
                               <?php $limitMessage = "Limited Availability"; }else{ $limitMessage = "SOLD OUT";?>
                               <?php } ?>
                 <p class="remainingMessage" style=""><?php echo $limitMessage; ?></p>
                               <p class="limitMessage" style="display:none"></p>
-                              <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
+                              <?php if($tkt->max == $tkt->order_limit){?>
+                                   <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo  $remainingtick; ?>"/>
+                                <?php  }
+                                
+                                else {?>
+                                 <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
+                             <?php } ?>
+                             
                 <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>
                               </td>
                               <td class="al-right">
@@ -297,18 +309,14 @@ get_header(); ?>
 
 
 					  </table>
-					</div>
 					  <label class="label-tab">*Fees include payment gateway and administrative costs</label>
 
 					  <div class="promo-sec">
-						  <div class="row">
-						  <div class="sub-promo row col-lg-4 text-nowrap"> <p class="p-code">Enter Promo Code</p> </div>
-						 <div class="row col-lg-8" style="margin-left: 0.2rem;"> 
-						 <input class="col-6 mr-2" type="text" name="promocode" placeholder="Enter Code" style="margin-right:1rem;">
-						 <button class="applybtn btn-sm btn-link col-4 disabled" style="cursor:pointer;" onclick="applyPromo();" disabled>APPLY</button> 
+						 <div class="sub-promo"> <p class="p-code">Enter Promo Code</p> 
+						 <input type="text" name="promocode" placeholder="Enter Code">
+						 <button class="applybtn" onclick="applyPromo();" disabled>APPLY</button> 
 						 <a href="void:javascript(0)" class="clear-code" onclick="clearcode();">Clear Code</a>
-							  </div>
-							  </div>
+						 </div>
 						  <p class="promo-msg"></p>
 						  <p>Only one promotional code per transaction</p>
 					  </div>
@@ -330,7 +338,10 @@ get_header(); ?>
 							</ul>
 						</div>
 					</div>
-					<button class="next-btn" type="button" name="btnSubmit" onClick="holdTicket();" id="holdTicketBtn">NEXT</a></button>
+
+					<button class="next-btn" type="button" name="btnSubmit" onClick="holdTicket();" id="holdTicketBtn" disabled>NEXT</a></button>
+				</div>
+			</div>
 			<!----- second step start ------>
 			<div id="step2" class="getticket" style="display:none">
 				<div class="head-h2">
