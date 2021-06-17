@@ -9,7 +9,7 @@ unset($_SESSION['page_refresh']);
 $token   =  $_SESSION['Api_token'];
 $url = $_SERVER['REQUEST_URI'];
 $event = explode('/', $url);
-$event_id = $event[3];
+$event_id = $event[2];
 
 //       $ch   = curl_init(API_URL . 'orders/hold');
 //       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
