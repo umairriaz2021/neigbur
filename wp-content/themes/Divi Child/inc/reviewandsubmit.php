@@ -1025,6 +1025,38 @@ if (isset($_POST['btnFinalSubmit']))
                    echo "<br/><br/>rwerweSession Data for Updation /ticketTypes<br/>";
             print_r($_SESSION['edit_ticket_data']);
             $tickets = $_SESSION['edit_ticket_data'];
+            
+            //thirdparty edit
+            if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes 3rd party') {
+                echo "third party";
+                 $pdata = array("third_party_url"=> stripslashes($tickets['thirdpartyurl'].$tickets['turl']));
+                    $payload = json_encode($pdata);
+                    print_r($pdata);
+                    echo $payload;
+                    $ch= curl_init(API_URL.'events/'.$_GET['edit']);
+                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+                            curl_setopt($ch, CURLOPT_FAILONERROR, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length:' . strlen($payload),
+                'Authorization: ' . $token
+            ));
+
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                    print_r($result);
+              /*  if($_SESSION['edit_ticket_data']['turl']){
+                    $tdata['third_party_url'] = $_SESSION['edit_ticket_data']['thirdpartyurl'].$_SESSION['edit_ticket_data']['turl'];
+                     $tdata['id'] = $_GET['edit'];
+                    //echo  $tdata['third_party_url'];
+                     
+                }*/
+            }
+            //thirdparty edit
+            
             if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
                 for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
                     $n = $i;

@@ -18,18 +18,38 @@ var u =  document.getElementById("locLat");
 var q =  document.getElementById("locLong");
 
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(showPosition,showError);
   } else { 
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
 
-
+   function showError(error)
+        {
+        switch(error.code) 
+          {
+          case error.PERMISSION_DENIED:
+            //alert("Comments are only permitted when location sharing is enabled- you have denied the request for Geolocation.");
+            if(jQuery('#autocomplete').val() == ""){
+              u.value = "51.253775";
+              q.value = "-85.3232139";
+              document.getElementById("autocomplete").value = "Ontario, Canada";
+            }
+            break;
+          /*case error.POSITION_UNAVAILABLE:
+            alert("Comments are only permitted when location sharing is enabled- Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("Comments are only permitted when location sharing is enabled- the request to get user location timed out.");
+            break;
+          case error.UNKNOWN_ERROR:
+            alert("Comments are only permitted when location sharing is enabled- An unknown error occurred.");
+            break;*/
+          }
+        }
 
 function showPosition(position) {
  // x.innerHTML = position.coords.latitude;
  var str = jQuery('#autocomplete').val();
-
-
  var country = null;
  // u.value = position.coords.latitude;
 //  q.value = position.coords.longitude;
