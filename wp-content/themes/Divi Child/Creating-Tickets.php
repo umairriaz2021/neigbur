@@ -436,6 +436,9 @@ if (isset($_SESSION['ticket_data']))
 	}
 
   $t['%%THIRD_PARTY_DISPLAY%%'] = isset($_SESSION['ticket_data']) && $_SESSION['ticket_data']['tkt_setup'] == 'Yes 3rd party' ? 'block' : 'none';
+  $t['%%TIX_THIRD_HTTP_SELECTED%%'] = isset($_SESSION['ticket_data']) &&($_SESSION['ticket_data']['thirdpartyurl']) == 'http://' ? 'selected' : '';
+$t['%%TIX_THIRD_HTTPS_SELECTED%%'] = isset($_SESSION['ticket_data']) &&($_SESSION['ticket_data']['thirdpartyurl']) == 'http://' ? '' : 'selected';
+$t['%%TIX_THIRD_URL%%'] = isset($_SESSION['ticket_data']) && !empty($_SESSION['ticket_data']['turl']) ? $_SESSION['ticket_data']['turl'] : '';
 
 }
 elseif (isset($tickets))

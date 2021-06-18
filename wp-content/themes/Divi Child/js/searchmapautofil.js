@@ -61,7 +61,26 @@ function showPosition(position) {
                         var address = data.results[0].formatted_address;
                          var autocomplete_val=jQuery('#autocomplete').val();
                        if(autocomplete_val == '' ){
-                        document.getElementById("autocomplete").value = address;
+                           var addrComponents = data.results[0].address_components;
+                                for (var i = 0; i < addrComponents.length; i++) {
+                                if (addrComponents[i].types[0] == "country") {
+                                    console.log(addrComponents[i].long_name);
+                                     var country =  document.getElementById("autocomplete").value  = addrComponents[i].long_name;
+                                }
+                                if (addrComponents[i].types[0] == "locality") {
+                                    console.log(addrComponents[i].long_name);
+                                    var city =  document.getElementById("autocomplete").value  = addrComponents[i].long_name;
+                                }
+                                if (addrComponents[i].types[0] == "administrative_area_level_1") {
+                                    console.log(addrComponents[i].short_name);
+                                     var province =document.getElementById("autocomplete").value  = addrComponents[i].short_name;
+                                }
+                                    }
+                                         
+                        document.getElementById("autocomplete").value = city+', '+ province+', '+ country;
+                        u.value = position.coords.latitude;
+                        q.value = position.coords.longitude;
+                       
                        }
                         console.log(address);
                         console.log(data.results[0].address_components);
