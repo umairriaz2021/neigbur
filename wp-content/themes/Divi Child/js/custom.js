@@ -655,18 +655,32 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 	function setEndMinDate() {
 
 		var start_date = jQuery('.single_start_date').val();
-		var minDT = new Date(start_date);
-        //console.log(start_date);
-        //minDT.setDate(minDT.getDate() + 1);
-		//console.log('setEndMinDate: ' + minDT.toString());
-		
+		 var minDT = new Date(start_date);
+	     //$('#span_end_date').text(start_date);
+            if(start_date && jQuery('.single_end_date').val() < start_date ){
+                $('#span_end_date').text('To '+jQuery('.single_start_date').val());
+            }
+            else{ 
+                 $('#span_end_date').text('To '+jQuery('.single_end_date').val());
+            }
+     
+        
+      
+         
+	    
 		
      	if(jQuery('#single_end_date').val() < jQuery('.single_start_date').val() ){
 		$.datetimepicker.setDateFormatter('moment');
-		jQuery('.single_end_date').datetimepicker({minDateTime: minDT, validateOnBlur: false, step: 15,
+		jQuery('.single_end_date').datetimepicker(
+		    {
+		        
+		     minDateTime:minDT, 
+		      validateOnBlur: false, 
+		      step: 15,
 			//format:'M j, Y g:i a', formatTime:'g:i a',
 			format: 'MMM D YYYY h:mm a',
 			formatTime: 'h:mma',
+		    //disabledDates: [new Date()],
 			formatDate: 'YYYY-MM-DD',
 			value:start_date,
 			closeOnDateSelect:false, closeOnTimeSelect:true, onClose:function (e) {
@@ -684,6 +698,9 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 		
      	
      		if(jQuery('#single_end_date').val() > jQuery('.single_start_date').val()){
+     		    var start_date = jQuery('.single_start_date').val();
+	        	 var minDT = new Date(start_date);
+	
      	    	jQuery('.single_end_date').datetimepicker({minDateTime: minDT, validateOnBlur: false, step: 15,
 			//format:'M j, Y g:i a', formatTime:'g:i a',
 			format: 'MMM D YYYY h:mm a',
@@ -701,12 +718,15 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 
 	// moved dateCompare out of here
 	//if ($(".create-event .single_end_date").length)
+	
 	if ($(".create-event .single_end_date").val() == "NOT SET")
 	{
+	    var start_date = jQuery('.single_start_date').val();
+	    var minDT = new Date(start_date);
 		$.datetimepicker.setDateFormatter('moment');
 		jQuery(".create-event .single_end_date").datetimepicker({
-        value: dateToday,
-		// minDate: '2019/12/29',
+        //value: dateToday,
+		    minDateTime: minDT,
 			step: 15,
 			//formatTime:	'g:i a',
 			//format:'M j, Y g:i a',
@@ -716,6 +736,9 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 			closeOnDateSelect:false,
 			closeOnTimeSelect:true,
 			validateOnBlur: false,
+// 			minDate:new Date(),
+ 			value:start_date,
+			
 			onClose:function (e) {
 			if(jQuery(".single_end_date").val() != 'NOT SET'){
 				jQuery('#single_end_date-error').hide();
@@ -727,10 +750,14 @@ if(jQuery(".create-event .single_start_date").val() == "NOT SET"){
 	
 		if ($(".create-event .single_end_date").val() != "NOT SET")
 	{
+	    var start_date = jQuery('.single_start_date').val();
+		 var minDT = new Date(start_date);
+	
+		
 		$.datetimepicker.setDateFormatter('moment');
 		jQuery(".create-event .single_end_date").datetimepicker({
         //value: dateToday,
-		// minDate: '2019/12/29',
+		    minDateTime: minDT,
 			step: 15,
 			//formatTime:	'g:i a',
 			//format:'M j, Y g:i a',
@@ -819,7 +846,7 @@ jQuery(document).on('click', '#add_more', function (e) {
 	var dateToday = new Date();
 	var today = new Date();
     var tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
+    //tomorrow.setDate(today.getDate() + 1);
    //setMultiEndMinDate();
 		//	multiDateCompare();
 	//var td = dateToday.setDate(dateToday.getDate()+1);
@@ -827,8 +854,8 @@ jQuery(document).on('click', '#add_more', function (e) {
         value:tomorrow,    
 		//minDate: 0,
 		//minTime: 0,
-		minDateTime: new Date(today.getTime()+1000*60*60*24),
-	
+		//minDateTime: new Date(today.getTime()+1000*60*60*24),
+	    minDateTime: new Date(),
 		validateOnBlur: false,
 		step: 15,
 		//format:'M j, Y g:i a',
@@ -941,7 +968,7 @@ var dateToday = new Date();
 	{
 	
 	var tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
+    //tomorrow.setDate(today.getDate() + 1);
 
     //console.log('Defence '+enddates);
     //var enddate =  jQuery("#multi_end_date_"+start_number).val(convertDate(e));

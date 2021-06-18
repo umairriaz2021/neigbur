@@ -215,10 +215,10 @@ get_header(); ?>
                             <div class="clearfix">
                                 <p class="event-for"><a href="<?php echo site_url(); ?>?page_id=685">Forgot Password? </a></p>
                             </div>
-                            <div class="or2">OR </div>
+                            <div class="or2" style="display:none !important;">OR </div>
                           <div class="login-social2">
                             <?php echo do_shortcode('[miniorange_social_login]'); ?>
-						<div class="social-login-link">	<a href="javascript:void(0);" onClick="moOpenIdLogin('facebook','true');"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/12/fb-login-1.png"></a>
+						<div class="social-login-link" style="display:none !important;">	<a href="javascript:void(0);" onClick="moOpenIdLogin('facebook','true');"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/12/fb-login-1.png"></a>
                             <a href="javascript:void(0);" onClick="moOpenIdLogin('google','true');"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/12/g-login-1.png"></a></div>
                            </div> 
                         </form>
