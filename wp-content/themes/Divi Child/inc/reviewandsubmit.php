@@ -7,7 +7,7 @@ function debug($val){
 
 //debug($_SESSION['ticket_data']);die;
 
-if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
+/*if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
     $est = $_SESSION['ticket_data']['ticket_type_dates'];
   
     $dotes = $est;
@@ -36,7 +36,7 @@ elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
 
 }
          
-}
+}*/
 
 
 

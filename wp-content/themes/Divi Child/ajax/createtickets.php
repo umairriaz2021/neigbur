@@ -213,6 +213,7 @@ if ($orderResponse->success)
         array(
                             '[user_name]',
                             'https://webdev.snapd.com/wp-content/uploads/2020/11/sample_image-300x168.jpg',
+                              //'[event_img]',
                             '[event_name]',
                             '[event_time]',
                             '[event_venu]',
@@ -266,7 +267,24 @@ if ($orderResponse->success)
 
 		file_get_contents('https://webdev.snapd.com/wp-content/themes/Divi%20Child/ajax/pdf_test.php?oid='. $orderResponse->order->id);
 		$attachment = array('../ticketsqrcode/neighbur_tix_' . md5($orderResponse->order->id . '|H|10') . '.pdf');
-    wp_mail($to, $subject, $message, $headers, $attachment);
+    //wp_mail($to, $subject, $message, $headers, $attachment);
+
+    function my_phpmailer_example( $phpmailer ) {
+    $phpmailer->isSMTP();     
+    $phpmailer->Host = 'smtp.gmail.com';
+    $phpmailer->SMTPAuth = true; // Ask it to use authenticate using the Username and Password properties
+    $phpmailer->Port = 465;
+    $phpmailer->Username = 'invisionsqa@gmail.com';
+    $phpmailer->Password = 'Pakistan.2021';
+ 
+    // Additional settings…
+    //$phpmailer->SMTPSecure = 'tls'; // Choose 'ssl' for SMTPS on port 465, or 'tls' for SMTP+STARTTLS on port 25 or 587
+    //$phpmailer->From = "you@yourdomail.com";
+    //$phpmailer->FromName = "Your Name";
+}
+add_action( 'phpmailer_init', 'my_phpmailer_example' );
+        wp_mail($to, $subject, $message, $headers, $attachment);
+
 
 
 
@@ -340,6 +358,7 @@ if ($orderResponse->success)
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $headers .= 'From: Neighbur Inc.;<no-reply@snapd.com>' . "\r\n";
             if ($torecemail != $to) {
+                add_action( 'phpmailer_init', 'my_phpmailer_example' );
                 echo wp_mail($torecemail, $subject, $message, $headers);
                 // $attachment = array(WP_CONTENT_DIR . '/uploads/image.png');
                 // wp_mail($torecemail, $subject, $message, $headers, $attachment);
