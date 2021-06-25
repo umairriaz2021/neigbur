@@ -127,7 +127,24 @@ get_header(); ?>
 							<th style="width: 20%;text-align: center;">Quantity</th>
 							<th style="width: 15%;padding-left:16px;text-align:right;">Sub-Total</th>
 						</tr>
-						<?php foreach($finaltickets as $key=>$tkt){ ?>
+						<?php
+						
+                  $cart = array();
+                 foreach($event->ticketTypes as $key=>$val){
+                      $sum = 0;
+                       foreach($val->held_tickets as $key=>$val){
+                           $a = $val->quantity;
+                           $sum+= $a;
+                          // $cart[] = $a;
+                       }
+                     //print_r($cart);
+                     // $cart[] = $a;
+                       // echo $sum;
+                        $cart[] = $sum;
+                 }
+                 
+                 
+						foreach($finaltickets as $key=>$tkt){ ?>
 					    
 					   
 					       <tr class="ticket-details">
@@ -192,7 +209,15 @@ get_header(); ?>
                                  <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
                              <?php } ?>
                              
-                <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>
+               <!-- <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>-->
+                
+                
+                <?php 
+                //print_r($event->ticketTypes);
+                   //print_r($cart);
+            
+                ?>
+                  <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick - $cart[$key]; ?>"/>
                               </td>
                               <td class="al-right">
                                 $<span class="ttoltxt">0.00</span><br>

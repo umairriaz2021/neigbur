@@ -84,9 +84,41 @@ function holdTicket(){
              
 				console.log(result);
 				ticketpaymentNext(1,2);
+				//getTicket();
 			}
 	});
 }
+
+function holdTicketDelete(){
+	var site_url = jQuery('#Site_Url').val();
+	var datastring = $("#GetTicketForm").serialize();
+	//$('#loadingModal').show();
+	jQuery.ajax({
+			url: site_url + '/wp-content/themes/Divi Child/ajax/holdtickets_delete.php',
+			type: "post",
+			data : datastring,
+			success: function (result){
+				//$('#loadingModal').hide();
+             
+				console.log(result);
+			//	ticketpaymentNext(1,2);
+			}
+	});
+}
+
+/*function getTicket(){
+	var site_url = jQuery('#Site_Url').val();
+	var datastring = jQuery("#GetTicketForm").serialize();
+	jQuery.ajax({
+			url: site_url + '/wp-content/themes/Divi Child/ajax/gettickets.php',
+			type: "GET",
+			data : datastring,
+			success: function (result){
+				console.log(result);
+				jQuery(".thold").val(result); 
+			}
+	});
+}*/
 
 
 
@@ -106,8 +138,11 @@ function startTimer(dd){
 			
 		  //  var newUrl = window.location.href.replace(window.location.search,'');
 		  //  $('#sal_val1').attr('data',newUrl + "?single=1");
+		    holdTicketDelete();
 		    sessionStorage.setItem('key',new Date().valueOf());
 			window.location.href = window.location.href;
+			
+			
 	  }else{
 		  seconds = (seconds < 0) ? 59 : seconds;
 		  seconds = (seconds < 10) ? '0' + seconds : seconds;
@@ -141,10 +176,19 @@ if(sessionStorage.getItem('key')){
 });
 }
    
+   
+ jQuery(window).bind('beforeunload', function(){
+       console.log('refreshed');
+       holdTicketDelete();
+ });
 
 function ticketpaymentNext(id1,id2){
-
-	if(id1==1) startTimer(id1);
+    var a =jQuery('#step2 .countdown').text();
+    console.log("jhk"+a);
+	if(id1==1 && a=="05:00") {
+	    //clearInterval(interval);
+	    startTimer(id1);
+	}
 	jQuery('#step'+id1).hide();
 	jQuery('#step'+id2).show();
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
