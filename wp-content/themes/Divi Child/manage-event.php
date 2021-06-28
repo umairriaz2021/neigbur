@@ -247,6 +247,23 @@ if(isset($_SESSION["ticket_data"])) {
 
 get_header(); ?>
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/manage_event.css">
+<style>
+@media only screen and (max-width: 900px) {
+.mobile-flex{
+    flex-basis: 100% !important;
+}
+.change-flex-direction{
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.change-jusitify{
+    display: flex;
+    justify-content: center;
+}
+}
+</style>
 <div id="main-content">
     <div class="outer-wrapper">
         <div class="container container-home">
@@ -293,7 +310,9 @@ get_header(); ?>
                     </script>
                 <?php } ?>
                 <div class="event-type">
-                    <form method="get" class="event-btn">
+                    <form method="get" class="event-btn" style="display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;">
                         <label class="radio-chk"> <input type="radio"
                                                         name="edit-event" <?php echo (!isset($_GET['state']) || $_GET['state'] == 'upcoming') ? 'checked' : ''; ?> value="upcoming"
                                                         onclick="eventState('upcoming')"> <span
@@ -306,13 +325,19 @@ get_header(); ?>
                                                         onclick="eventState('cancelled')"><span
                                     class="checkmark1"></span> Cancelled</label>
                     </form>
-                    <form role="search" method="POST" class="edit-search" action="" id="searchForm">
+                    <form role="search" method="POST" class="edit-search" action="" id="searchForm" style="display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: revert;">
                             <span class="e-search">
                               <input type="hidden" name="hidden_event_state" value="<?php echo $event_state; ?>">
                               <input type="text" name="searchKeyword" placeholder="Search..."
                                      value="<?php echo isset($searchKeyword) ? $searchKeyword : ''; ?>" id="s">
                               <input type="submit" id="searchsubmit" name="btnSearch" value="Search">
-                              <i class="fa fa-search"></i>
+                              <i class="fa fa-search" style="
+                                  position: relative;
+    left: -20px;
+    top: -40px;"></i>
                             </span>
                     </form>
                     <?php if (count($apirespons->events) > 0) { ?>
@@ -358,14 +383,24 @@ get_header(); ?>
                                     $event_image = site_url() . '/wp-content/uploads/2019/06/f1.jpg';
                                 }
                                 ?>
-                                <div class="event-detail">
-                                    <div class="upload-image">
+                                <div class="event-detail" style="
+                                display: flex;
+                                flex-flow: wrap;
+                                ">
+                                    <div class="upload-image mobile-flex" style="
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;">
                                         <img src="<?php echo $event_image; ?>" >
 
                                     </div>
-                                    <div class="event-details">
+                                    <div class="event-details" style="flex: 1;
+    display: flex;
+    flex-wrap: wrap;">
 
-                                        <div class="row">
+                                        <div class="row mobile-flex" style="
+                                        display: flex;    flex: 1;
+    flex-direction: column;">
                                             <h3><?php echo $row->name; ?> </h3>
                                             <?php foreach ($row->event_dates as $edate)
                                             {
@@ -384,7 +419,10 @@ get_header(); ?>
 
 											<div style="clear: both;"><?php echo $row->lat.', '.$row->long; ?></div>
 
-											<div class="three-btn">
+											<div class="three-btn" style="display: flex;
+    width: fit-content;
+    flex-wrap: wrap;
+    justify-content: center;">
 
                                                 <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming' || $_GET['state'] == 'past') { ?>
 
@@ -409,7 +447,12 @@ get_header(); ?>
                                             </div>
 
                                         </div>
-                                        <div class="event-detail-right">
+                                        <div class="event-detail-right mobile-flex change-flex-direction" style="
+                                        display: flex;
+                                        flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;">
                                             <h3>Event ID: <?php echo $row->id; ?></h3>
                                             <div class="clone-event"><a href="<?php echo site_url() ?>?page_id=304&copy=<?php echo base64_encode($row->id); ?>">
                                                     <span class="copy-event"><i class="fa fa-copy"></i></span>Clone Event</a>
@@ -419,14 +462,14 @@ get_header(); ?>
                                                 <a href="javascript:void(0)" onclick="copyEventurl('#eveUrl<?php echo $row->id; ?>','#copied_<?php echo $row->id; ?>')">
                                                     <span class="copy-event"><i class="fa fa-link"></i></span>Copy event URL</a></div>
                                             <div class="copied" id="copied_<?php echo $row->id; ?>">Url copied to clipboard</div>
-                                            <div class="event_preview" id="<?php echo $row->id; ?>"><a
+                                            <!-- <div class="event_preview" id="<?php echo $row->id; ?>"><a
                                                         href="javascript:void(0)"><span class="copy-event"><i
                                                                 class="fa fa-search"></i></span>Preview</div>
                                             </a>
-                                        </div>
+                                        </div> -->
 
                                     </div>
-                                    <div class="events_links">
+                                    <div class="events_links change-jusitify">
                                         <a href="<?php echo site_url(); ?>/view-event/<?php echo $row->id; ?>"
                                            class="view_event">View Event </a>
                                         <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming') { ?>
