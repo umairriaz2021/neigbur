@@ -433,7 +433,7 @@ get_header(); ?>
                                                                value="<?php echo $row->id; ?>">
                                                         <input type="hidden" name="eventstate"
                                                                value="<?php echo $event_state; ?>">
-                                                        <button type="submit" name="btnToEditPage">Edit</button>
+                                                        <button type="submit" name="btnToEditPage" style="color: black !important;">Edit</button>
                                                         <!-- <button><a href="<?php // echo site_url(); ?>?page_id=917&edit=<?php //echo $row->id;?>&eventstate=<?php e//cho $event_state;?>">EDIT</a></button> -->
                                                     </form>
 
@@ -454,9 +454,9 @@ get_header(); ?>
     align-items: center;
     flex-direction: column;">
                                             <h3>Event ID: <?php echo $row->id; ?></h3>
-                                            <div class="clone-event"><a href="<?php echo site_url() ?>?page_id=304&copy=<?php echo base64_encode($row->id); ?>">
+                                            <!-- <div class="clone-event"><a href="<?php echo site_url() ?>?page_id=304&copy=<?php echo base64_encode($row->id); ?>">
                                                     <span class="copy-event"><i class="fa fa-copy"></i></span>Clone Event</a>
-                                            </div>
+                                            </div> -->
 
                                             <div class="copy-url"><p id="eveUrl<?php echo $row->id; ?>" style="display:none"><?php echo site_url(); ?>?page_id=354&event_id=<?php echo $row->id; ?></p>
                                                 <a href="javascript:void(0)" onclick="copyEventurl('#eveUrl<?php echo $row->id; ?>','#copied_<?php echo $row->id; ?>')">

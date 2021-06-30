@@ -372,10 +372,10 @@ get_header();
                             <div class="tab-row1">
                             <fieldset>
                                
-                                <strong>First Name</strong>
+                                <strong>First Name *</strong>
                                 <input type="text" name="first" value="<?=$userdata->first?>" required title="Please enter First Name*" placeholder="First Name">
                                 <hr>
-                                <strong>Last Name</strong>
+                                <strong>Last Name *</strong>
                                 <input type="text" name="last" value="<?=$userdata->last?>" required title="Please enter Last Name*" placeholder="Last Name">
                                 <input type="hidden" value="<?php echo $userdata->id;?>" name="hidden_user_id">
                                 
@@ -422,7 +422,7 @@ get_header();
                                 </p>
                             </div>
                             <div class="tab-row1">
-                                <strong>Email </strong>
+                                <strong>Email * </strong>
                                 <p>
                                     <input type="text" name="email"  value="<?php echo $userdata->email;?>" readonly required title="Enter email address.">
                                 </p>

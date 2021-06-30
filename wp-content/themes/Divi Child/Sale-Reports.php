@@ -2,6 +2,9 @@
 /*
 Template Name: Sales Report
 */
+error_reporting(0);
+
+
 if(isset($_SESSION['userdata'])){
 	$userdata = $_SESSION['userdata'];
 }else{
@@ -13,7 +16,7 @@ global $wpdb;
 $token   =  $_SESSION['Api_token'];
 $url = $_SERVER['REQUEST_URI'];      
 $event = explode('/', $url);
-$event_id = $event[2];
+$event_id = $event[3];
 
 if (isset($event_id) && $event_id != '') {
 
@@ -66,11 +69,30 @@ if (isset($event_id) && $event_id != '') {
       $metadata = unserialize($event_detail->metadata);
 
 
+      $ch      = curl_init(NEW_API_URL.'/admin/event-report/'.$event_id);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+         'Content-Type: application/json',
+         'Authorization: ' . $token
+      ));
+      $event_report_response = curl_exec($ch);
+      curl_close($ch);
+      $event_report = json_decode($event_report_response);
+      $percentage_ticket_sold = $event_report->PercentageOfTicketSold;
+      $ticket_type_breakdown = $event_report->TicketTypesBreakdown;
+      $ticket_order_breakdown = $event_report->TicketOrdersBreakdown;
+      $ticket_type_breakdown_CSV = $event_report->TicketTypeBreakdown->url;
+      $ticket_order_breakdown_CSV = $event_report->TicketOrderBreakdown->url;
+      $TicketPurchaseBreakdownGCP_CSV = $event_report->TicketPurchaseBreakdownGCP->url;
    }
 }
 get_header(); ?>
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/salesreport.css">
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
 <div id="main-content">
+
        <div class="outer-wrapper">
            <div class="container container-home">
               <div class="edit-event sale-rep">
@@ -99,28 +121,35 @@ get_header(); ?>
                      <?php echo isset($event_detail) ? $event_detail->postalcode : '';?></p>
 			</div>	
 		</div>
-		<?php 
-	$tota_per = 0;
-		$l = count($tickets);
-		foreach($tickets as $key=>$val) { 
-               $total_tkts = $val->order_limit;
-               $sold_tkts = $val->ticket_allocation;    
-               $available_tkts = $total_tkts - $sold_tkts;
-               $persentage = ($sold_tkts/$total_tkts)*100; 
-               $tota_per += $persentage;
-               } 
-               $totalsold = $tota_per / $l;
-               //print_r($totalsold);
-               ?>
+        <?php
+ $dataPoints = array( 
+     array("label"=>"Ticket Sold", "y"=>$percentage_ticket_sold->sold_ticket),
+     array("label"=>"Ticket Left", "y"=>$percentage_ticket_sold->total_ticket),
+ )
+ ?>
+ <script>
+window.onload = function() {
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "Ticket Sold"
+	},
+	data: [{
+		type: "pie",
+		yValueFormatString: "#,##0.00\"%\"",
+		indexLabel: "{label} ({y})",
+		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+	}]
+});
+chart.render();
+ 
+}
+</script>    
 
-		       <svg class="radial-progress" data-percentage="<?= $totalsold?>" viewBox="0 0 80 80">
-		           <circle class="incomplete" cx="40" cy="40" r="35" style="stroke: #8e8e8e;">></circle>
-		           <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-		           <p class="total">Total</p>
-		           <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)"><?= $totalsold?>%</text>
-		           </svg> 
-		
+	
+<div  class="breakdown" id="chartContainer" style="height: 370px; width: 40%;"></div>	
 		</div>
+
 	     <div class="breakdown">
 	         <h4 class="sale-tkt">Ticket Type Breakdown</h4>
             <table class="tkt-summary sale_tkt_brk" style="width:100%">
@@ -135,24 +164,23 @@ get_header(); ?>
                <?php 
 			  
 			   $ti = 0; 
-               foreach($tickets as $key=>$val) {
+               foreach($ticket_type_breakdown as $key=>$val) {
                    $ti++;
-               $total_tkts = $val->order_limit;
-               $sold_tkts = $val->ticket_allocation;    
-               $available_tkts = $total_tkts - $sold_tkts;
-               $persentage = ($sold_tkts/$total_tkts)*100;
-               
                ?>
                 <tr id="tlr_<?=$ti?>" class="tkt_list">
                   <td><?php echo $val->name;?></td>
                   <td class="right-align"><?php echo '$'.number_format($val->price,2);?></td>
-                  <td class="right-align"><?php echo $val->ticket_allocation;?></td>
-                  <td class="right-align"><?php echo $available_tkts; ?></td>
-                  <td class="right-align"><?php echo $total_tkts;?></td>
-                  <td class="right-align"><?php echo sprintf("%.2f", $persentage) ?></td>
+                  <td class="right-align"><?php echo $val->ticket_sold;?></td>
+                  <td class="right-align"><?php echo $val->tickets_available; ?></td>
+                  <td class="right-align"><?php echo $val->ticket_total;?></td>
+                  <td class="right-align"><?php echo sprintf("%.2f",$val->ticket_percentage_sold) ?></td>
                 </tr>
                <?php } ?> 
             </table>
+            <div class="download-csv"><a href="<?php echo $ticket_type_breakdown_CSV; ?>">
+            <img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg">
+            </a></div>
+
             <!--<p class="att-load-more"><button class="load-event loadmore_tkts">Load More</button></p>
             <p class="view-all"><a href="" class="load-event">View All</a></p>
             <div class="download-csv"><a href="#"><img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg"></a></div>-->
@@ -165,7 +193,14 @@ get_header(); ?>
 				    	<input type="submit" id="searchsubmit" value="Search"> <i class="fa fa-search"></i></span>
 			
 			        </form>	</div>
-            <table class="tkt-sumtkt_listmary sale_prch_brk get_summery" style="width:100%">
+
+                    <style>
+  .OrderSummary tr:last-child{
+    font-weight: 900;
+  }
+</style>
+
+            <table class="tkt-summary sale_tkt_brk OrderSummary" style="width:100%">
                <tr>
                   <th>Date Purchased</th>
                   <th class="right-align">Order No.</th>
@@ -174,7 +209,29 @@ get_header(); ?>
                   <th class="right-align">Tickets Total</th>
                   <th class="right-align">Your Payout</th>
                </tr>
-               <?php 	 $t = 0;
+
+               <?php 
+			  
+              $ti = 0; 
+              foreach($ticket_order_breakdown as $key=>$val) {
+                  $ti++;
+              ?>
+               <tr id="tlr_<?=$ti?>" class="tkt_list" >
+                 <td><?php echo $val->date;?></td>
+                 <td class="right-align"><?php echo $val->order_number;?></td>
+                 <td class="right-align"><?php echo $val->purchaser;?></td>
+                 <td class="right-align"><?php echo $val->ticket_types;?></td>
+                 <td class="right-align"><?php echo '$'.number_format($val->ticket_total,2);?></td>
+                 <td class="right-align"><?php echo '$'.number_format($val->your_payout,2);?></td>
+               </tr>
+              <?php } ?> 
+
+            </table>
+            <div class="download-csv"><a href="<?php echo $ticket_order_breakdown_CSV; ?>">
+            <img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg">
+            </a></div>
+
+               <!-- <?php 	 $t = 0;
 	 $pur_break = array();
 	 foreach($orders as $order_item){
        foreach($order_item->ticket_order_item as $tks){
@@ -306,13 +363,15 @@ get_header(); ?>
                   <td class="right-align"><?php echo "$".number_format($your_payout,2); ?></td>
                </tr></table>
               <div class="load-sales"> <p class="att-load-more"><button class="load-event loadmore_brkdns">Load More</button></p>
-               <p class="view-all"><a href="#" class="load-event viewall_brkdns">View All</a></p></div>
+               <p class="view-all"><a href="#" class="load-event viewall_brkdns">View All</a></p></div> -->
           <!--  <div class="download-csv"><a href="#"><img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg"></a>
             </div>-->
       </div>
       	     <div class="breakdown">   
          <h4 class="sale-tkt">Ticket Purchaser Detailed Summary</h4>
-         <div class="download-csv"><a href="" id="get_csv" download=""><img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg"></a></div>
+         <div class="download-csv"><a href="<?php echo $TicketPurchaseBreakdownGCP_CSV; ?>">
+            <img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg">
+            </a></div>
          </div>
       </div>   <!-- # outer-wrapper-->
     </div> <!-- #main content --> 
@@ -465,6 +524,10 @@ $('.viewall_brkdns').click(function(btn){
     link.attr('download', 'Ticket_Purchaser_Detailed_Summary_event-<?= $event_id ?>_'+new Date().toLocaleDateString()+'.csv');
         
     });
+
+    $( "#getTicketTypeCSV" ).click(function() {
+  alert( "Handler for .click() called." );
+});
 });
     
    // $('#get_csv').click(function (fd) {
