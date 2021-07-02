@@ -72,7 +72,6 @@ get_header(); ?>
 
     <div id="main-content">
 
-    <?php echo$event_id ?>
 
        <div class="outer-wrapper">
            <div class="container container-home">
