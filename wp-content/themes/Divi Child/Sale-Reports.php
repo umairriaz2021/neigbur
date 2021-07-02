@@ -88,40 +88,9 @@ if (isset($event_id) && $event_id != '') {
 }
 get_header(); ?>
 <link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/salesreport.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-
-<div id="main-content">
-
-       <div class="outer-wrapper">
-           <div class="container container-home">
-              <div class="edit-event sale-rep">
-        <h3 class="h3-title sales-rep">Sales Report </h3>
-		<div class="event-detail">
-			<div class="upload-image-sale">
-			<?php if (isset($event_detail) && count($event_detail->files) > 0 && $event_detail->files[0]->type == 'image') { ?>
-                  <img src="https://storage.googleapis.com/<?php echo $event_detail->files[0]->bucket ?>/<?php echo $event_detail->files[0]->filename; ?>" style="max-height: 250px;">
-              <?php }else{  ?>
-                  <img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/r1.jpg">
-               <?php } ?>
-            	<h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?></h3> 
-				<b class="p-date"> <?php foreach ($event_detail->event_dates as $edate) {
-                  if ($edate->start_date == $edate->end_date) { ?>
-                     <b class="p-date"><?php echo date('M d, Y h:i a', strtotime($edate->start_date)); ?> to <?php echo date('h:i a', strtotime($edate->end_date)); ?></b>
-                  <?php } else { ?>
-                     <b class="p-date"><?php echo date('M d, Y h:i a', strtotime($edate->start_date)); ?> to <?php echo date('M d, Y h:i a', strtotime($edate->end_date)); ?></b>
-                  <?php } 
-				  } ?></b><br>
-				<p class="sale-venue"><?php
-				 $country = $wpdb->get_row("Select * from wp_countries where  id = $event_detail->country_id");
-                  $state = $wpdb->get_row("select * from wp_states where id = $event_detail->province_id");
-				echo isset($event_detail) ? !empty($event_detail->location) ? $event_detail->location.'<br>': ' ' : ' '; ?>
-                     <?php echo isset($event_detail) ? !empty($event_detail->address2) ? $event_detail->address2.'<br>': ' ' : ' '; ?>
-                     <?php echo isset($event_detail) ? $event_detail->city : '';?>, <?php echo isset($event_detail) ? $state->name : '';?>, <?php echo isset($event_detail) ? $country->name : '';?><br/>
-                     <?php echo isset($event_detail) ? $event_detail->postalcode : '';?></p>
-			</div>	
-		</div>
-        <?php
+<?php
  $dataPoints = array( 
      array("label"=>"Ticket Sold", "y"=>$percentage_ticket_sold->sold_ticket),
      array("label"=>"Ticket Left", "y"=>$percentage_ticket_sold->total_ticket),
@@ -144,15 +113,69 @@ var chart = new CanvasJS.Chart("chartContainer", {
 chart.render();
  
 }
-</script>    
+</script>
+<style>
+@media only screen and (max-width: 900px) {
+.mobile-visible{
+    display: inline-table !important;
+}
+.desktop-visible{
+    display: none !important;
+}
+.change-jusitify{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+}
+.mobile-visible{
+    display: none;
+}
+.desktop-visible{
+    display: inline-table;
+}
+</style>
+<div id="main-content">
+
+       <div class="outer-wrapper">
+           <div class="container container-home">
+              <div class="edit-event sale-rep">
+        <h3 class="h3-title sales-rep">Sales Report </h3>
+        <div class="row"> 
+		<div class=" col-md-8">
+			<div class="change-jusitify">
+			<?php if (isset($event_detail) && count($event_detail->files) > 0 && $event_detail->files[0]->type == 'image') { ?>
+                  <img class="mb-3" src="https://storage.googleapis.com/<?php echo $event_detail->files[0]->bucket ?>/<?php echo $event_detail->files[0]->filename; ?>" style="max-height: 250px; width: 75%;">
+              <?php }else{  ?>
+                  <img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/r1.jpg">
+               <?php } ?>
+            	<h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?></h3> 
+				<b class="p-date"> <?php foreach ($event_detail->event_dates as $edate) {
+                  if ($edate->start_date == $edate->end_date) { ?>
+                     <b class="p-date"><?php echo date('M d, Y h:i a', strtotime($edate->start_date)); ?> to <?php echo date('h:i a', strtotime($edate->end_date)); ?></b>
+                  <?php } else { ?>
+                     <b class="p-date"><?php echo date('M d, Y h:i a', strtotime($edate->start_date)); ?> to <?php echo date('M d, Y h:i a', strtotime($edate->end_date)); ?></b>
+                  <?php } 
+				  } ?></b><br>
+				<p class=""><?php
+				 $country = $wpdb->get_row("Select * from wp_countries where  id = $event_detail->country_id");
+                  $state = $wpdb->get_row("select * from wp_states where id = $event_detail->province_id");
+				echo isset($event_detail) ? !empty($event_detail->location) ? $event_detail->location.'<br>': ' ' : ' '; ?>
+                     <?php echo isset($event_detail) ? !empty($event_detail->address2) ? $event_detail->address2.'<br>': ' ' : ' '; ?>
+                     <?php echo isset($event_detail) ? $event_detail->city : '';?>, <?php echo isset($event_detail) ? $state->name : '';?>, <?php echo isset($event_detail) ? $country->name : '';?><br/>
+                     <?php echo isset($event_detail) ? $event_detail->postalcode : '';?></p>
+			</div>	
+		</div>
+    
 
 	
-<div  class="breakdown" id="chartContainer" style="height: 370px; width: 40%;"></div>	
-		</div>
+<div  class="breakdown col-md-4" id="chartContainer" style="height: 370px;"></div>	
+</div>
+</div>
 
 	     <div class="breakdown">
 	         <h4 class="sale-tkt">Ticket Type Breakdown</h4>
-            <table class="tkt-summary sale_tkt_brk" style="width:100%">
+            <table class="table tkt-summary sale_tkt_brk desktop-visible" style="width:100%">
                <tr>
                   <th>Ticket Type </th>
                   <th class="right-align">Price</th>
@@ -177,6 +200,47 @@ chart.render();
                 </tr>
                <?php } ?> 
             </table>
+
+            <table class=" tkt-summary sale_tkt_brk mobile-visible" style="width:100%">
+            <?php 
+			   $ti = 0; 
+               foreach($ticket_type_breakdown as $key=>$val) {
+                   $ti++;
+               ?>
+                <tr>
+                  <th>Ticket Type </th>
+                  <td  class="right-align"><?php echo $val->name;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Price</th>
+                <td class="right-align"><?php echo '$'.number_format($val->price,2);?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Sold</th>
+                <td class="right-align"><?php echo $val->ticket_sold;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Available</th>
+                <td class="right-align"><?php echo $val->tickets_available; ?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Total</th>
+                <td class="right-align"><?php echo $val->ticket_total;?></td>
+
+                </tr>
+                <tr class="">
+                <th class="text-left border-bottom" style="width:50%" >%</th>
+                <td class="right-align border-bottom" style="width:40%"><?php echo sprintf("%.2f",$val->ticket_percentage_sold) ?></td>
+
+                </tr>
+                <?php } ?> 
+
+            </table>
+
             <div class="download-csv"><a href="<?php echo $ticket_type_breakdown_CSV; ?>">
             <img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg">
             </a></div>
@@ -186,13 +250,13 @@ chart.render();
             <div class="download-csv"><a href="#"><img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg"></a></div>-->
 </div>
 	     <div class="breakdown">
-	       <div class="sale-outer"> <h4 class="sale-tkt">Ticket Purchase Breakdown</h4> 
+	       <!-- <div class="sale-outer"> <h4 class="sale-tkt">Ticket Purchase Breakdown</h4> 
 	       <form role="search" method="get" class="edit-search" action="<?php echo site_url(); ?>">
 				     	  <span class="e-search">  
 				     	<input type="text" value="" placeholder="Search..." name="s" id="s">
 				    	<input type="submit" id="searchsubmit" value="Search"> <i class="fa fa-search"></i></span>
 			
-			        </form>	</div>
+			        </form>	</div> -->
 
                     <style>
   .OrderSummary tr:last-child{
@@ -200,7 +264,7 @@ chart.render();
   }
 </style>
 
-            <table class="tkt-summary sale_tkt_brk OrderSummary" style="width:100%">
+            <table class="table tkt-summary sale_tkt_brk OrderSummary desktop-visible" style="width:100%">
                <tr>
                   <th>Date Purchased</th>
                   <th class="right-align">Order No.</th>
@@ -227,6 +291,47 @@ chart.render();
               <?php } ?> 
 
             </table>
+
+            <table class=" tkt-summary sale_tkt_brk OrderSummary mobile-visible" style="width:100%">
+            <?php 
+			  
+              $ti = 0; 
+              foreach($ticket_order_breakdown as $key=>$val) {
+                  $ti++;
+              ?>
+               <tr>
+               <th>Date Purchased</th>
+               <td class="right-align"><?php echo $val->date;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Order No.</th>
+                <td class="right-align"><?php echo $val->order_number;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Purchaser</th>
+                <td class="right-align"><?php echo $val->purchaser;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Ticket Type</th>
+                <td class="right-align"><?php echo $val->ticket_types;?></td>
+
+                </tr>
+                <tr>
+                <th class="text-left">Tickets Total</th>
+                <td class="right-align"><?php echo '$'.number_format($val->ticket_total,2);?></td>
+
+                </tr>
+                <tr class="">
+                <th class="text-left border-bottom" style="width:50%" >Your Payout</th>
+                <td class="right-align border-bottom" style="width:40%"><?php echo '$'.number_format($val->your_payout,2);?></td>
+
+              <?php } ?> 
+
+            </table>
+
             <div class="download-csv"><a href="<?php echo $ticket_order_breakdown_CSV; ?>">
             <img width="80px" src="http://webdev.snapd.com/wp-content/uploads/2019/11/csv.jpg">
             </a></div>
