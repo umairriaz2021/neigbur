@@ -113,7 +113,7 @@ get_header(); ?>
 		       Scanned or Checked-in
 		       </div>
 		  
-		<span class="scan-date-time">LAST SCAN 05/11/2019 8:45pm</span>
+		<!-- <span class="scan-date-time">LAST SCAN 05/11/2019 8:45pm</span> -->
 		</div> 
       </div>
       </div>
