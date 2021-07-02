@@ -262,6 +262,11 @@ get_header(); ?>
     display: flex;
     justify-content: center;
 }
+.change-direction{
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
 }
 </style>
 <div id="main-content">
@@ -390,13 +395,19 @@ get_header(); ?>
                                     <div class="upload-image mobile-flex" style="
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: 1rem;">
-                                        <img src="<?php echo $event_image; ?>" >
+">
+                                       <div>
+                                       <img src="<?php echo $event_image; ?>" >
+                                       </div>
 
                                     </div>
                                     <div class="event-details" style="flex: 1;
     display: flex;
-    flex-wrap: wrap;">
+    flex-wrap: wrap;
+    border-bottom: 2px solid grey !important;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    ">
 
                                         <div class="row mobile-flex" style="
                                         display: flex;    flex: 1;
@@ -419,32 +430,7 @@ get_header(); ?>
 
 											<div style="clear: both;"><?php echo $row->lat.', '.$row->long; ?></div>
 
-											<div class="three-btn" style="display: flex;
-    width: fit-content;
-    flex-wrap: wrap;
-    justify-content: center;">
-
-                                                <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming' || $_GET['state'] == 'past') { ?>
-
-                                                    <form action="<?php echo site_url(); ?>/edit-event?eventstate=<?php echo $event_state; ?>&event_id=<?php echo $row->id; ?>"
-                                                          method="post" style="width:auto !important;">
-
-                                                        <input type="hidden" name="edit"
-                                                               value="<?php echo $row->id; ?>">
-                                                        <input type="hidden" name="eventstate"
-                                                               value="<?php echo $event_state; ?>">
-                                                        <button type="submit" name="btnToEditPage" style="color: black !important;">Edit</button>
-                                                        <!-- <button><a href="<?php // echo site_url(); ?>?page_id=917&edit=<?php //echo $row->id;?>&eventstate=<?php e//cho $event_state;?>">EDIT</a></button> -->
-                                                    </form>
-
-                                                <?php } ?>
-
-                                                <button>
-                                                    <a href="<?php echo site_url(); ?>/attendees-report/<?php echo $row->id; ?>">Attendees</a>
-                                                </button>
-                                                <button><a href="<?php echo site_url(); ?>/sales-report/<?php echo $row->id; ?>">Report</a>
-                                                </button>
-                                            </div>
+											
 
                                         </div>
                                         <div class="event-detail-right mobile-flex change-flex-direction" style="
@@ -469,7 +455,31 @@ get_header(); ?>
                                         </div> -->
 
                                     </div>
-                                    <div class="events_links change-jusitify">
+                                    <div class="events_links change-jusitify change-direction">
+
+                                                <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming' || $_GET['state'] == 'past') { ?>
+
+                                                    <form action="<?php echo site_url(); ?>/edit-event?eventstate=<?php echo $event_state; ?>&event_id=<?php echo $row->id; ?>"
+                                                          method="post" style="width:auto !important;">
+
+                                                        <input type="hidden" name="edit"
+                                                               value="<?php echo $row->id; ?>">
+                                                        <input type="hidden" name="eventstate"
+                                                               value="<?php echo $event_state; ?>">
+                                                        <button class="btn" type="submit" name="btnToEditPage" style="color: black !important;">Edit</button>
+                                                        <!-- <button><a href="<?php // echo site_url(); ?>?page_id=917&edit=<?php //echo $row->id;?>&eventstate=<?php e//cho $event_state;?>">EDIT</a></button> -->
+                                                    </form>
+
+                                                <?php } ?>
+
+                                                <button class="btn">
+                                                    <a href="<?php echo site_url(); ?>/attendees-report/<?php echo $row->id; ?>">Attendees</a>
+                                                </button>
+                                                <button class="btn"><a href="<?php echo site_url(); ?>/sales-report/<?php echo $row->id; ?>">Report</a>
+                                                </button>
+                                            </div>
+                                    <div class="events_links change-jusitify" style="margin: 2rem">
+
                                         <a href="<?php echo site_url(); ?>/view-event/<?php echo $row->id; ?>"
                                            class="view_event">View Event </a>
                                         <?php if (!isset($_GET['state']) || $_GET['state'] == 'upcoming') { ?>

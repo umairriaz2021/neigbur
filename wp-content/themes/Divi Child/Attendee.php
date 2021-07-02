@@ -81,7 +81,7 @@ get_header(); ?>
       <div class="col-md-8">
       <div class="change-jusitify">
 			<?php if (isset($event_detail) && count($event_detail->files) > 0 && $event_detail->files[0]->type == 'image') { ?>
-                  <img class="mb-3" src="https://storage.googleapis.com/<?php echo $event_detail->files[0]->bucket ?>/<?php echo $event_detail->files[0]->filename; ?>" style="max-height: 250px; width: 75%;">
+                  <img class="mb-3 img-responsive" src="https://storage.googleapis.com/<?php echo $event_detail->files[0]->bucket ?>/<?php echo $event_detail->files[0]->filename; ?>" >
               <?php }else{  ?>
                   <img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/r1.jpg">
                <?php } ?>
