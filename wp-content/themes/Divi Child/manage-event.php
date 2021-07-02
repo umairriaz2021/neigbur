@@ -440,7 +440,7 @@ get_header(); ?>
                                                 <?php } ?>
 
                                                 <button>
-                                                    <a href="<?php echo site_url(); ?>/attendees-report/">Attendees</a>
+                                                    <a href="<?php echo site_url(); ?>/attendees-report/<?php echo $row->id; ?>">Attendees</a>
                                                 </button>
                                                 <button><a href="<?php echo site_url(); ?>/sales-report/<?php echo $row->id; ?>">Report</a>
                                                 </button>
