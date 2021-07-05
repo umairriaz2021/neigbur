@@ -466,16 +466,16 @@ get_header(); ?>
                                                                value="<?php echo $row->id; ?>">
                                                         <input type="hidden" name="eventstate"
                                                                value="<?php echo $event_state; ?>">
-                                                        <button class="btn" type="submit" name="btnToEditPage" style="color: black !important;">Edit</button>
+                                                        <button class="btn" type="submit" name="btnToEditPage" style="color: black !important;">Edit Event</button>
                                                         <!-- <button><a href="<?php // echo site_url(); ?>?page_id=917&edit=<?php //echo $row->id;?>&eventstate=<?php e//cho $event_state;?>">EDIT</a></button> -->
                                                     </form>
 
                                                 <?php } ?>
 
                                                 <button class="btn">
-                                                    <a href="<?php echo site_url(); ?>/attendees-report/<?php echo $row->id; ?>">Attendees</a>
+                                                    <a href="<?php echo site_url(); ?>/attendees-report/<?php echo $row->id; ?>">Attendees Report</a>
                                                 </button>
-                                                <button class="btn"><a href="<?php echo site_url(); ?>/sales-report/<?php echo $row->id; ?>">Report</a>
+                                                <button class="btn"><a href="<?php echo site_url(); ?>/sales-report/<?php echo $row->id; ?>">Event Report</a>
                                                 </button>
                                             </div>
                                     <div class="events_links change-jusitify" style="margin: 2rem">
