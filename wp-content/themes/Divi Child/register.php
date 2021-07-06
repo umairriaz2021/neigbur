@@ -208,13 +208,13 @@ get_header();
                                         echo "<p style='color: red;font-size: 16px;background: #fff;text-align: center;padding: 16px;line-height: 22px;border-radius: 4px;margin-bottom: 6px;'><b class='alreday-exit'>" . $apierror . "</b></p>";
                                     }
 								?>
-                                    <p style="margin-left:5px;">Please complete all required fields below</p>
+                                    <p style="margin-left:5px;">Please complete required fields* below</p>
                                     <div class="frow">
-                                        <input type="text" placeholder="First Name" name="fname" pattern="[A-Za-z ]{1,30}" title="Please enter First Name" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['fname'] : '';?>">
-                                        <input type="text" placeholder="Last Name" name="lname" pattern="[A-Za-z ]{1,30}" title="Please enter Last Name" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['lname'] : '';?>">
+                                        <input type="text" placeholder="First Name*" name="fname" pattern="[A-Za-z ]{1,30}" title="Please enter First Name" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['fname'] : '';?>">
+                                        <input type="text" placeholder="Last Name*" name="lname" pattern="[A-Za-z ]{1,30}" title="Please enter Last Name" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['lname'] : '';?>">
                                     </div>
                                     <div class="frow">
-                                        <input type="password" placeholder="Enter Password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter Password" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['psw'] : '';?>">
+                                        <input type="password" placeholder="Enter Password*" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter Password" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['psw'] : '';?>">
 									</div>
 									<div id="pswd_info">
 										<ul>
@@ -227,14 +227,14 @@ get_header();
 										</ul>
 									</div>
 									<div class="frow">
-                                        <input type="password" placeholder="Confirm Password" name="cpsw"  title="Please confirm Password" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['cpsw'] : '';?>">
+                                        <input type="password" placeholder="Confirm Password*" name="cpsw"  title="Please confirm Password" required oninvalid="scroll_to_validator(this)" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['cpsw'] : '';?>">
                                     </div>
                                     <div class="frow">
-                                        <input type="email" placeholder="Email" name="uemail" title="Please enter valid Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['email'] : '';?>" required>
+                                        <input type="email" placeholder="Email*" name="uemail" title="Please enter valid Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['email'] : '';?>" required>
                                         <input type="text" placeholder="(XXX) XXX-XXXX" name="uphone" title="Please enter valid Phone number" id="uphone" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['number'] : '';?>" required>
                                     </div>
                                     <div class="frow">
-                                        <select name="age_range" required title="Please select Age Range">
+                                        <select name="age_range" title="Please select Age Range">
                                             <option value="">Age Range</option>
                                             <option value="1" <?php echo (isset($_SESSION['post_data']) && $_SESSION['post_data']['age_range_id'] == '1') ? 'selected' : ''?>>13-17</option>
                                             <option value="2" <?php echo (isset($_SESSION['post_data']) && $_SESSION['post_data']['age_range_id'] == '2') ? 'selected' : ''?>>18-29</option>

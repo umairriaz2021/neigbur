@@ -143,7 +143,7 @@ if(isset($_POST['SignInUser']) || isset($_COOKIE['user_cookie_sn_un'])) {
 		if($apirespons->error == 'User has not confirmed email'){
 		$form_errors = 'Previous sign-up authentication not completed. <a href="#">Please resend.</a>';
 		}else{
-		$form_errors = $apirespons->error;   
+		$form_errors = ucwords($apirespons->error);   
 		}
 		
 	}

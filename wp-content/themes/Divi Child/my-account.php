@@ -306,6 +306,21 @@ get_header();
     #pswd_info {
         display:block;
     }
+
+    @media only screen and (max-width: 900px) {
+.mobile-visible{
+    display: inline-table !important;
+}
+.desktop-visible{
+    display: none !important;
+}
+}
+.mobile-visible{
+    display: none;
+}
+.desktop-visible{
+    display: inline-table;
+}
 </style>
     <div id="main-content">
         <div class="outer-wrapper ">
@@ -491,7 +506,18 @@ get_header();
                                         <input type="password" name="new_pwd" id="psw" placeholder="New Password*" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter Password" required>
                                     </p>
                                     <!--<span id="span_new_pwd"><b>Must contain at least one number and one uppercase and lowercase letter and at least 8 or more characters.</b></span>-->
-                                    <div id="pswd_info">
+                                    <div id="pswd_info" class="desktop-visible" style="top:310px;">
+                                        <ul>
+                                            <li id="length" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Be at least <strong>8 characters</strong></li>
+                                            <li id="letter" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>lowercase letter</strong></li>
+                                            <li id="capital" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include an <strong>uppercase letter</strong></li>
+                                            <li id="number" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>number</strong></li>
+                                            <li id="space" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> No <strong>space allowed</strong></li>
+											<li id="comnpass" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Not include a <strong>commonly used phrase</strong></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="mobile-visible">
                                         <ul>
                                             <li id="length" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Be at least <strong>8 characters</strong></li>
                                             <li id="letter" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>lowercase letter</strong></li>
