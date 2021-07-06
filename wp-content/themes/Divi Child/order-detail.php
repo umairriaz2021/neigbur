@@ -30,7 +30,7 @@ $apirespons=json_decode($result);
 /* echo "<pre>"; print_r($apirespons); die;  */
 global $wpdb;
 get_header(); ?>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <div id="main-content">
 <div class="outer-wrapper ">
 	<div class="container container-home">
@@ -54,15 +54,28 @@ get_header(); ?>
 
 
 				?>
-			 <div class="tab-12">
-				 <div class="tab-row12">
+			 <div class="row">
+			 <div class="row " ><h5 style="margin-top: 1rem;
+    align-self: center;
+    display: flex;
+    justify-content: center;" class="tkt-del2"><?php echo $apirespons->ticketOrder->event->name; ?></h5></div>
+				 <div class="row tab-row12" style="flex-direction: row-reverse;">
 
-					 <?php
+<div class="col-md-3" style="margin-top: -40px !important;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+	margin-bottom: 1rem;
+"> 
+<?php
 						/*important code for qr genration */
 						$filename = $PNG_TEMP_DIR.'ticket'.md5($ticket->uuid.'|H|10').'.png';
 						QRcode::png($ticket->uuid, $filename, 'H', 10, 2);
 						echo '<img style="width:250px;float:right;" src="'.site_url().'/wp-content/themes/Divi Child/'.$PNG_WEB_DIR.basename($filename).'" />'; ?>
-					<h5 class="tkt-del2"><?php echo $apirespons->ticketOrder->event->name; ?></h5>
+</div>
+					
+					<div class="col-md-7" style="display: flex;
+    flex-direction: column;">
 					 <strong>TICKET ID : <?php echo $ticket->uuid ?></strong><br/>
 					 <p>Purchased on <?php echo date('l F j, Y',strtotime($apirespons->ticketOrder->create_date)); ?> at <?php echo date('g:ia',strtotime($apirespons->ticketOrder->create_date)); ?> by <?php echo $apirespons->ticketOrder->user->first.' '.$apirespons->ticketOrder->user->last; ?><br>
 						<strong>Ticket Type:</strong> <?php
@@ -75,10 +88,16 @@ get_header(); ?>
 						echo '$' . number_format($tktrow->ticket_type->price, 2);
 						?><br>
 					 <strong>Ticket Holder:</strong> <?php echo $ticket->firstname.' '.$ticket->lastname; ?><br>
-					 <div class="left-date-time">
+					
+					<div style="display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+	flex-direction: column;">
+					 <div class="">
 					 <strong>Date & Time</strong>
 					 <!--p>Saturday September 22nd, 2019 through Sunday September 23rd, 2019    6:00 PM to 1:00 AM </p-->
 
+					
 					<p><?php
 					echo format_dates($apirespons->ticketOrder->event->start, $apirespons->ticketOrder->event->end);
 					?>
@@ -95,10 +114,13 @@ get_header(); ?>
 						$state = $wpdb->get_row("select * from wp_states where id = $province_id");
 					 ?>
 					</div>
-					<div class="right-location">
+					<div class="">
 					<strong>Location</strong> <br/> <?php echo $apirespons->ticketOrder->event->location ?><br/> <?php echo $apirespons->ticketOrder->event->address1 ?> <?php echo $apirespons->ticketOrder->event->address2 ?><br/>
 					<?php echo $apirespons->ticketOrder->event->city ?>, <?php echo $state->state_code ?>, <?php echo $country->name ?><br/> <?php echo $apirespons->ticketOrder->event->postalcode ?>
-				 </div> </div>
+					</div>
+					</div>
+				 </div> 
+				 </div>
 			 </div>
 			<?php }
 			}
