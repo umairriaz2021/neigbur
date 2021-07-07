@@ -955,15 +955,21 @@ function get_base64($path)
 
             <div class="row">
                <div class="col-md-12">
-                  <div class="img-container">
-                     <img id="imageforcrop" class="img-responsive" src="">
+                  <div class="img-container" style="object-fit: contain; width: 100% !important;
+    height: 100% !important;
+    max-width: 1000px;
+    max-height: 500px;">
+                     <img id="imageforcrop" class="img-responsive" src="" style="object-fit: contain; width: 100% !important;
+    height: 100% !important;
+    max-width: 1000px;
+    max-height: 500px;">
                   </div>
                </div>
 
             </div>
 
          </div>
-         <div class="modal-footer">
+         <div class=" modal-footer">
             <div class="d-none d-lg-block"><b>1.</b> Use corner and midpoint grips to resize crop area <br />
                <b> 2.</b> Select crop area to reposition <br />
                <b>3.</b> Drag on photo for new crop area

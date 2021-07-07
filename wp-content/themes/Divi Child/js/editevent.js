@@ -266,10 +266,6 @@ window.addEventListener("DOMContentLoaded", function () {
         zoomOnWheel: false,
         cropBoxMovable: true,
         wheelZoomRatio: 0.1,
-        minContainerHeight: height,
-        minContainerWidth: width,
-        minCanvasHeight: height,
-        minCanvasWidth: width,
       });
     })
     .on("hidden.bs.modal", function () {

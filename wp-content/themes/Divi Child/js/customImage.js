@@ -194,8 +194,6 @@ window.addEventListener("DOMContentLoaded", function () {
   $modal
     .on("shown.bs.modal", function () {
       var image = document.getElementById("imageforcrop");
-      var width = image.naturalWidth;
-      var height = image.naturalHeight;
 
       cropper = new Cropper(image, {
         aspectRatio: 4 / 3,
@@ -209,10 +207,6 @@ window.addEventListener("DOMContentLoaded", function () {
         zoomOnWheel: false,
         cropBoxMovable: true,
         wheelZoomRatio: 0.1,
-        minContainerHeight: height,
-        minContainerWidth: width,
-        minCanvasHeight: height,
-        minCanvasWidth: width,
         ready: function () {
           //Should set crop box data first here
           cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
