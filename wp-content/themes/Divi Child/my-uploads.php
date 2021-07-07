@@ -190,7 +190,7 @@ span.pi{cursor:pointer;}
 				</div>
          <?php } ?>
 				<?php if(count($apiresponsfull->photos)>10){ ?>
-					<p class="load-more"><button class="load-event" onClick="loaduploads(this,<?php echo $user->id ?>,<?php echo $range ?>,10)">Load More</button></p>
+					<p class="load-more"><button style="color: white !important;" class="load-event" onClick="loaduploads(this,<?php echo $user->id ?>,<?php echo $range ?>,10)">Load More</button></p>
 				<?php } ?>
      <?php  } ?>
 

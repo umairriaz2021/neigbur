@@ -173,7 +173,7 @@ get_header();
     <div id="main-content">
         <div class="outer-wrapper ">
             <div class="container container-home">
-                 <h3 class="h3-title">Create Your Next Big Event</h3>
+                 <h3 class="h3-title">Submit Your Next Big Event</h3>
                   <div class="login-form3">
                  <div class="clearfix">
                                 <p class="event-login"> <a href="<?php echo site_url(); ?>/event-signin/">Sign In </a> <span>or </span> Sign Up</p>

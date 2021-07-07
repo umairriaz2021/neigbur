@@ -39,10 +39,10 @@ get_header(); ?>
 
                 <p style="text-align: center; color: green; font-size: 20px;"><b>Event cancellation successful.</b></p>
             <?php }?>
-                 <h3 class="h3-title">Create Your Next Big Event</h3>               
+                 <h3 class="h3-title">Submit Your Next Big Event</h3>               
                 <div class="login-form2">
                     <div class="event-dashboard">
-                     <p class="cne"><a href="<?php echo site_url(); ?>/create-event/">Create New Event</a></p>  
+                     <p class="cne"><a href="<?php echo site_url(); ?>/create-event/">Submit New Event</a></p>  
 					 <p><a href="<?php echo site_url(); ?>/manage-my-events/">Manage My Events</a></p>
                    </div>
                 </div>
