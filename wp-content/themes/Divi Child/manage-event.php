@@ -395,9 +395,10 @@ get_header(); ?>
                                     <div class="upload-image mobile-flex" style="
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 ">
                                        <div>
-                                       <img src="<?php echo $event_image; ?>" >
+                                       <img src="<?php echo $event_image; ?>" style="width:300px; height:250px; object-fit: cover !important; margin-top: 2rem;">
                                        </div>
 
                                     </div>

@@ -231,7 +231,7 @@ get_header();
                                     </div>
                                     <div class="frow">
                                         <input type="email" placeholder="Email*" name="uemail" title="Please enter valid Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['email'] : '';?>" required>
-                                        <input type="text" placeholder="(XXX) XXX-XXXX" name="uphone" title="Please enter valid Phone number" id="uphone" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['number'] : '';?>" required>
+                                        <input type="text" placeholder="Phone Number*" name="uphone" title="Please enter valid Phone number" id="uphone" value="<?php echo isset($_SESSION['post_data']) ? $_SESSION['post_data']['number'] : '';?>" required>
                                     </div>
                                     <div class="frow">
                                         <select name="age_range" title="Please select Age Range">

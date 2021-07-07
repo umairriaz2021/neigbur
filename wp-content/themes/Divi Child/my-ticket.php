@@ -112,8 +112,8 @@ get_header();
 			 <div class="">
 				 <strong>Filter by Year</strong>
 				 <p> <select name="Years">
-				    <option value="">Select...</option>
-						<option value="2021" selected>2021</option>
+				    <option value="" selected>Select...</option>
+						<option value="2021" >2021</option>
 				  </select></p>
 			 </div>
 

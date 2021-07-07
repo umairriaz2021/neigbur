@@ -124,7 +124,7 @@ span.pi{cursor:pointer;}
 				 <div class="event-detail mobile-visible" id="updivid_<?php echo $pic->id;?>">
 					<div class="upload-image">
 						<a title="<?php echo $pic->caption; ?>" href="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>">
-							<img src="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>"/>
+							<img style="width:300px; height:250px; object-fit: cover !important; margin-top: 1.3rem;" src="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>"/>
 						</a>
 					</div>
 					<div class="event-details photo-library">
