@@ -326,7 +326,8 @@ if(isset($_GET['act']) && $_GET['act']=='logout'){
 				<div class="logo_container">
 					<span class="logo_helper"></span>
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-						<img style="height: 75%;
+						<img style="height: 65px !important;
+						max-height: 65px !important;
     width: auto;
     padding-top: 10px;" src="https://storage.googleapis.com/snapd-website.appspot.com/neighbur_AppIcons_JAN20_O_Events.png" id="logo" alt="Neighbur Logo" id="" data-height-percentage="<?php echo esc_attr( et_get_option( 'logo_height', '54' ) ); ?>" />
 						<img src="https://storage.googleapis.com/snapd-website.appspot.com/neighbur_allwhite.png" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" id="logo" data-height-percentage="<?php echo esc_attr( et_get_option( 'logo_height', '54' ) ); ?>" />
