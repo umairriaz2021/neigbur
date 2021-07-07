@@ -196,8 +196,7 @@ window.addEventListener("DOMContentLoaded", function () {
       var image = document.getElementById("imageforcrop");
       var width = image.naturalWidth;
       var height = image.naturalHeight;
-      console.log(width);
-      console.log(height);
+
       cropper = new Cropper(image, {
         aspectRatio: 4 / 3,
         autoCropArea: 1,
