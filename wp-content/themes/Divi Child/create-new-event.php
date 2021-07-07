@@ -811,9 +811,9 @@ function get_base64($path){
                   </div>
                </div>
                <?php if(isset($_SESSION['event_data'])) { ?>
-               <button class="next-btn" type="submit" name="btnSubmit">NEXT</button>
+               <button style="margin-left: 2.5rem;" class="next-btn" type="submit" name="btnSubmit">NEXT</button>
                <?php } else { ?>
-               <button class="next-btn" type="submit" name="btnSubmit">NEXT</button>
+               <button style="margin-left: 2.5rem;" class="next-btn" type="submit" name="btnSubmit">NEXT</button>
                <?php }?>
                <!--a href="<?php echo site_url()?>/event-dashboard"-->
             <button onClick="jQuery(this).css('width','350px');jQuery(this).text('Cancelling new event...');setTimeout(function(){ window.location.href='<?php echo site_url()?>/event-dashboard'; }, 2000);" class="next-btn cancel-btn" type="button" style="margin: 6px; padding-bottom: 8px;">CANCEL</button>
