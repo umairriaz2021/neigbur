@@ -251,9 +251,10 @@ window.addEventListener("DOMContentLoaded", function () {
   $modal
     .on("shown.bs.modal", function () {
       var image = document.getElementById("imageforcrop");
-      var width = image.naturalWidth;
-      var height = image.naturalHeight;
-
+      var NaturalImageContainer =
+        document.getElementsByClassName("img-container");
+      var height = NaturalImageContainer.naturalHeight;
+      var width = NaturalImageContainer.naturalWidth;
       cropper = new Cropper(image, {
         aspectRatio: 4 / 3,
         autoCropArea: 1,
@@ -266,6 +267,8 @@ window.addEventListener("DOMContentLoaded", function () {
         zoomOnWheel: false,
         cropBoxMovable: true,
         wheelZoomRatio: 0.1,
+        minContainerWidth: width,
+        minContainerHeight: height,
       });
     })
     .on("hidden.bs.modal", function () {

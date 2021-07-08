@@ -87,6 +87,15 @@ function get_base64($path)
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 
 <style>
+   .HighlightArea {
+      height: 250px;
+      background-color: transparent !important;
+   }
+
+   .HighlightArea>#dropZone {
+      border: 3px dashed #ee7c13 !important;
+   }
+
    @media only screen and (max-width: 900px) {
       .mobile-event-type {
          display: flex;
@@ -956,13 +965,9 @@ function get_base64($path)
             <div class="row">
                <div class="col-md-12">
                   <div class="img-container" style="object-fit: contain; width: 100% !important;
-    height: 100% !important;
-    max-width: 1000px;
-    max-height: 500px;">
+    height: 100% !important;">
                      <img id="imageforcrop" class="img-responsive" src="" style="object-fit: contain; width: 100% !important;
-    height: 100% !important;
-    max-width: 1000px;
-    max-height: 500px;">
+    height: 100% !important;">
                   </div>
                </div>
 
