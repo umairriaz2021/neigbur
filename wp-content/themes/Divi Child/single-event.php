@@ -182,6 +182,40 @@ get_header(); ?>
       color: #fff;
       padding: 1px 5px 1px 5px;
     }
+
+    @media only screen and (max-width: 900px) {
+      .mobile-event-detail {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        justify-content: center !important;
+        align-items: center;
+      }
+
+      .mobile-upload-image {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .mobile-image-gallery {
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+        align-self: center;
+        align-items: center;
+      }
+
+      .mobile-event-details {
+        display: flex;
+        flex-flow: wrap;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   </style>
   <?php
 
@@ -222,15 +256,15 @@ get_header(); ?>
 
         </div>
 
-        <div class="event-detail">
-          <div class="upload-image">
+        <div class="event-detail mobile-event-detail">
+          <div class="upload-image mobile-upload-image">
             <?php if (isset($event_detail) && count($event_detail->files) > 0 && $event_detail->files[0]->type == 'image') { ?>
               <?php $eve_img = "https://storage.googleapis.com/" . $event_detail->files[0]->bucket . "/" . $event_detail->files[0]->filename; ?>
               <img src="<?php echo $eve_img; ?>" style="max-height: 250px;">
             <?php } else {  ?>
               <img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/r1.jpg">
             <?php } ?>
-            <div class="image-gallery">
+            <div class="image-gallery mobile-image-gallery">
               <div>
                 <?php if (!empty($token)) : ?>
                   <!--input type="file" name="gallery1" onChange="newuploadmethod(this);"-->
@@ -302,7 +336,7 @@ HTML;
 
           ?>
 
-          <form class="event-details">
+          <form class="event-details mobile-event-details">
             <?php if (count($event_detail->ticketTypes) > 0) { /* echo "<pre>"; print_r($event_detail->ticketTypes); die; */ ?>
               <?php if ($event_detail->ticketTypes[0]->name == '') { ?>
                 <h2 class="f-tkt">FREE</h2>
@@ -489,10 +523,12 @@ HTML;
               <p><?php echo isset($event_detail) ? $event_detail->description : ''; ?></p>
 
             </div>
-            <div class="row">
-              <?php foreach ($event_detail->categorys as $category) { ?>
-                <div class="p-catg" style="margin-right:5px;"><?php echo $category->name; ?></div>
-              <?php } ?>
+            <div style="margin-left: 1rem;">
+              <div class="row">
+                <?php foreach ($event_detail->categorys as $category) { ?>
+                  <div class="p-catg" style="margin-right:5px;"><?php echo $category->name; ?></div>
+                <?php } ?>
+              </div>
             </div>
 
             <?php
