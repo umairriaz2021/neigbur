@@ -164,7 +164,6 @@ if(isset($_POST['pwdInfoUpdate'])) {
         'password'   =>  $_POST['new_pwd'],
         'old_password'   =>  $_POST['old_pwd']
     );
-
     $payload = json_encode($pdata);
     $ch      = curl_init(API_URL.'users/'.$user->id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -307,6 +306,21 @@ get_header();
     #pswd_info {
         display:block;
     }
+
+    @media only screen and (max-width: 900px) {
+.mobile-visible{
+    display: inline-table !important;
+}
+.desktop-visible{
+    display: none !important;
+}
+}
+.mobile-visible{
+    display: none;
+}
+.desktop-visible{
+    display: inline-table;
+}
 </style>
     <div id="main-content">
         <div class="outer-wrapper ">
@@ -318,7 +332,7 @@ get_header();
 ?>
 
 					<div class="login-form account-info" id="perInfoDefaultDiv" style="display:<?php echo ($userdata->city == '' || $userdata->address == '') ? 'none' : '';?>">
-                        <div class="tab-1">
+                        <div class="tab-1" style="width:90%">
                             <div class="tab-header">
                                 <h3> Personal Information</h3> <span style="cursor:pointer" class="edit" onclick="openPerInfoEditView()"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/07/edit.png">Edit</span>
                             </div>
@@ -329,7 +343,7 @@ get_header();
 
                                     $country_name = $wpdb->get_row("Select * from wp_countries where id = $userdata->country_id");
                                 }?>
-                                <p><?php echo $userdata->address;?>, <?php echo $userdata->city;?>, <?php echo (isset($country_name)) ? $country_name->name : '';?>, <?php echo $userdata->postalcode;?></p>
+                                <p><?php echo ($userdata->address );?>, <?php echo ($userdata->city);?>, <?php echo (isset($country_name)) ? $country_name->name : '';?>, <?php echo ($userdata->postalcode);?></p>
                             </div>
                             <div class="tab-row1">
                                 <strong>Mobile Number </strong>
@@ -364,23 +378,32 @@ get_header();
                     <div class="login-form account-info" id="PerInfo" style="display:<?php echo ($userdata->city == '' || $userdata->address == '') ? '' : 'none';?>">
 					    <form action="" method="post" id="PerInfoForm">
                         <!--   Personal info edit start --->
-                        <div class="tab-1">
+                        <div class="tab-1"  style="width:90%">
                             <div class="tab-header">
                                 <h3> Personal Information</h3>
 								<?php //echo "<pre>"; print_r($userdata); echo "</pre>"; ?>
 							</div>
                             <p><b>All required fields marked with (*).</b></p>
                             <div class="tab-row1">
+                            <fieldset>
+                               
+                                <strong>First Name *</strong>
                                 <input type="text" name="first" value="<?=$userdata->first?>" required title="Please enter First Name*" placeholder="First Name">
+                                <hr>
+                                <strong>Last Name *</strong>
                                 <input type="text" name="last" value="<?=$userdata->last?>" required title="Please enter Last Name*" placeholder="Last Name">
                                 <input type="hidden" value="<?php echo $userdata->id;?>" name="hidden_user_id">
+                                
+                                <hr>
+                                <strong>Address</strong>
                                 <input type="text" name="address" value="<?php echo $userdata->address;?>" placeholder="Street Address">
                                <!-- <select name="country_id">
                                     <option value="">Select Country</option>
                                     <option value="2">Canada</option>
                                     <option value="1">United State</option>
                                 </select>-->
-
+                                <hr>
+                                <strong>Country</strong>
                                 <select name="country_id" id="country" autocomplete="off">
                                     <option value="">Select Country</option>
                                     <?php foreach($countries as $row){ ?>
@@ -389,6 +412,8 @@ get_header();
                                 </select>
 
 
+                                <hr>
+                                <strong>Province</strong>
                                 <select id="state" name="province_id" autocomplete="off">
                                     <option value="">Select Province/State</option>
                                     <?php foreach($states as $row) { ?>
@@ -397,7 +422,12 @@ get_header();
                                     <?php }?>
                                 </select>
 
+                                <hr>
+                                <strong>City</strong>
                                 <input name="city" type="text" value="<?php echo $userdata->city;?>" placeholder="Enter City">
+                                
+                                <hr>
+                                <strong>Postal Code</strong>
                                 <input name="postalcode" pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" type="text" value="<?php echo $userdata->postalcode;?>" placeholder="Postal/ZIP Code">
                             </div>
                             <div class="tab-row1">
@@ -407,7 +437,7 @@ get_header();
                                 </p>
                             </div>
                             <div class="tab-row1">
-                                <strong>Email </strong>
+                                <strong>Email * </strong>
                                 <p>
                                     <input type="text" name="email"  value="<?php echo $userdata->email;?>" readonly required title="Enter email address.">
                                 </p>
@@ -443,7 +473,7 @@ get_header();
 
                     <div class="login-form account-info" id="perPassDefaultDiv">
                         <!--   password info start --->
-                        <div class="tab-1">
+                        <div class="tab-1"  style="width:90%">
                             <div class="tab-header">
                                 <h3> Password</h3><span style="cursor:pointer" class="edit" onClick="openPerPassEditView()"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/07/edit.png">Edit</span></div>
                             <div class="tab-row1">
@@ -452,7 +482,7 @@ get_header();
                                 <?php } else { ?>
                                     <strong>Password has been set </strong>
                                 <?php }?>
-                                <p>Choose a Strong, unique password atleast 8 characters long.</p>
+                                <p>Choose a strong, unique password at least 8 characters long.</p>
                             </div>
                         </div>
                     </div>
@@ -460,7 +490,7 @@ get_header();
                     <form action="" method="post" id="PwdInfoForm">
                         <div class="login-form account-info" id="PerPass" style="display:none">
                             <!--   password edit start --->
-                            <div class="tab-1">
+                            <div class="tab-1"  style="width:90%">
                                 <div class="tab-header">
                                     <h3> Password</h3>
                                 </div>
@@ -476,7 +506,18 @@ get_header();
                                         <input type="password" name="new_pwd" id="psw" placeholder="New Password*" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter Password" required>
                                     </p>
                                     <!--<span id="span_new_pwd"><b>Must contain at least one number and one uppercase and lowercase letter and at least 8 or more characters.</b></span>-->
-                                    <div id="pswd_info">
+                                    <div id="pswd_info" class="desktop-visible" style="top:310px;">
+                                        <ul>
+                                            <li id="length" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Be at least <strong>8 characters</strong></li>
+                                            <li id="letter" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>lowercase letter</strong></li>
+                                            <li id="capital" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include an <strong>uppercase letter</strong></li>
+                                            <li id="number" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>number</strong></li>
+                                            <li id="space" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> No <strong>space allowed</strong></li>
+											<li id="comnpass" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Not include a <strong>commonly used phrase</strong></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="mobile-visible">
                                         <ul>
                                             <li id="length" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Be at least <strong>8 characters</strong></li>
                                             <li id="letter" class="invalid"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i> Include a <strong>lowercase letter</strong></li>
@@ -501,8 +542,8 @@ get_header();
                         </div>
                     </form>
                     <!--   password edit end --->
-                    <div class="login-form account-info" id="perPaymentDefaultDiv">
-                        <!--   Payments Methods start --->
+
+                    <!-- <div class="login-form account-info" id="perPaymentDefaultDiv">
                         <div class="tab-1">
                             <div class="tab-header">
                                 <h3> Payout Method</h3>&nbsp;(<small>for ticket based events</small>)<span style="cursor:pointer" class="edit" onClick="openPerPaymentEditView();"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/07/edit.png">Edit</span></div>
@@ -511,11 +552,11 @@ get_header();
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--   Payments Methods end --->
                     <div class="login-form account-info" id="PerPaymentDiv" style="display:none">
                         <!--   Payments edit start --->
-                        <div class="tab-1">
+                        <div class="tab-1"  style="width:90%">
                             <div class="tab-header">
                                 <h3> Payout Method </h3>&nbsp;(<small>for ticket based events</small>)</div>
                             <div class="tab-row1">
@@ -548,25 +589,24 @@ get_header();
                        }
                     ?>
 
-                    <div class="login-form account-info" id="notificationDefaultView">
-                        <!--   Notifications  start --->
+                    <!-- <div class="login-form account-info" id="notificationDefaultView">
                         <div class="tab-1">
                             <div class="tab-header">
                                 <h3> Notifications</h3><span style="cursor: pointer;" class="edit" onClick="openNotificationEditView()"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/07/edit.png">Edit</span></div>
                             <div class="tab-row1">
                                 <p>
                                     <span class="chkbox">
-                                        <input type="checkbox" value="1" <?php echo in_array('1', $notification) ? 'checked' : '';?> disabled> <span class="checkmark"></span>Allow FAV event notifications 3 days prior
+                                        <input style="margin-right: 1rem;" type="checkbox" value="1" <?php echo in_array('1', $notification) ? 'checked' : '';?> disabled> <span class="checkmark" style="padding-right:1rem;"></span>Allow FAV event notifications 3 days prior
                                     </span>
                                 </p>
                                 <p>
                                     <span class="chkbox">
-                                        <input type="checkbox" value="2" <?php echo in_array('2', $notification) ? 'checked' : '';?> disabled><span class="checkmark"></span> Allow news event notifications based on my experience profile
+                                        <input style="margin-right: 1rem;" type="checkbox" value="2" <?php echo in_array('2', $notification) ? 'checked' : '';?> disabled><span class="checkmark"></span> Allow news event notifications based on my experience profile
                                     </span>
                                 </p>
                                 <p>
                                     <span class="chkbox">
-                                        <input type="checkbox" value="3" <?php echo in_array('3', $notification) ? 'checked' : '';?> disabled><span class="checkmark"></span> Allow notifications when I am near an event based on my experience profile
+                                        <input style="margin-right: 1rem;" type="checkbox" value="3" <?php echo in_array('3', $notification) ? 'checked' : '';?> disabled><span class="checkmark"></span> Allow notifications when I am near an event based on my experience profile
                                     </span>
                                 </p>
                             </div>
@@ -575,7 +615,6 @@ get_header();
 
                     <form action="" method="post" id="notificationsform">
                         <div class="login-form account-info" style="display: none;" id="notificationEditView">
-                            <!--   Notifications  start --->
                             <div class="tab-1">
                                 <div class="tab-header">
                                     <h3> Notifications</h3><span style="display: none;" class="edit"><img src="<?php echo site_url(); ?>/wp-content/uploads/2019/07/edit.png">Edit</span></div>
@@ -604,7 +643,7 @@ get_header();
                                 </p>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
             </div>
         </div>
         <!-- #content-area -->
