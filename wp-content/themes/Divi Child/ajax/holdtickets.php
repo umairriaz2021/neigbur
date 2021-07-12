@@ -21,6 +21,7 @@ if(isset($_POST['tickets']) && count($_POST['tickets'])>0){
 				$holdresponse=json_decode($res);
 				/* echo "<pre>"; print_r($holdresponse); */
 			}
+		
 			
 			/* sending tickettype hold request */
 			
@@ -32,7 +33,7 @@ if(isset($_POST['tickets']) && count($_POST['tickets'])>0){
 						"ticket_type_id"=>(int)$tkt['id'],
 						"user_id"=>$_SESSION['userdata']->id
 					];  
-			echo $payload = json_encode($fields);	     
+			 $payload = json_encode($fields);	     
 
 			$ch   = curl_init(API_URL . 'orders/hold');
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -45,9 +46,11 @@ if(isset($_POST['tickets']) && count($_POST['tickets'])>0){
 			curl_close($ch);
 			$response=json_decode($result);
 			$_SESSION['holdticketID'][(int)$tkt['id']]=$response->heldTickets->id;
-			echo "<pre>"; print_r($response); 
+			//echo "<pre>";
+			//print_r($response); 
+			echo json_encode($response);
 
-		}
+		}	
 	}
 }
 /* creating ticket order hold ends */

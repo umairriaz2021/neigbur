@@ -71,6 +71,82 @@ jQuery(document).on('click', '#buytickets', function () {
 
 
 
+function getTicket(){
+	var site_url = jQuery('#Site_Url').val();
+	var datastring = jQuery("#GetTicketForm").serialize();
+	jQuery.ajax({
+			url: site_url + '/wp-content/themes/Divi Child/ajax/gettickets.php',
+			type: 'post',
+			dataType: 'json',
+			data : datastring,
+			success: function (result){
+			    	console.log(result);
+				//console.log(result[0][0]);
+			
+				//for (var i = 0; i < result.length; i++) {
+                 // result[i] ;
+             //	jQuery(".thold-div").text(result[i]);
+                // }
+                 
+                  $.each(result, function(index, el) {
+        // index is your 0-based array index
+        // el is your value
+
+        // for example
+        $('.thold-'+index).val(el);
+       var a= $('.thold-'+index).val();
+       console.log('hold'+a);
+       var b= $('.tlimit-'+index).val();
+       console.log('remaining'+b);
+       var value = b - a;
+       console.log('total remaining'+ value);
+         $('.left-'+index).val(value);
+        console.log("element at " + index + ": " + el); // will alert each value
+    });
+			}
+	});
+}
+
+
+jQuery(document).ready(function(){
+setInterval(getTicket,5000);
+    if(jQuery('.thold').val() === ""){
+        jQuery('.thold').val(0);
+    }
+       jQuery( ".abc" ).each(function( index ) {
+        // index is your 0-based array index
+        // el is your value
+         var data = jQuery(this).attr('data');
+         console.log(data);
+         var value =  jQuery(this).val();
+         console.log(value);
+         var b = jQuery('.thold-'+data).val(value);
+         console.log(b);
+         var d = jQuery('.thold-'+data).val();
+         var c= jQuery('.tlimit-'+data).val();
+       console.log('remaining'+c);
+       var total = c - d;
+        jQuery('.left-'+data).val(total);
+    });
+	
+});
+
+jQuery(document).on("change keyup", ".tqty", function() {
+   console.log("changed");   
+    getTicket();
+    	/*jQuery('.tkt-info').each(function(index){
+                  //do stuff
+                  if((jQuery('.tqty-'+index).val()) > (jQuery('.tremaining-'+index).val())) {
+                      alert('tickets are not available...');
+                      
+                  }
+                  //else{ ticketpaymentNext(1,2);}
+                  console.log('index is '+index);
+                });*/
+});
+
+
+
 function holdTicket(){
 	var site_url = jQuery('#Site_Url').val();
 	var datastring = $("#GetTicketForm").serialize();
@@ -83,15 +159,72 @@ function holdTicket(){
 				$('#loadingModal').hide();
              
 				console.log(result);
-				ticketpaymentNext(1,2);
+		
+			   // ticketpaymentNext(1,2);
+			    getTicket();
+			   //if(result){
+				jQuery('.tkt-info').each(function(index){
+                  //do stuff
+                  console.log('dsedf '+jQuery('.tqty-'+index).val());
+                  console.log('rwer '+jQuery('.tremaining-'+index).val());
+                 //if(parseInt(jQuery('.tqty-'+index).val()) > 0) {
+                /*  if(parseInt(jQuery('.tqty-'+index).val()) > parseInt(jQuery('.tremaining-'+index).val())) {
+                      alert(jQuery('.tqty-'+index).val()+' tickets are not available. Please select again');
+                       return false;
+                  }
+                    else if(parseInt(jQuery('.tqty-'+index).val()) <= parseInt(jQuery('.tremaining-'+index).val())){  
+                        console.log('tickets available...');  
+                   return ticketpaymentNext(1,2);
+                  }*/
+                   
+			//	}
+                  console.log('index is '+index);
+                });
+ 
+                if (result.indexOf("error") >= 0){
+                     console.log('tickets not available...');
+                    alert('tickets are not available. Please select again');
+                    return false;
+                   
+                }
+                else{
+                    console.log('tickets available...');  
+                    return ticketpaymentNext(1,2);
+                }
+
+  		   //}
+               	//getTicket();
+			}
+       
+	});
+}
+
+
+function holdTicketDelete(){
+	var site_url = jQuery('#Site_Url').val();
+	var datastring = $("#GetTicketForm").serialize();
+	//$('#loadingModal').show();
+	jQuery.ajax({
+			url: site_url + '/wp-content/themes/Divi Child/ajax/holdtickets_delete.php',
+			type: "post",
+			data : datastring,
+			success: function (result){
+				//$('#loadingModal').hide();
+             
+				console.log(result);
+			//	ticketpaymentNext(1,2);
+				//ticketpaymentBack(2,3);
+				//getTicket();
 			}
 	});
 }
 
 
 
+
+
 function startTimer(dd){
-	var timer2 = "4:59";
+	var timer2 = "1:59";
 	interval = setInterval(function() {
 	  var timer = timer2.split(':');
 
@@ -106,8 +239,12 @@ function startTimer(dd){
 			
 		  //  var newUrl = window.location.href.replace(window.location.search,'');
 		  //  $('#sal_val1').attr('data',newUrl + "?single=1");
+		   // holdTicketDelete();
 		    sessionStorage.setItem('key',new Date().valueOf());
 			window.location.href = window.location.href;
+			//setTimeout("window.open(self.location, '_self');", 1000);
+			//setTimeout("location.reload(true);", 1000);
+			
 	  }else{
 		  seconds = (seconds < 0) ? 59 : seconds;
 		  seconds = (seconds < 10) ? '0' + seconds : seconds;
@@ -141,19 +278,31 @@ if(sessionStorage.getItem('key')){
 });
 }
    
-
+ jQuery(window).bind('beforeunload', function(){
+       console.log('refreshed');
+       holdTicketDelete();
+ });
+ 
+function ticketpaymentBack(id1,id2){
+	jQuery('#step'+id1).show();
+	jQuery('#step'+id2).hide();
+	 holdTicketDelete();
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
+	
+}
 function ticketpaymentNext(id1,id2){
-
-	if(id1==1) startTimer(id1);
+    var a =jQuery('#step2 .countdown').text();
+    console.log("jhk"+a);
+	if(id1==1 && a=="05:00") {
+	    //clearInterval(interval);
+	    startTimer(id1);
+	}
 	jQuery('#step'+id1).hide();
 	jQuery('#step'+id2).show();
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
 }
-function ticketpaymentBack(id1,id2){
-	jQuery('#step'+id1).show();
-	jQuery('#step'+id2).hide();
-	document.body.scrollTop = document.documentElement.scrollTop = 0;
-}
+
+
 
 jQuery(document).on('keyup', '.tqty', function () {
 	if (!jQuery(this).val()){

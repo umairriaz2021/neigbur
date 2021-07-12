@@ -3,7 +3,7 @@
 Template Name: Get tickets
 */
 global $wpdb;
-
+session_start();
 unset($_SESSION['page_refresh']);
 
 $token   =  $_SESSION['Api_token'];
@@ -127,13 +127,45 @@ get_header(); ?>
 							<th style="width: 20%;text-align: center;">Quantity</th>
 							<th style="width: 15%;padding-left:16px;text-align:right;">Sub-Total</th>
 						</tr>
-						<?php foreach($finaltickets as $key=>$tkt){ ?>
+						<?php
+						
+                  $cart = array();
+                 foreach($event->ticketTypes as $key=>$val){
+                      $sum = 0;
+                       foreach($val->held_tickets as $key=>$val){
+                          // $a = $val->quantity;
+                          // $sum+= $a;
+                          // $cart[] = $a;
+                           $a = $val->quantity;
+				     $b = $val->ticket_type_id;
+                     $sum+= $a;
+                     $cart[$b] = $sum;
+                       }
+                     //print_r($cart);
+                     // $cart[] = $a;
+                       // echo $sum;
+                       // $cart[] = $sum;
+                       
+                     
+                 }?>
+                 
+                
+                 
+                 <?php
+                	foreach($cart as $key=>$val){
+                	    ?>
+                	     <input type="hidden" class="abc" data="<?php echo $key?>" value="<?php echo $val ?>">
+                	     <?php
+                	}
+                
+                 
+						foreach($finaltickets as $key=>$tkt){ ?>
 					    
 					   
 					       <tr class="ticket-details">
                               <td>
                               <?php echo stripslashes(ucfirst($tkt->name)); ?><br/>
-                              <?php echo ($tkt->start!='')?date('M j, Y @ g:ia', strtotime($tkt->start)):''; ?>
+                              <?php echo ($tkt->start!='')?date('M j, Y @ g:ia', strtotime($date1)):''; ?>
                               <?php if($tkt->note){?>
                                 <div class="tooltip">Ticket Details
                                      <span class="tooltiptext"><?php echo stripslashes($tkt->note); ?></span>
@@ -171,28 +203,39 @@ get_header(); ?>
                                   $<?php echo number_format($txtTCF,2,'.',','); ?>
                                   <input type="hidden" name="tickets[<?=$key?>][tfee]" class="tfee" value="<?php echo number_format($txtTCF,2,'.',','); ?>"/>
                               </td>
-                              <td height="170px" style="text-align: center;">
+                              <td class="tkt-info" height="170px" style="text-align: center;">
 
                               <?php
                               $remainingtick = $tkt->max - $tkt->ticket_allocation;
                 $limitMessage = "";
                               if($remainingtick > 10){ ?>
-                                <input type="number" min="0" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1"  name="tickets[<?=$key?>][tqty]"  value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
+                                <input type="number" min="0" pattern="[0-9]" onkeypress="return !(event.charCode == 46)" step="1"  name="tickets[<?=$key?>][tqty]"  value="0" class="td-p tqty tqty-<?=$key?>" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
                              <?php }else if(($remainingtick > 0) && ($remainingtick <= 10)){ ?>
-                                <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
+                                <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty tqty-<?=$key?>" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
                               <?php $limitMessage = "Limited Availability"; }else{ $limitMessage = "SOLD OUT";?>
                               <?php } ?>
                 <p class="remainingMessage" style=""><?php echo $limitMessage; ?></p>
                               <p class="limitMessage" style="display:none"></p>
                               <?php if($tkt->max == $tkt->order_limit){?>
-                                   <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo  $remainingtick; ?>"/>
+                                   <input type="hidden" class="tlimit-<?php echo $tkt->id; ?> torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo  $remainingtick; ?>"/>
                                 <?php  }
                                 
                                 else {?>
-                                 <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
+                                 <input type="hidden" class="tlimit-<?php echo $tkt->id; ?> torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
                              <?php } ?>
                              
-                <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>
+               <!-- <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>-->
+                
+                
+                <?php 
+                //print_r($event->ticketTypes);
+                   //print_r($cart);
+                   //print_r($_SESSION['holdticketID']);
+            
+                ?>
+
+                <input type="hidden" class="thold thold-<?php echo $tkt->id; ?>" name="tickets[<?=$key?>][thold]" value="<?php echo $cart[$key]; ?>"/>
+                  <input type="hidden" class="left-<?php echo $tkt->id; ?> tremaining-<?=$key?> tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick - $cart[$key]; ?>"/>
                               </td>
                               <td class="al-right">
                                 $<span class="ttoltxt">0.00</span><br>

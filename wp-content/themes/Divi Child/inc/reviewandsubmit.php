@@ -8,37 +8,6 @@ function debug($val){
 
 
 
-// if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
-//     $est = $_SESSION['ticket_data']['ticket_type_dates'];
-  
-//     $dotes = $est;
-//     $keys = array_keys($dotes);
-
-    
-//     for($i = 0; $i < count($dotes); $i++) {
-  
-//     foreach($dotes[$keys[$i]] as $key => $value) {
-//         $eventdotes[] = $value;
-//     }
-
-// }
-// }
-// elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
-//     $est = $_SESSION['edit_ticket_data']['ticket_type_dates'];
- 
-//     $dotes = $est;
-//     $keys = array_keys($dotes);
-
-//     for($i = 0; $i < count($dotes); $i++) {
-  
-//     foreach($dotes[$keys[$i]] as $key => $value) {
-//         $eventdotes[] = $value;
-//     }
-
-// }
-         
-// }
-
 
 
 
