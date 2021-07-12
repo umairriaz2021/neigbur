@@ -326,7 +326,11 @@ if(isset($_GET['act']) && $_GET['act']=='logout'){
 				<div class="logo_container">
 					<span class="logo_helper"></span>
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-						<img src="<?php echo esc_attr( $logo ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" id="logo" data-height-percentage="<?php echo esc_attr( et_get_option( 'logo_height', '54' ) ); ?>" />
+						<img style="height: 65px !important;
+						max-height: 65px !important;
+    width: auto;
+    padding-top: 10px;" src="https://storage.googleapis.com/snapd-website.appspot.com/neighbur_AppIcons_JAN20_O_Events.png" id="logo" alt="Neighbur Logo" id="" data-height-percentage="<?php echo esc_attr( et_get_option( 'logo_height', '54' ) ); ?>" />
+						<img src="https://storage.googleapis.com/snapd-website.appspot.com/neighbur_allwhite.png" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" id="logo" data-height-percentage="<?php echo esc_attr( et_get_option( 'logo_height', '54' ) ); ?>" />
 					</a>
 				</div>
 			<?php
@@ -363,8 +367,9 @@ if(isset($_GET['act']) && $_GET['act']=='logout'){
 			</div>
 			<?php }else{ ?>
 				<li class="green"><a href="<?php echo site_url(); ?>/sign-up/"> Sign Up</a></li>
-				<li class="green"><a href="<?php echo site_url(); ?>/sign-in/"><img alt="" src="<?php echo site_url(); ?>/wp-content/uploads/2019/09/lock1.png"> Sign In</a></li>
-				<li ><a target="_blank" href="https://support.neighbur.com/portal/home">Help</a></li>			
+				<li class="green" style="color: white;">|</li>
+				<li class="green"><a href="<?php echo site_url(); ?>/sign-in/">Sign In</a></li>
+				<!-- <li ><a target="_blank" href="https://support.neighbur.com/portal/home">Help</a></li>			 -->
 			<?php } ?>
 			
 		</ul>
@@ -382,7 +387,7 @@ if(isset($_GET['act']) && $_GET['act']=='logout'){
                           <div class="overlay-content">
                             <ul class="link_setting_mobile">
                             <li><a href="https://webdev.snapd.com/search-result/">Find Events</a></li>
-                            <li><a href="https://webdev.snapd.com/event-dashboard/">Create Event</a></li>
+                            <li><a href="https://webdev.snapd.com/event-dashboard/">Submit Event</a></li>
                             <li><a href="/manage-my-events/">My Events</a></li>
                             <li><a href="https://webdev.snapd.com/services/">Services</a></li>
                             <li><a href="https://webdev.snapd.com/news/">News</a></li>
