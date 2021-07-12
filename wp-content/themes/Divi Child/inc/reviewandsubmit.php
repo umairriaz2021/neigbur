@@ -5,38 +5,39 @@ function debug($val){
     print_r($val);
 }
 
-//debug($_SESSION['ticket_data']);die;
 
-if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
-    $est = $_SESSION['ticket_data']['ticket_type_dates'];
+
+
+// if(isset($_SESSION['ticket_data']['ticket_type_dates'])){
+//     $est = $_SESSION['ticket_data']['ticket_type_dates'];
   
-    $dotes = $est;
-    $keys = array_keys($dotes);
+//     $dotes = $est;
+//     $keys = array_keys($dotes);
 
     
-    for($i = 0; $i < count($dotes); $i++) {
+//     for($i = 0; $i < count($dotes); $i++) {
   
-    foreach($dotes[$keys[$i]] as $key => $value) {
-        $eventdotes[] = $value;
-    }
+//     foreach($dotes[$keys[$i]] as $key => $value) {
+//         $eventdotes[] = $value;
+//     }
 
-}
-}
-elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
-    $est = $_SESSION['edit_ticket_data']['ticket_type_dates'];
+// }
+// }
+// elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
+//     $est = $_SESSION['edit_ticket_data']['ticket_type_dates'];
  
-    $dotes = $est;
-    $keys = array_keys($dotes);
+//     $dotes = $est;
+//     $keys = array_keys($dotes);
 
-    for($i = 0; $i < count($dotes); $i++) {
+//     for($i = 0; $i < count($dotes); $i++) {
   
-    foreach($dotes[$keys[$i]] as $key => $value) {
-        $eventdotes[] = $value;
-    }
+//     foreach($dotes[$keys[$i]] as $key => $value) {
+//         $eventdotes[] = $value;
+//     }
 
-}
+// }
          
-}
+// }
 
 
 
@@ -44,10 +45,14 @@ elseif(isset($_SESSION['edit_ticket_data']['ticket_type_dates'])){
 
 if (isset($_POST['btnFinalSubmit']))
 {
+   
+                
+    
     if (isset($_SESSION['event_data']))
     {
         
-            $country_id = $_SESSION['event_data']['country'];
+        
+        $country_id = $_SESSION['event_data']['country'];
         $state_id = $_SESSION['event_data']['state'];
         $countries = $wpdb->get_row("Select * from wp_countries where id=$country_id");
         $states = $wpdb->get_row("Select * from wp_states where id=$state_id");
@@ -94,7 +99,7 @@ if (isset($_POST['btnFinalSubmit']))
             'exclude_email' => $_SESSION['event_data']['exclude_email'],
             'categories' => $_SESSION['event_data']['category_id'],
             
-            'third_party_url' => (!empty($_SESSION['ticket_data']['turl']) )? $_SESSION['ticket_data']['thirdpartyurl'].$_SESSION['ticket_data']['turl'] : ""
+            'third_party_url' => $_SESSION['ticket_data']['turl']
         );
 
 
@@ -126,6 +131,7 @@ if (isset($_POST['btnFinalSubmit']))
 
         $data['dateRanges'] = $dateRanges;
         $payload = json_encode($data);
+       
         $token   =  $_SESSION['Api_token'];
 
         // echo "<pre>";
@@ -157,10 +163,10 @@ if (isset($_POST['btnFinalSubmit']))
           $apirespons = json_decode($result);
           echo "API Response:<br>";
           print_r($apirespons);
-
+              
           if ($apirespons->success)
           {
-              
+             
          header("Location: ".site_url().'?page_id=664&event_id='.$apirespons->event->id);
               $eventfiles=array();
               if (isset($_SESSION['event_data']['filetouploadname']) && count($_SESSION['event_data']['filetouploadname'])> 0) {
@@ -303,9 +309,16 @@ if (isset($_POST['btnFinalSubmit']))
                   $editresponse = json_decode($result12);
                   print_r($editresponse);
               }
+              
+              
 
               if (isset($_SESSION['ticket_data'])) {
                   $tickets = $_SESSION['ticket_data'];
+                 
+                  
+                  
+                  
+                  
                   echo "<br/><br/>Ticket data to store.<br/>";
                   print_r($tickets);
                   if ($tickets['tkt_tax'] == 'yes') {
@@ -342,41 +355,56 @@ if (isset($_POST['btnFinalSubmit']))
                           $taxProfile = $taxProfileResponse->taxProfile;
                       }
                   }
-
+                  
                   if ($_SESSION['ticket_data']['tkt_setup']=='Yes Tix') {
+                      
+                      
+                      
+        
+        
+        
                       for ($i=0; $i<=$_SESSION['ticket_data']['count']; $i++) {
                           $n = $i;
                           $number = $n+1;
                             
                           if (isset($tickets['ticket_type_dates'])) {
-                              if (isset($editresponse->event->event_dates)) {
-                                  foreach ($editresponse->event->event_dates  as $key=>$val) {
-                                      $start_date = $val->start_date;
-                                      $end_date = $val->end_date;
-                                      $datrid = $val->id;
-                                      if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date))) {
-                                          $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('h:i a', strtotime($end_date));
-                                      } else {
-                                          $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('M d, Y h:i a', strtotime($end_date));
-                                      }
-                                      for ($lt=0;$lt<count($tickets['ticket_type_dates'][$number]);$lt++) {
-                                          if ($tickets['ticket_type_dates'][$number][$lt] == $selctdatae) {
-                                              $eventdates[$lt] = $datrid;
-                                              //$dates[] = $eventdates[$lt];
-                                          }
-                                      }
-                                  }
-                              }
-                              echo "Date Array:-";
-                              print_r($eventdates);
+        
+                                      
+                              
+                              
+                              
+                              if (isset($apirespons->event->event_dates)) {
+                                //   foreach ($editresponse->event->event_dates  as $key=>$val) {
+                                //       $start_date = $val->start_date;
+                                //       $end_date = $val->end_date;
+                                //       $datrid = $val->id;
+                                //       if (date('Y-m-d', strtotime($start_date)) == date('Y-m-d', strtotime($end_date))) {
+                                //           $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('h:i a', strtotime($end_date));
+                                //       } else {
+                                //           $selctdatae = date('M d, Y h:i a', strtotime($start_date))." "."to"." ".date('M d, Y h:i a', strtotime($end_date));
+                                //       }
+                                //       for ($lt=0;$lt<count($tickets['ticket_type_dates'][$number]);$lt++) {
+                                //           if ($tickets['ticket_type_dates'][$number][$lt] == $selctdatae) {
+                                //               $eventdates[$lt] = $datrid;
+                                //               //$dates[] = $eventdates[$lt];
+                                //           }
+                                //       }
+                                //   }
+                                $event_resp = $apirespons->event->event_dates;
+                                for($m=0; $m<count($event_resp); $m++){
+                            $eventdotes[] = $event_resp[$m]->id;
                           }
+                              }
+                          
+                          }
+                        
 
                           $tdata = array(
                               'name' =>  stripslashes($tickets['ticket_name'][$i]),
                               'note' => stripslashes($tickets['ticket_details'][$i]),
                               'event_id' => $apirespons->event->id,
                               'currency_code' => $currency,
-                              'event_dates' => $eventdotes
+                              'event_dates' => array_unique($eventdotes)
                               
                           );
 
@@ -515,6 +543,7 @@ if (isset($_POST['btnFinalSubmit']))
                               $response = json_decode($result);
                               echo "<pre>";
                               print_r($response);
+                            
                           }
                       }
                   }
@@ -535,6 +564,8 @@ if (isset($_POST['btnFinalSubmit']))
               die;
           }
         }
+        
+        
     }
 
     if (isset($_SESSION['event_edit_data'])) {
@@ -713,12 +744,35 @@ if (isset($_POST['btnFinalSubmit']))
             $response = json_decode($result51);
             echo "<br><br>event pdf response<br><pre>";
             print_r($response);
-
+         
             unset($_SESSION['event_edit_data']['attach_image']);
             unset($_SESSION['event_edit_data']['attach_image_base64']);
         }
-
-        $payload = json_encode($_SESSION['event_edit_data']);
+        
+        //  if($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
+                
+        //  }
+        
+         if(isset($_SESSION['edit_ticket_data']['turl'])){
+                $turl['third_party_url'] = $_SESSION['edit_ticket_data']['turl'];
+                $ticksetup['ticket_setup_key'] = $_SESSION['edit_ticket_data']['tkt_setup'];
+                $sessiondata = $_SESSION['event_edit_data'];
+                $sessiondata +=  ['third_party_url'=>$_SESSION['edit_ticket_data']['turl']];
+                $sessiondata += ['ticket_setup_key'=>$_SESSION['edit_ticket_data']['tkt_setup']];
+                //$sessiondata1 = $turl + $ticksetup;
+                //$sessiondata2 = $sessiondata +  $sessiondata1;
+         
+            }
+            else{
+                $sessiondata = $_SESSION['event_edit_data'];
+                $sessiondata += ['third_party_url'=>''];
+                
+            }
+            
+           
+        $payload = json_encode($sessiondata);
+        //echo "<pre>"; print_r($sessiondata);die;
+        
         $ch      = curl_init(API_URL.'events/'.$_GET['edit']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
@@ -734,6 +788,7 @@ if (isset($_POST['btnFinalSubmit']))
         $result31 = curl_exec($ch);
         curl_close($ch);
         $editresponse = json_decode($result31);
+        //echo  "<pre>"; print_r($editresponse);die;
         $event_id = $_GET['edit'];
 
        // unset($_SESSION["event_edit_data"]);
@@ -758,6 +813,8 @@ if (isset($_POST['btnFinalSubmit']))
             //print_r($_SESSION['edit_ticket_data']);
             $tickets = $_SESSION['edit_ticket_data'];
             if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
+                //unset($_SESSION['edit_ticket_data']['turl']);
+                //unset($_SESSION['edit_ticket_data']['third_party_url']);
                 for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
                     $n = $i;
                     $number = $n+1;
@@ -1027,37 +1084,39 @@ if (isset($_POST['btnFinalSubmit']))
             $tickets = $_SESSION['edit_ticket_data'];
             
             //thirdparty edit
-            if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes 3rd party') {
-                echo "third party";
-                 $pdata = array("third_party_url"=> stripslashes($tickets['thirdpartyurl'].$tickets['turl']));
-                    $payload = json_encode($pdata);
-                    print_r($pdata);
-                    echo $payload;
-                    $ch= curl_init(API_URL.'events/'.$_GET['edit']);
-                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                            curl_setopt($ch, CURLOPT_FAILONERROR, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length:' . strlen($payload),
-                'Authorization: ' . $token
-            ));
+            // if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes 3rd party') {
+            //     echo "third party";
+            //      $pdata = array("third_party_url"=> stripslashes($tickets['thirdpartyurl'].$tickets['turl']));
+            //         $payload = json_encode($pdata);
+            //         print_r($pdata);
+            //         echo $payload;
+            //         $ch= curl_init(API_URL.'events/'.$_GET['edit']);
+            //          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            //                 curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            //                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            //                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            //                 curl_setopt($ch, CURLOPT_FAILONERROR, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            //     'Content-Type: application/json',
+            //     'Content-Length:' . strlen($payload),
+            //     'Authorization: ' . $token
+            // ));
 
-                    $result = curl_exec($ch);
-                    curl_close($ch);
-                    print_r($result);
-              /*  if($_SESSION['edit_ticket_data']['turl']){
-                    $tdata['third_party_url'] = $_SESSION['edit_ticket_data']['thirdpartyurl'].$_SESSION['edit_ticket_data']['turl'];
-                     $tdata['id'] = $_GET['edit'];
-                    //echo  $tdata['third_party_url'];
+            //         $result = curl_exec($ch);
+            //         curl_close($ch);
+            //         print_r($result);
+            //   /*  if($_SESSION['edit_ticket_data']['turl']){
+            //         $tdata['third_party_url'] = $_SESSION['edit_ticket_data']['thirdpartyurl'].$_SESSION['edit_ticket_data']['turl'];
+            //          $tdata['id'] = $_GET['edit'];
+            //         //echo  $tdata['third_party_url'];
                      
-                }*/
-            }
+            //     }*/
+            // }
             //thirdparty edit
             
             if ($_SESSION['edit_ticket_data']['tkt_setup']=='Yes Tix') {
+                unset($_SESSION['edit_ticket_data']['turl']);
+                unset($_SESSION['edit_ticket_data']['third_party_url']);
                 for ($i=0; $i<$_SESSION['edit_ticket_data']['count']; $i++) {
                     $n = $i;
                     $number = $n+1;

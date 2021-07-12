@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 Template Name: Search Result Page
 */
@@ -7,7 +7,44 @@ require(__DIR__.'/inc/beforesearch_result.php');
 
 get_header(); ?>
 
+<?php 
 
+foreach($events as $row){
+    $edata['id'] = $row->id;
+    $edata['bucket'] = $row->files[0]->bucket;
+    $edata['filename'] = $row->files[0]->filename;
+    $edata['type'] = $row->files[0]->type;
+    if(!empty($row->ticketTypes) || !empty($row->third_party_url)){
+    $counter[] = $row->event_dates_count;
+    }
+    $edata['image_id'] = $row->categorys[0]->image_id;
+    $edata['name'] = $row->name;
+    $edata['city'] = $row->city;
+    $edata['province_code'] = $row->province->province_code;
+    $edata['country_name'] = $row->country->country_name;
+    $edata['event_dates'] = $row->event_dates;
+    $edata['third_party_url'] = $row->third_party_url;      
+    foreach((array)$row->ticketTypes as $tickets){
+
+            $edata['ticket_id'] = $tickets->id;
+            $edata['price'] = $tickets->price;
+     foreach($tickets->tted as $tkt){
+            $edata['ticket_type_id'] = $tkt->ticket_type_id;
+            //$edata['event_dates'] = $tkt->event_dates;
+            
+           
+            
+     }  
+                 
+        $eventdata[] = $edata;  
+    }
+    //$ticketTypes = $row->ticketTypes; 
+    
+}
+  $counterss = array_sum($counter);
+    //echo "<pre>"; print_r($events); die;
+
+?>
 
 
 
@@ -61,7 +98,7 @@ function WasFilterApplied()
   {
     return true;
   }
-  if (isset($_POST['radiusfilter']) && $_POST['radiusfilter'] != '' && $_POST['location'] != '' && $_POST['radiusfilter'] != '50')
+  if (isset($_POST['radiusfilter']) && $_POST['radiusfilter'] != '' && $_POST['location'] != '' && $_POST['radiusfilter'] != '10')
   {
     return true;
   }
@@ -103,9 +140,9 @@ function WasFilterApplied()
                     <div class="range-wrap">
                         <input type="range" class="range slider" name="radiusfilter" min="1" max="100"
                                value="<?php if (isset($_POST['radiusfilter']) && $_POST['radiusfilter'] != '') {
-                                   echo $_POST['radiusfilter'] = '10';
+                                   echo $_POST['radiusfilter'];
                                } else {
-                                   echo '50';
+                                   echo '10';
                                } ?>" id="myRange">
                         <output class="bubble"></output>
                     </div>
@@ -294,136 +331,118 @@ function WasFilterApplied()
           ?>
 				<?php } ?>
                
-                <ul class="owl-theme" id="myEvents">
-                    <?php $i = 0; ?>
-                    
-                    <?php if(count($events) > 0):?>
-                     <?php $count = 0;?>
-                    
-                     <?php foreach ($events as $row):?>
-                    
-                      <div class="count_d" style="display:none;"><?php echo $row->counts->count;?></div> 
-                     <!--Event dates foreach starts-->
-                     
-                     
-                      
-                     
-                      <li class="item event-detail" 
-                      <?php if ($i > 4):?>
-                        style="display:none;"
-                        <?php endif;?>>
-                        <a href="<?php echo site_url() ?>/view-event/<?php echo $row->id; ?>">
-                        <p class="evt-img">
-                        <!--Image If condition-->
-                        <?php if($row->files[0]->type == 'image'): ?>
-                        <?php 
-                        $cat_im = 'https://storage.googleapis.com/' . $row->files[0]->bucket . '/' . $row->files[0]->filename;
-                        ?>
-                        <?php else: $cat_im = ''; ?>
-                                                 
+              
+                    <ul class="owl-theme" id="myEvents">
+                    <?php if($events): ?>
+                       
+     <div class="count_d" style="display:none;"><?php echo $counterss;?></div>                                                                            
+                            <?php foreach($events as $roww): ?>
+                            <?php if(!empty($roww->ticketTypes) || !empty($roww->third_party_url)):?>
                         
-                        <?php endif; ?>
-                        <!--Image if condition ends-->
-                        <!--Another Image if condition Starts -->
-                        <?php if($cat_im && $cat_im != ''):  $event_image = $cat_im; ?>
-                        
-                        <?php else: $image_resp = getFileById($row->categorys[0]->image_id);
-                                            $event_image = site_url() . '/wp-content/uploads/2019/06/f1.jpg'; ?>
-                                            
-                        
-                        <?php endif; ?>
-                        <!--Another Image if condition ends-->
-                        <!--Image Tag -->
-                      
-                        <img src="<?php echo $event_image; ?>">
-                                    </p>
-                         <h2><?php echo $row->name; ?></h2>
-                        </a>            
-                        <!--Image tag & p tag & a tag Ends-->
-                    <!--date time for tickets starts-->
-                    <div class="date-time">
+                           <?php if($roww->event_dates):?>    
+                           <?php foreach($roww->event_dates as $key => $eddates): ?>
+                               
+                           <li class="item event-detail">
+                           <a href="<?php echo site_url() ?>/view-event/<?php echo $roww->id; ?>">
+                           <p class="evt-img">
+                           <!--Image If condition-->
+                           <?php if($roww->files[0]->type == 'image'): ?>
+                           <?php 
+                           $cat_im = 'https://storage.googleapis.com/' . $roww->files[0]->bucket . '/' . $roww->files[0]->filename;
+                           ?>
+                           <?php else: $cat_im = ''; ?>
+                                                    
+                           
+                           <?php endif; ?>
+                           <!--Image if condition ends-->
+                           <!--Another Image if condition Starts -->
+                           <?php if($cat_im && $cat_im != ''):  $event_image = $cat_im; ?>
+                           
+                           <?php else: $image_resp = getFileById($roww->categorys[0]->image_id);
+                                               $event_image = site_url() . '/wp-content/uploads/2019/06/f1.jpg'; ?>
+                                               
+                           
+                           <?php endif; ?>
+                           <!--Another Image if condition ends-->
+                           <!--Image Tag -->
+                         
+                           <img src="<?php echo $event_image; ?>">
+                                       </p>
+                            <h2><?php echo $roww->name; ?></h2>
+                           </a>
+                           <!--Image tag & p tag & a tag Ends-->
+                       <!--date time for tickets starts-->
+                       <div class="date-time">
+   
+   <p class="loc-icon"><i class="fa fa-calendar-o"></i></p>
+   
+   <!--Date Variables-->
+   <?php 
+   $estart = strtotime($eddates->start_date);
+   $eend = strtotime($eddates->end_date);
+   
+   ?>
+   
+   <?php if (date('Y-m-d',$eddates->start_date) == date('Y-m-d',$eddates->end_date)):?>
+    
+   <p class="r-date">
+                                <span class="s-day"><?php echo date('F j', strtotime($eddates->start_date)) ?></span>
+                               <span class="s-date"><?php echo date('g:i a', strtotime($eddates->start_date)) ?></span>
+                             
+       </p>
+   <?php else: ?>
+   
+    <p class="r-date">
+    <span class="s-day"><?php echo date('F j', strtotime($eddates->start_date)) ?></span>
+                               <span class="s-date"><?php echo date('g:i a', strtotime($eddates->start_date)) ?></span>
+                           
+                           
+                           
+                           
+                           
+       </p><br/>
+   <?php endif; ?>
+   <!--Location Starts-->
+   </div>
+   <div class="s-location">
+                       <p class="loc-icon"><i style="font-size: 21px; padding-right: 4px;" class="fa fa-map-marker"></i></p>
+                       <p class="r-date">
+                     
+                       <?php
+                                       echo $roww->city . ", " . $row->province->province_code . " " . $roww->country->country_name;
+                                       ?>
+                                     
+                                       </p>
+                                   </div> 
+                        <?php if($roww->third_party_url):?>
+                       <p class="btn-buy"><a href="<?php echo $roww->third_party_url; ?>" class="ticket-paid">Details</a></p>
+                       <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo  $roww->id;?>" style="color:red;">Event Details</a></p>
+                                        
+                       <?php elseif($roww->ticketTypes[0]->price > 0): ?>
+                       <p class="btn-buy"><a href="<?php echo site_url() ?>/get-tickets/<?php echo $roww->id;?>/?tid=<?php echo $roww->ticketTypes[0]->id; ?>&abc=<?php echo $eddates->start_date;?> " class="ticket-paid">Get Tickets</a></p>
+                       <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo $roww->id;?>" style="color:red;">Event Details</a></p>
+                       <?php elseif($roww->ticketTypes[0]->price == 0): ?>          
+                       <p class="btn-buy"><a href="<?php echo site_url() ?>/get-tickets/<?php echo $roww->id;?>/?tid=<?php echo $roww->ticketTypes[0]->id; ?>&abc=<?php echo $eddates->start_date;?> " class="ticket-paid">GET TICKET</a></p>
+                       <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo $roww->id;?>" style="color:red;">Event Details</a></p>
+                       
+                       <?php endif ?>    
+   
+                           </li>
+                       
+                            
+                       <?php endforeach; ?><!--Event Dates loop Ends line no 298-->    
+                       <?php endif;?>
+                       <?php endif;?>
+                       <?php endforeach;?> <!--Eventdata 297 Ends-->   
+                    <?php endif; ?><!--Event data count ends-->
 
-                    <p class="loc-icon"><i class="fa fa-calendar-o"></i></p>
-                    <?php if(count($row->ticketTypes) !=0 ):?>
-                    <?php if(!empty($row->ticketTypes)): ?>
-                     
-                    <!--Date Variables-->
-                    <?php 
-                    $estart = strtotime($row->event_dates[0]->start_date);
-                    $eend = strtotime($row->event_dates[0]->end_date);
-                  
-                    ?>
-                    <!--Date Variables Ends-->
-                    <?php endif; ?>
-                    <?php if (date('Y-m-d',$row->event_dates[0]->start_date) == date('Y-m-d',$row->event_dates[0]->end_date)):?>
-                     
-                    <p class="r-date">
-                                                 <span class="s-day"><?php echo date('F j', strtotime($row->event_dates[0]->start_date)) ?></span>
-                                                <span class="s-date"><?php echo date('g:i a', strtotime($row->event_dates[0]->start_date)) ?></span>
-                                              
-                        </p>
-                    <?php else: ?>
-                    
-                     <p class="r-date">
-                     <span class="s-day"><?php echo date('F j', strtotime($row->event_dates[0]->start_date)) ?></span>
-                                                <span class="s-date"><?php echo date('g:i a', strtotime($row->event_dates[0]->start_date)) ?></span>
-                                            
-                                            
-                                            
-                                            
-                                            
-                        </p><br/>
-                    <?php endif; ?>
-                    
-                    <!--date time for tickets Ends-->
-                    <?php endif; ?>
-                    <!--Location Starts-->
-                    </div>
-                        <div class="s-location">
-                    <p class="loc-icon"><i style="font-size: 21px; padding-right: 4px;" class="fa fa-map-marker"></i></p>
-                    <p class="r-date">
-                  
-                    <?php
-                                    echo $row->city . ", " . $row->province->province_code . " " . $row->country->country_name;
-                                    ?>
-                                  
-                                    </p>
-                                </div>
-                    <!--Location Ends
-                    
-                    <!--Ticket Buttons Start-->
-                    <?php if (count($row->ticketTypes) > 0): 
-                     $url = site_url().'/view-event/'.$row->id;
-                     add_query_arg( array('tid'=>$row->ticketTypes[0]->id,'date'=>$estart), $url);
-                    ?>
-                   
-                    <?php if ($row->ticketTypes[0]->price == 0): ?>
-                    <p class="btn-buy"><a href="<?php echo site_url() ?>/view-event/<?php echo $row->id;?>/?tid=<?php echo $row->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>" class="ticket-paid" value="<?php echo $row->ticketTypes[0]->price;?>">Free Tickets</a></p>
-                    <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo $row->id;?>/?tid=<?php echo $row->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>" style="color:red;">Event Details</a></p>
-                    <?php elseif($row->ticketTypes[0]->price > 0): ?>
-                    <p class="btn-buy"><a href="<?php echo site_url() ?>/get-tickets/<?php echo $row->id;?>/?tid=<?php echo $row->ticketTypes[0]->id; ?>&abc=<?php echo $edate->start_date;?> " class="ticket-paid" value="<?php echo $row->ticketTypes[0]->price;?>">Get Tix</a></p>
-                    <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo $row->id;?>/?tid=<?php echo $row->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>" style="color:red;">Event Details</a></p>
-                    
-                    <?php endif; ?>
-                    <!--Ticket Conditions Ends-->
-                     <?php else: ?>
-                    <p class="btn-buy"><a href="<?php echo site_url() ?>/view-event/<?php echo $row->id; ?>" class="ticket-paid">Details</a></p>
-                    
-                    </li>
-                    
-                 
-                    <?php endif; ?>
-                    
-                    <!--Ticket Count Ends-->
-                    <!--Ticket Buttons Ends-->
-                   
 
-                 
-                     <!--Event Dates foreach ends-->
-                     
-                     <?php endforeach; ?>
-                    
-                    <?php endif; ?>
+
+
+
+
+
+
                     </ul>
                     
                     
@@ -434,12 +453,8 @@ function WasFilterApplied()
                     
                     
                     
-                    
-                    
 
-                <?php if ($i > 8) { ?>
-                    <div id="loadMore" data-total="<?php echo $i; ?>">Load more</div>
-                <?php } ?>
+               
             </div>
             <div style="display:none;" class="search-result-outer recommended-for">
                 <h3>Recommended for You</h3>

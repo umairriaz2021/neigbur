@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
    Template Name: Single Event
    */
@@ -169,6 +169,25 @@ get_header(); ?>
     color: #fff;
     padding: 1px 5px 1px 5px;
   }
+  button.event_btn{
+    float: right;
+   
+    right: 0;
+    background: #f56d3a;
+    border: 0;
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 3px;
+}
+b.p-dated {
+    font-size: 19px;
+    padding-bottom: 6px;
+    display: block;
+    font-weight: normal;
+    line-height:1.6;
+}
 }
 
 </style>
@@ -195,7 +214,7 @@ get_header(); ?>
 }
 </style>
 <?php } if (isset($event_detail)) {
-
+                  $thirdparty = $event_detail->third_party_url;
                   $country = $wpdb->get_row("Select * from wp_countries where  id = $event_detail->country_id");
                   $state = $wpdb->get_row("select * from wp_states where id = $event_detail->province_id");
                } ?>
@@ -262,9 +281,10 @@ HTML;
                     }?>
 			  </div>
             </div>
-            
+          
             <?php 
                  $third_party_url = $event_detail->third_party_url;
+                    
                 $idss = $_GET['tid'];
                 
                    //echo "<pre>"; print_r($event_detail); "</pre>"; die;
@@ -288,7 +308,7 @@ HTML;
                 
                
                 ?>
-               
+             
             <form class="event-details">
                  <?php if(count($event_detail->ticketTypes)>0){ /* echo "<pre>"; print_r($event_detail->ticketTypes); die; */ ?>
 					<?php if($event_detail->ticketTypes[0]->name ==''){ ?>
@@ -303,7 +323,6 @@ HTML;
 						
 							
 							    
-						        	<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>"><button class="buy-ticket" type="button" name="btnSubmit">GET TICKETS</button></a>
 							
 					       
 					<?php
@@ -322,30 +341,23 @@ HTML;
 					?>
 		
 					<!--Yahan condition lagani hai-->
-	                  
+	                    
+					    
+					    
 					    <?php if(isset($idss)): ?>
-					    <?php if($ticket_price > 0):?>
+					    <?php if($ticket_price > 0 && empty( $thirdparty)):?>
 			<?php $sendUrl =  site_url().'/get-tickets/'.$event_id;?>
 					    
 						<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $idss;?>/&abc=<?php echo $ticket_date;?>"><button class="buy-ticket" value="<?php echo $ticket_price;?>"  type="button" name="btnSubmit">GET TICKETS</button></a>
-						  <?php elseif($ticket_price == 0):?>
+						  <?php elseif($ticket_price == 0 && empty($third_party_url)) :?>
 						  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?abc=<?php echo $event_detail->start;?>"><button class="buy-ticket"  type="button"  name="btnSubmit">FREE TICKETS</button></a>
-						  <?php elseif(!empty($third_party_url)):?>
-						  <a href="<?php echo $third_party_url;?>"><button class="buy-ticket"  type="button" name="btnSubmit">DETAILS</button>
+						  <?php elseif(!empty( $thirdparty)):?>
+						  <a href="<?php echo  $thirdparty;?>"><button class="buy-ticket"  type="button" name="btnSubmit">DETAILS</button>
 						  </a>
 					
 					    <?php endif;?>
-					    						  
-					    <?php else: ?>
-					    <?php $third_party_url = 1;?>
-					    <?php if($event_detail->ticketTypes[0]->price > 0):?>
-					    <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>"><button class="buy-ticket"  type="button" name="btnSubmit" value="buybtn">GET TICKETS</button></a>
-					    <?php elseif($event_detail->ticketTypes[0]->price == 0): ?>
-					    <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>"><button class="buy-ticket"  type="button" name="btnSubmit" value="freebtn">FREE TICKETS</button></a>
-					     <?php elseif($third_party_url):?>
-						  <a href="<?php echo $third_party_url;?>"><button class="buy-ticket"  type="button" name="btnSubmit">DETAILS</button>
-						  </a>
-					    <?php endif;?>
+			
+					     
 					    <?php endif; ?>
 						<div class="ticket-range">
 						<?php foreach ($event_detail->ticketTypes as $ticket) { ?>
@@ -384,11 +396,15 @@ HTML;
 				<div id="tempdata10" style="display:none"><?php echo site_url(); ?>."/wp-content/uploads/2019/08/r1.jpg"</div>
 				<div id="tempdata11" style="display:none"><?php echo $event_id; ?></div>
 				<div id="tempdata12" style="display:none"><?php echo $ticktype; ?></div>
-               <h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?><img class="topbtns  a2a_dd" <?php if(!empty($event_detail->third_party_url)):?>style="margin-right:100px;" <?php endif;?> id="share_btn" href="https://www.addtoany.com/share" src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/img/sharepng.png" alt="uplaod images">
-                     <?php if(!empty($event_detail->third_party_url)) :?>
-                      <a href="<?php echo $event_detail->third_party_url;?>"><button class="buy-ticket"  type="button" name="btnSubmit">DETAILS</button>
-						  </a>
-						  <?php endif;?>
+               <h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?><img class="topbtns  a2a_dd" 
+                    
+                    id="share_btn" 
+                    <?php if($event_detail->ticketTypes[0]->price > 0 || $event_detail->ticketTypes[0]->price == 0 ): ?>
+               style="right:0 !important";
+               <?php endif;?> 
+                    
+                    href="https://www.addtoany.com/share" src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/img/sharepng.png" alt="uplaod images">
+                   
                 <script async src="https://static.addtoany.com/menu/page.js"></script>
                 <script>
                 var tempd1 = jQuery('#tempdata1').html();
@@ -464,8 +480,31 @@ HTML;
                                   
                             //   }else{
                                  $sdate = $edate->start_date;
+								 ?>
+								 <b class="p-dated"><?php echo format_dates($edate->start_date, $edate->end_date);?>
+                       
+                        
+						
+						  <?php if($thirdparty):?>
+					                    <a href="<?php echo  preg_replace( "#^[^:/.]*[:/]+#i", "", $thirdparty );?>"><button class="buy-ticket" style="right:-100px;" type="button">DETAILS</button>
+						  </a>
+						  
+						  
+						  
+					    <?php elseif(!empty($event_detail->ticketTypes) && $event_detail->ticketTypes[0]->price > 0):?>
+					                  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $event_detail->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>"><button class="event_btn"  type="button" name="btnSubmit" value="buybtn">GET TICKETS</button></a>
+
+					    
+					    
+					    <?php elseif(!empty($event_detail->ticketTypes) && $event_detail->ticketTypes[0]->price == 0): ?>
+					    			<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $event_detail->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>"><button class="event_btn"  type="button" name="btnSubmit" value="freebtn">GET TICKETS</button></a>
+
+					    
+					    <?php endif;?>                 
+              </b>  
 								 
-								 echo '<b class="p-date">' . format_dates($edate->start_date, $edate->end_date) . '</b>';  
+								 <?php
+								//  echo '<b class="p-date">' . format_dates($edate->start_date, $edate->end_date) . '</b>';  
 
 							 }
 							 
