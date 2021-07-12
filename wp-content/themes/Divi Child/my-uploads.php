@@ -48,6 +48,44 @@ get_header(); ?>
 
 <style>
 span.pi{cursor:pointer;}
+
+@media only screen and (max-width: 900px) {
+.mobile-visible{
+	display: flex !important;
+    flex-wrap: wrap !important;;
+    padding: 2rem !important;;
+    flex-direction: column !important;;
+    justify-content: center !important;;
+    align-items: center !important;;
+	width: 100% !important;;
+}
+.formStyle{
+	display: flex;
+    flex-direction: column !important;
+    white-space: nowrap;
+}
+.event-details{
+	width: 120% !important;
+	display: flex !important;;
+    flex-direction: column !important;;
+    justify-content: center !important;;
+    align-items: center !important;;
+    margin-left: -3rem !important;;
+}
+}
+.mobile-visible{
+	display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+    padding: 2rem;
+}
+.formStyle{
+	display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+}
+
+
 </style>
 <div id="main-content">
 <div class="outer-wrapper">
@@ -57,7 +95,7 @@ span.pi{cursor:pointer;}
          <h3 class="h3-title"><?php echo count($apiresponsfull->photos) ?> photos in your library </h3>
          <div class="event-type">
             <h5>Add caption, edit thumbnail, remove photo</h5>
-			<form method="get" class="event-btn">
+			<form method="get" class="event-btn formStyle" style="">
 				<label class="radio-chk"> <input type="radio" name="photo-event" <?php echo (isset($_GET['state']) && $_GET['state'] == "1") ? 'checked' : '';?> value="1" onclick="uploadState(1)"> <span class="checkmark1"> </span> Last Week</label>
 				<label class="radio-chk"> <input type="radio" name="photo-event" <?php echo (isset($_GET['state']) && $_GET['state'] == "0") ? 'checked' : '';?> value="0" onclick="uploadState(0)"><span class="checkmark1"></span> Last Month</label>
 				<label class="radio-chk"> <input type="radio" name="photo-event" <?php echo (!isset($_GET['state']) || $_GET['state'] == "3") ? 'checked' : '';?> value="3" onclick="uploadState(3)"><span class="checkmark1"></span> All</label>
@@ -83,14 +121,15 @@ span.pi{cursor:pointer;}
 				   $eventapirespons = json_decode($result);
 
 			?>
-				 <div class="event-detail" id="updivid_<?php echo $pic->id;?>">
+				 <div class="event-detail mobile-visible" id="updivid_<?php echo $pic->id;?>">
 					<div class="upload-image">
 						<a title="<?php echo $pic->caption; ?>" href="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>">
-							<img src="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>"/>
+							<img style="width:300px; height:250px; object-fit: cover !important; margin-top: 1.3rem;" src="https://storage.googleapis.com/<?php echo $pic->file->bucket?>/<?php echo $pic->file->filename;?>"/>
 						</a>
 					</div>
 					<div class="event-details photo-library">
-						<p class="photo-name">
+						<p class="photo-name" style="white-space: nowrap;
+    margin-left: -1rem !important;">
 							<?php echo $eventapirespons->event->name;?>
 							<span class="go-to">
 							  <a href="<?php echo site_url(); ?>/view-event/<?php echo $pic->event_id;?>">Go to event</a>
@@ -100,11 +139,11 @@ span.pi{cursor:pointer;}
 							<!--<span class="pi"><i class="fa fa-edit"></i></span> Modify thumbnail position -->
 							<?php echo date('M d, Y', strtotime($pic->file->create_date));?>
 						</p>
-						<p  class="modify-position">
+						<p  class="modify-position" style="    line-height: 1.6rem !important;">
 							<span class="pi" onClick="jQuery('#EditCapupid_<?php echo $pic->id;?>').show();">
 								<i class="fa fa-edit"></i>
 							</span>
-							<span class="captxt"><?php echo $pic->caption; ?><span>
+							<span class="captxt"><?php echo strlen($pic->caption) > 100 ? substr($pic->caption,0,100)."..." : $pic->caption; ?><span>
 						</p>
 					   <p  class="modify-position">
 						<span class="pi" onClick="jQuery('#loadingModalupid_<?php echo $pic->id;?>').show();">
@@ -151,7 +190,7 @@ span.pi{cursor:pointer;}
 				</div>
          <?php } ?>
 				<?php if(count($apiresponsfull->photos)>10){ ?>
-					<p class="load-more"><button class="load-event" onClick="loaduploads(this,<?php echo $user->id ?>,<?php echo $range ?>,10)">Load More</button></p>
+					<p class="load-more"><button style="color: white !important;" class="load-event" onClick="loaduploads(this,<?php echo $user->id ?>,<?php echo $range ?>,10)">Load More</button></p>
 				<?php } ?>
      <?php  } ?>
 

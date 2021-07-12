@@ -143,7 +143,7 @@ if(isset($_POST['SignInUser']) || isset($_COOKIE['user_cookie_sn_un'])) {
 		if($apirespons->error == 'User has not confirmed email'){
 		$form_errors = 'Previous sign-up authentication not completed. <a href="#">Please resend.</a>';
 		}else{
-		$form_errors = $apirespons->error;   
+		$form_errors = ucwords($apirespons->error);   
 		}
 		
 	}
@@ -178,7 +178,7 @@ get_header(); ?>
 	<div id="main-content">  
         <div class="outer-wrapper">
             <div class="container container-home">
-                 <h3 class="h3-title">Create Your Next Big Event</h3>
+                 <h3 class="h3-title">Submit Your Next Big Event</h3>
                 <div class="login-form2">
                     
                     <div class="form-inn">

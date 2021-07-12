@@ -7,7 +7,7 @@ get_header(); ?>
     <div id="main-content">
        <div class="outer-wrapper ">
            <div class="container container-home">
-                 <h3 class="h3-title">Create Your Next Big Event</h3>
+                 <h3 class="h3-title">Submit Your Next Big Event</h3>
 				  <ul class="progressbar">
                    <li class="active">Page Design</li>
                    <li>Option and Submit</li>
