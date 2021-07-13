@@ -409,7 +409,7 @@ get_header(); ?>
 				<div class="credit-card">
 				   <div class="creit-card-box">
 					  <div class="card-head">
-						 <h3>Neighbur TIX Event</h3>
+						 <h3>Neighbur Ticketed Event</h3>
 						 <p> <?php echo $finaltickets[0]->event->name ?></p>
 					  </div>
 					  <div class="form-group" id="nameGroup">

@@ -11,7 +11,16 @@ $_SESSION['event_data']       - The POST data from step 1 for the event (might n
 
 
 */
-
+ $content = get_post_meta(364, 'tix_right_content1', TRUE);
+  $content2 = get_post_meta(364, 'tix_right_content2', TRUE); 
+  //echo $content2; die;
+  if(preg_match_all('/Neighbur Tix/',$content)){
+    $content_chng1 = "Did you know that Neighbur Tickets provides a complete ticketing solution?";
+      
+   }
+if(preg_match_all('/Neighbur Tix/',$content2)){
+   $content_chng2 = "Select Neighbur Ticket to complete your setup today!";
+  }
 
 if (!isset($_SESSION['Api_token']))
 {
@@ -82,9 +91,13 @@ if (isset($_POST['btnTicketSubmit']))
         unset($data['ticket_type_dates']['num'][0]);
       
      
-	$_SESSION['ticket_data'] = $data;
-    
- 
+	if($data['tkt_setup'] == 'Yes Tix'){
+			unset($data['turl']);
+			unset($data['thirdpartyurl']);
+		}
+     $_SESSION['ticket_data'] = $data;
+        
+      //echo "<pre>"; print_r($_SESSION['ticket_data']);die;
     
     
 	if (isset($_GET['edit']) && $_GET['edit'])
@@ -207,8 +220,11 @@ $t['%%TIX_THIRD_HTTP_SELECTED%%'] = 'selected';  // TODO
 $t['%%TIX_THIRD_HTTPS_SELECTED%%'] = '';
 $t['%%TIX_THIRD_URL%%'] = '';  // TODO
 $t['%%TIX_IMAGE%%'] = wp_get_attachment_url(get_post_meta(364, 'tix_image', TRUE));
-$t['%%TIX_RIGHT_CONTENT1%%'] = get_post_meta(364, 'tix_right_content1', TRUE);
-$t['%%TIX_RIGHT_CONTENT2%%'] = get_post_meta(364, 'tix_right_content2', TRUE);
+ 
+ $t['%%TIX_RIGHT_CONTENT1%%'] = $content_chng1;
+//$t['%%TIX_RIGHT_CONTENT1%%'] = get_post_meta(364, 'tix_right_content1', TRUE);
+$t['%%TIX_RIGHT_CONTENT2%%'] = $content_chng2;
+//$t['%%TIX_RIGHT_CONTENT2%%'] = get_post_meta(364, 'tix_right_content2', TRUE);
 $t['%%TIX_PHONE_NO%%'] = get_post_meta(364, 'tix_phone_no', TRUE);
 
 $t['%%CHARITABLE_NO_SELECTED%%'] = 'selected';
