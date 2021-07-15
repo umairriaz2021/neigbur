@@ -309,7 +309,7 @@ function WasFilterApplied()
 
 				<?php if(isset($events) && count($events)> 0){ ?>
 		
-				<span class="count_data">0</span> Results found
+				<h3 class="count_data" style="font-weight:bold"></h3> 
 				<?php }else{ ?>
 				<img class="no-search" src="<?php echo site_url() ?>/wp-content/uploads/2019/09/find-img.jpg">
         <?php
@@ -415,7 +415,7 @@ function WasFilterApplied()
                                        </p>
                                    </div> 
                         <?php if($roww->third_party_url):?>
-                       <p class="btn-buy"><a href="<?php echo $roww->third_party_url; ?>" class="ticket-paid">Details</a></p>
+                       <p class="btn-buy"><a href="<?php echo 'https://'.$roww->third_party_url; ?>" class="ticket-paid">Details</a></p>
                        <p style="text-align:center;"><a href="<?php echo site_url() ?>/view-event/<?php echo  $roww->id;?>" style="color:red;">Event Details</a></p>
                                         
                        <?php elseif($roww->ticketTypes[0]->price > 0): ?>
@@ -1084,7 +1084,12 @@ function WasFilterApplied()
     }
     jQuery(document).ready(function(){
         var count_val = jQuery('.count_d').text();
- 
-        jQuery('.count_data').html(count_val);
+        if(count_val){
+        jQuery('h3.count_data').text(count_val + " Results");    
+        }
+        else{
+            jQuery('h3.count_data').text("No Results Found");
+        }
+        
     });
 </script>
