@@ -523,7 +523,7 @@ if (WasFilterApplied())
 
                 <div class="search-catgory">
 
-                    <h1>LOVE WHERE YOU’RE AT</h1>
+                    <h1>LOVE WHERE YOUâ€™RE AT</h1>
 
                     <p>Explore Events by Category <img
                                 src="<?php echo site_url(); ?>/wp-content/uploads/2019/06/play.png"></p>
