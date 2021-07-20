@@ -9,7 +9,7 @@ unset($_SESSION['page_refresh']);
 $token   =  $_SESSION['Api_token'];
 $url = $_SERVER['REQUEST_URI'];
 $event = explode('/', $url);
-$event_id = $event[2];
+$event_id = $event[3];
 
 //       $ch   = curl_init(API_URL . 'orders/hold');
 //       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -54,6 +54,10 @@ get_header(); ?>
 }
 </style>
 <script src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/js/getticketscript.js"></script>
+
+<link rel="stylesheet" href="<?php echo site_url()?>/wp-content/themes/Divi Child/css/createevent.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 <!-- please don't delete these hidden filds -->
 <input type="hidden" value="<?=$_SESSION['userdata']->first;?>" id="holderFirst"/>
 <input type="hidden" value="<?=$_SESSION['userdata']->last;?>" id="holderLast"/>
@@ -77,8 +81,8 @@ get_header(); ?>
 				    
 					<h2>Select Tickets</h2>
 					<p style="color:grey; text-transform:uppercase; font-size:1.5rem; font-weight:700; text-align:center;" class="e_name"><?php echo ($event->name);?></p>
-					<button class="btn-return" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
-					<ul class="progressbar">
+					<button class="btn-return desktop-visible" onclick="window.location.href='<?php echo site_url()?>/view-event/<?php echo $event_id;?>'"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></button>
+					<ul class="progressbar desktop-visible">
 						<li class="active">Select Tickets</li>
 						<li>Order Details</li>
 						<li class="last-li">Payment</li>
@@ -116,14 +120,110 @@ get_header(); ?>
 					<p>Get your tickets by selecting the quantity and proceeding to checkout.</p>
 					<h3>CONFIRMATION OF TICKET AVAILABILITY ON NEXT STEP</h3>
 				</div>
-				<div class="table-ticket">
+
+				<!-- Mobile Table
+				<div class="table-ticket table-responsive mobile-table">
+					  <table class="table table-borderless">
+						  <div class="h3 font-weight-bold pb-4">Available Tickets</div>
+						<?php foreach($finaltickets as $key=>$tkt){ ?>
+					       <tr class="ticket-details">
+						   <th style="width: 25%;padding-left:16px;">Ticket(s)</th>
+                              <td>
+                              <?php echo stripslashes(ucfirst($tkt->name)); ?><br/>
+                              <?php echo ($tkt->start!='')?date('M j, Y @ g:ia', strtotime($tkt->start)):''; ?>
+                              <?php if($tkt->note){?>
+                                <div class="tooltip">Ticket Details
+                                     <span class="tooltiptext"><?php echo stripslashes($tkt->note); ?></span>
+                                </div>
+                             <?php } ?>
+                              </td>
+							  </tr>
+							  <tr class="ticket-details">
+							  <th style="width: 15%;padding-left:16px;">Price</th>
+                              <?php if(strtotime($tkt->expiration_date) < get_time_in_prov($event->province->province_code)){ ?>
+                                    <td style="text-align:center;color:#f56d3a" colspan="5">Tickets no longer available.</td>
+                              <?php }else if(strtotime($tkt->release) > get_time_in_prov($event->province->province_code)){ ?>
+                                    <td style="text-align:center;color:#f56d3a" colspan="5">Tickets available on <?php echo date('M j, Y @ g:ia', strtotime($tkt->release));  //echo date('M d, Y @ h:ia') ?>   </td>
+                              <?php }else{ ?>
+                              <td class="apply-promo">
+                                  $<?php echo number_format($tkt->TP,2,'.',','); ?>
+                                  <input type="hidden" name="tickets[<?=$key?>][id]" class="tid" value="<?php echo $tkt->id; ?>"/>
+                                  <input type="hidden" name="tickets[<?=$key?>][tname]" class="tname" value="<?php echo $tkt->name; ?>"/>
+                                  <input type="hidden" name="tickets[<?=$key?>][tprice]" class="tprice" value="<?php echo $tkt->TP; ?>"/>
+                                  <?php
+                                    //uncomment it when start working on promocoe
+                                  if($tkt->ticketPromo): ?>
+                                        <input type="text" name="tickets[<?=$key?>][promo][code]" class="tpromoCode" value="<?php echo $tkt->ticketPromo->code; ?>"/>
+                                        <input type="text" name="tickets[<?=$key?>][promo][metric]" class="tpromoMetric" value="<?php echo $tkt->ticketPromo->metric; ?>"/>
+                                        <input type="text" name="tickets[<?=$key?>][promo][value]" class="tpromoValue" value="<?php echo $tkt->ticketPromo->value; ?>"/>
+                                   
+                                  <?php endif;?>
+                              </td>
+							  </tr>
+							  <tr class="ticket-details">
+							  <th style="width:15%;padding-left:16px;">Tax</th>
+                              <td>
+                                <?php $txtTax = ($tkt->TP>0)?$tkt->Ttax:0;?>
+                                $<?php echo number_format($txtTax,2,'.',','); ?>
+                                <input type="hidden" name="tickets[<?=$key?>][ttax]" class="ttax" value="<?php echo number_format($txtTax,2,'.',','); ?>"/>
+                              </td>
+							  </tr>
+							  <tr class="ticket-details">
+							  <th style="width: 10%;padding-left:16px;">Fees*</th>
+                              <td>
+                                <?php $txtTCF = ($tkt->TP>0)?$tkt->TCF:0;?>
+                                  $<?php echo number_format($txtTCF,2,'.',','); ?>
+                                  <input type="hidden" name="tickets[<?=$key?>][tfee]" class="tfee" value="<?php echo number_format($txtTCF,2,'.',','); ?>"/>
+                              </td>
+							  </tr>
+							  <tr class="ticket-details">
+							  <th style="width: 15%;padding-left:16px;">Quantity</th>
+                              <td >
+
+                              <?php
+                              $remainingtick = $tkt->max - $tkt->ticket_allocation;
+                $limitMessage = "";
+                              if($remainingtick > 10){ ?>
+                                <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
+                             <?php }else if(($remainingtick > 0) && ($remainingtick <= 10)){ ?>
+                                <input type="number" min="0" name="tickets[<?=$key?>][tqty]" value="0" class="td-p tqty" max="<?php echo ($remainingtick > $tkt->order_limit)?$tkt->order_limit+1:$remainingtick+1; ?>">
+                              <?php $limitMessage = "Limited Availability"; }else{ $limitMessage = "SOLD OUT";?>
+                              <?php } ?>
+                <p class="remainingMessage" style=""><?php echo $limitMessage; ?></p>
+                              <p class="limitMessage" style="display:none"></p>
+                              <input type="hidden" class="torderlimit" name="tickets[<?=$key?>][tolimit]" value="<?php echo $tkt->order_limit; ?>"/>
+                <input type="hidden" class="tremaining" name="tickets[<?=$key?>][tremaining]" value="<?php echo $remainingtick; ?>"/>
+                              </td>
+							  </tr>
+							  <tr class="ticket-details" style="border-bottom: 2px solid; margin-bottom: 2rem;">
+							  <th style="width: 15%;padding-left:16px;" class="text-nowrap">Sub-Total</th>
+                              <td class="al-right">
+                                $<span class="ttoltxt1">0.00</span><br>
+                                <span class="ttoltxt-discount" value=""></span>
+                                <input type="hidden" name="sub_total_row" value="" class="sub_total_each">
+                              </td>
+                              <?php } ?>
+                          </tr>
+					   
+					  
+					 
+						   
+						<?php } ?>
+
+
+					  </table>
+					</div> -->
+
+
+				<!-- Desktop Table -->
+				<div class="table-ticket table-responsive">
 					  <table class="table">
-						<tr style="background-color:white;">
+						<tr style="background-color:white;" class="ticket-details">
 							<th style="width: 25%;padding-left:16px;">Ticket(s)</th>
 						<!--	<th style="width: 10%;padding-left:16px;">Details</th>-->
 							<th style="width: 15%;padding-left:16px;">Price</th>
-							 <th style="width:15%;padding-left:16px;">Tax</th>
-							<th style="width: 10%;padding-left:16px;">Fees*</th>
+							 <th  class="desktop-visible" style="width:15%;padding-left:16px;">Tax</th>
+							<th class="desktop-visible" style="width: 10%;padding-left:16px;">Fees*</th>
 							<th style="width: 20%;text-align: center;">Quantity</th>
 							<th style="width: 15%;padding-left:16px;text-align:right;">Sub-Total</th>
 						</tr>
@@ -193,12 +293,12 @@ get_header(); ?>
                                    
                                   <?php endif;?>
                               </td>
-                              <td>
+                              <td   class="desktop-visible">
                                 <?php $txtTax = ($tkt->TP>0)?$tkt->Ttax:0;?>
                                 $<?php echo number_format($txtTax,2,'.',','); ?>
                                 <input type="hidden" name="tickets[<?=$key?>][ttax]" class="ttax" value="<?php echo number_format($txtTax,2,'.',','); ?>"/>
                               </td>
-                              <td>
+                              <td  class="desktop-visible">
                                 <?php $txtTCF = ($tkt->TP>0)?$tkt->TCF:0;?>
                                   $<?php echo number_format($txtTCF,2,'.',','); ?>
                                   <input type="hidden" name="tickets[<?=$key?>][tfee]" class="tfee" value="<?php echo number_format($txtTCF,2,'.',','); ?>"/>
@@ -255,10 +355,13 @@ get_header(); ?>
 					  <label class="label-tab">*Fees include payment gateway and administrative costs</label>
 
 					  <div class="promo-sec">
-						 <div class="sub-promo"> <p class="p-code">Enter Promo Code</p> 
-						 <input type="text" name="promocode" placeholder="Enter Code">
-						 <button class="applybtn" onclick="applyPromo();" disabled>APPLY</button> 
+					  <div class="row">
+						  <div class="sub-promo row col-lg-4 text-nowrap"> <p class="p-code">Enter Promo Code</p> </div>
+						 <div class="row col-lg-8" style="margin-left: 0.2rem;"> 
+						 <input class="col-6 mr-2" type="text" name="promocode" placeholder="Enter Code" style="margin-right:1rem;">
+						 <button class="applybtn btn-sm btn-link col-4 disabled" style="cursor:pointer;" onclick="applyPromo();" disabled>APPLY</button> 
 						 <a href="void:javascript(0)" class="clear-code" onclick="clearcode();">Clear Code</a>
+						 </div>
 						 </div>
 						  <p class="promo-msg"></p>
 						  <p>Only one promotional code per transaction</p>
@@ -281,6 +384,7 @@ get_header(); ?>
 							</ul>
 						</div>
 					</div>
+
 					<button class="next-btn" type="button" name="btnSubmit" onClick="holdTicket();" id="holdTicketBtn" disabled>NEXT</a></button>
 				</div>
 			</div>
@@ -290,7 +394,7 @@ get_header(); ?>
 				   <h2>Order Details</h2>
 				   <p style="color:grey; text-transform:uppercase; font-size:1.5rem; font-weight:700; text-align:center;" class="e_name"><?php echo ($event->name);?></p>
 				   <button class="btn-return"><a href="<?php echo site_url()?>/view-event/<?php echo $event_id;?>"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></a></button>
-				   <ul class="progressbar">
+				   <ul class="progressbar desktop-visible">
 					  <li class="active chk-mark">Select Tickets</li>
 					  <li class="active">Order Details</li>
 					  <li class="last-li">Payment</li>
@@ -301,8 +405,11 @@ get_header(); ?>
 				<div class="special-request">
 				   <h2>Special Requests</h2>
 				   <p>If the ticket holder(s) have any special request (i.e dietary needs, wheelchair accessibility, medical conditions) pease contact the event organizer</p>
-				   <?php $evmeta = unserialize($finaltickets[0]->event->metadata); ?>
-				   <div class="sec1-li">
+				   <?php $evmeta = unserialize($finaltickets[0]->event->metadata); ?>							 
+				   
+				 <!-- Desktop Only -->
+				   <div class="desktop-table">  
+				   <div class="sec1-li" >
 					  <ul>
 						 <?php if($evmeta['org']){ ?><li>Organization: </li><?php } ?>
 						 <?php if($finaltickets[0]->event->contact_name){ ?><li>Name: </li><?php } ?>
@@ -320,6 +427,19 @@ get_header(); ?>
 						 <?php if($finaltickets[0]->event->contact_email){ ?><li>&nbsp;<a href="mailto:<?php echo $finaltickets[0]->event->contact_email ?>"><?php echo $finaltickets[0]->event->contact_email ?></a></li><?php } ?>
 					  </ul>
 				   </div>
+				</div>
+
+				   <div class="mobile-table">
+				   <ul>
+				   <?php if($evmeta['org']){ ?><li>Organization: &nbsp;<?php echo $evmeta['org']; ?> </li><?php } ?>
+				   <?php if($finaltickets[0]->event->contact_name){ ?><li>Name: &nbsp;<?php echo $finaltickets[0]->event->contact_name ?></li><?php } ?>
+				   <?php if($finaltickets[0]->event->contact_phone){ ?><li>Phone: &nbsp;<?php echo $finaltickets[0]->event->contact_phone ?> </li><?php } ?>
+				   <?php if($finaltickets[0]->event->contact_url){ ?><li>Website: &nbsp;<a href="<?php echo $finaltickets[0]->event->contact_url ?>" target="_new"><?php echo $finaltickets[0]->event->contact_url ?></a></li><?php } ?>
+				   <?php if($finaltickets[0]->event->contact_email){ ?><li>Email: &nbsp;<a href="mailto:<?php echo $finaltickets[0]->event->contact_email ?>"><?php echo $finaltickets[0]->event->contact_email ?></a></li><?php } ?>
+
+				   </ul>
+					</div>
+
 				</div>
         <?php
           $charitableDisplay = 'none';
@@ -383,7 +503,19 @@ get_header(); ?>
 					</div>
 				</div>
 				<div class="button_order_page">
-				   <div class="back-btn"><a href="javascript:void(0)" onClick="ticketpaymentBack(1,2)">BACK</a></div>
+				   <div style="
+    border: 0;
+    text-align: center;
+    margin-bottom: 20px!important;
+    padding: 13px 33px!important;
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 3px;
+    border-radius: 3px;
+    margin-top: 10px!important;
+    width: fit-content;
+    cursor: pointer;  
+				   " class="back-btn"><a href="javascript:void(0)" onClick="ticketpaymentBack(1,2)">BACK</a></div>
 				   <button class="next-btn" type="button" name="btnnext" onClick="ticketpaymentNext(2,3)">NEXT</button>
 				</div>
 			 </div>
@@ -395,7 +527,7 @@ get_header(); ?>
 				   <h2>Order Details</h2>
 				   <p style="color:grey; text-transform:uppercase; font-size:1.5rem; font-weight:700; text-align:center;" class="e_name"><?php echo ($event->name);?></p>
 				   <button class="btn-return"><a href="<?php echo site_url()?>/view-event/<?php echo $event_id;?>"><i class="fa fa-toggle-left"></i> <span>Return to Event</span></a></button>
-				   <ul class="progressbar">
+				   <ul class="progressbar desktop-visible">
 					  <li class="active chk-mark">Select Tickets</li>
 					  <li class="active chk-mark">Order Details</li>
 					  <li class="active last-li">Payment</li>
@@ -436,7 +568,7 @@ get_header(); ?>
 					  <!-- p class="remember" id="rememberGroup">
 						 <span class="chkbox"><input type="checkbox" value="1" checked="checked" name="remembercard"><span class="checkmark"></span> &nbsp;  &nbsp; Save card</span>
                 </p -->
-					  <p class="payout2"><button style="width: 80%;" type="button" name="buytickets" id="buytickets" class="signupbtn">Buy Tickets <span class="Total">0.00</span>(<?php echo $finaltickets[0]->currency_code;?>)</button> </p>
+					  <p class="d-flex justify-content-center"><button style="width: fit-content" type="button" name="buytickets" id="buytickets" class="signupbtn">Buy Tickets <span class="Total">0.00</span>(<?php echo $finaltickets[0]->currency_code;?>)</button> </p>
                  <div class="message-box" id="PayMentError" style="background-color: #c50e0e;"></div>
 				   </div>
 				</div>
