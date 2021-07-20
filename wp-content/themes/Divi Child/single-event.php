@@ -208,60 +208,67 @@ get_header(); ?>
         align-items: center;
       }
 
-.img-edit {
-    position: absolute;
-    top: 14px;
-    right: 2px;
-    z-index: 100;
-    background: #f56d3a;
-    border: 0;
-    color: #fff;
-    padding: 1px 5px 1px 5px;
-  }
-  button.event_btn{
-    float: right;
-   
-    right: 0;
-    background: #f56d3a;
-    border: 0;
-    color: #fff;
-    padding: 10px 14px;
-    font-size: 16px;
-    letter-spacing: 1px;
-    border-radius: 3px;
-}
-b.p-dated {
-    font-size: 19px;
-    padding-bottom: 6px;
-    display: block;
-    font-weight: normal;
-    line-height:1.6;
-}
-}
+      .img-edit {
+        position: absolute;
+        top: 14px;
+        right: 2px;
+        z-index: 100;
+        background: #f56d3a;
+        border: 0;
+        color: #fff;
+        padding: 1px 5px 1px 5px;
+      }
 
+      button.event_btn {
+        float: right;
+
+        right: 0;
+        background: #f56d3a;
+        border: 0;
+        color: #fff;
+        padding: 10px 14px;
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-radius: 3px;
+      }
+
+      b.p-dated {
+        font-size: 19px;
+        padding-bottom: 6px;
+        display: block;
+        font-weight: normal;
+        line-height: 1.6;
+      }
+    }
+  </style>
+  <?php
 
 
   if (count($event_detail->ticketTypes) > 0) {
     foreach ($event_detail->ticketTypes as $key => $tickets) {
 
-  }
-?>
-<style>
-.topbtns {
-    width: 40px;
-    float: right;
-    padding: 10px 10px 0px 10px;
-    cursor: pointer;
-    position: relative;
-    right: 144px;
-}
-</style>
-<?php } if (isset($event_detail)) {
-                  $thirdparty = $event_detail->third_party_url;
-                  $country = $wpdb->get_row("Select * from wp_countries where  id = $event_detail->country_id");
-                  $state = $wpdb->get_row("select * from wp_states where id = $event_detail->province_id");
-               } ?>
+      $ticktype = (array) $tickets;
+      $ticktype = count($ticktype);
+      //print_r(count($type));die;
 
+    }
+  ?>
+    <style>
+      .topbtns {
+        width: 40px;
+        float: right;
+        padding: 10px 10px 0px 10px;
+        cursor: pointer;
+        position: relative;
+        right: 144px;
+      }
+    </style>
+  <?php }
+  if (isset($event_detail)) {
+
+    $country = $wpdb->get_row("Select * from wp_countries where  id = $event_detail->country_id");
+    $state = $wpdb->get_row("select * from wp_states where id = $event_detail->province_id");
+  } ?>
 
 
   <div id="main-content">
@@ -273,15 +280,15 @@ b.p-dated {
 
         </div>
 
-        <div class="event-detail mobile-event-detail">
-          <div class="upload-image mobile-upload-image">
+        <div class="event-detail">
+          <div class="upload-image">
             <?php if (isset($event_detail) && count($event_detail->files) > 0 && $event_detail->files[0]->type == 'image') { ?>
               <?php $eve_img = "https://storage.googleapis.com/" . $event_detail->files[0]->bucket . "/" . $event_detail->files[0]->filename; ?>
               <img src="<?php echo $eve_img; ?>" style="max-height: 250px;">
             <?php } else {  ?>
               <img src="<?php echo site_url(); ?>/wp-content/uploads/2019/08/r1.jpg">
             <?php } ?>
-            <div class="image-gallery mobile-image-gallery">
+            <div class="image-gallery">
               <div>
                 <?php if (!empty($token)) : ?>
                   <!--input type="file" name="gallery1" onChange="newuploadmethod(this);"-->
@@ -328,131 +335,133 @@ HTML;
               } else {
                 echo "Currently no photos at this time.";
               } ?>
-            </div>          
-            <?php 
-                 $third_party_url = $event_detail->third_party_url;
-                    
-                $idss = $_GET['tid'];
-                
-                   //echo "<pre>"; print_r($event_detail); "</pre>"; die;
-              
-                if($event_detail->ticketTypes[0]->id == $idss){
-                        $ticket_price =$event_detail->ticketTypes[0]->price;
-                        $ticket_type = $event_detail->ticketTypes[0]->paid_yn;
-                        $third_party_url = $event_detail->third_party_url;
-                        //$ticket_date =$event_detail->ticketTypes[0]->start;
-                        $ticket_date = date('Y-m-d',strtotime($_GET['abc']));
-                    
-                }
-                elseif($event_detail->ticketTypes[1]->id == $idss){
-                        $ticket_price =$event_detail->ticketTypes[1]->price;
-                        $third_party_url = $event_detail->third_party_url;
-                        $ticket_type = $event_detail->ticketTypes[1]->paid_yn; 
-                        $ticket_date =$event_detail->ticketTypes[1]->start;
-                       
-                 
+            </div>
+          </div>
+
+          <?php
+          $third_party_url = $event_detail->third_party_url;
+          $idss = $_GET['tid'];
+
+          //echo "<pre>"; print_r($event_detail); "</pre>"; die;
+
+          if ($event_detail->ticketTypes[0]->id == $idss) {
+            $ticket_price = $event_detail->ticketTypes[0]->price;
+            $ticket_type = $event_detail->ticketTypes[0]->paid_yn;
+            $third_party_url = $event_detail->third_party_url;
+            //$ticket_date =$event_detail->ticketTypes[0]->start;
+            $ticket_date = date('Y-m-d', strtotime($_GET['abc']));
+          } elseif ($event_detail->ticketTypes[1]->id == $idss) {
+            $ticket_price = $event_detail->ticketTypes[1]->price;
+            $third_party_url = $event_detail->third_party_url;
+            $ticket_type = $event_detail->ticketTypes[1]->paid_yn;
+            $ticket_date = $event_detail->ticketTypes[1]->start;
+          }
+
+
+          ?>
+
+          <form class="event-details">
+            <?php if (count($event_detail->ticketTypes) > 0) { /* echo "<pre>"; print_r($event_detail->ticketTypes); die; */ ?>
+              <?php if ($event_detail->ticketTypes[0]->name == '') { ?>
+                <h2 class="f-tkt">FREE</h2>
+                <?php } else {
+
+                if (count($event_detail->ticketTypes) == 1) {
+                  if ((strtotime($event_detail->ticketTypes[0]->start) >= strtotime(date('Y-m-d'))) && (strtotime($event_detail->ticketTypes[0]->end) <= strtotime(date('Y-m-d')))) {
+                ?>
+
+
+
+
+
+                    <a href="<?php echo site_url() ?>/get-tickets/<?php echo $event_id; ?>"><button class="buy-ticket" type="button" name="btnSubmit">GET TICKETS</button></a>
+
+
+                  <?php
+                  } else if (strtotime("now") < strtotime($event_detail->ticketTypes[0]->release)) {
+                  ?>
+                    <a href="#"><button class="buy-ticket-available" type="button" name="btnSubmit">AVAILABLE SOON</button></a>
+                    <p>TICKETS GO ON SALE
+                      <br /><?php echo date('M d, Y', strtotime($event_detail->ticketTypes[0]->release)); ?>
+                      <br>@<?php echo date('h:i', strtotime($event_detail->ticketTypes[0]->release)); ?>
+                      <br>Current time: <?php echo date('M d, Y h:i', strtotime("now")); ?>
+                    </p>
+                <?php
+                  }
                 }
 
                 ?>
-             
-            <form class="event-details">
-                 <?php if(count($event_detail->ticketTypes)>0){ /* echo "<pre>"; print_r($event_detail->ticketTypes); die; */ ?>
-					<?php if($event_detail->ticketTypes[0]->name ==''){ ?>
-						<h2 class="f-tkt">FREE</h2>
-					 <?php }else{
 
-						if(count($event_detail->ticketTypes)==1){
-							if((strtotime($event_detail->ticketTypes[0]->start) >= strtotime(date('Y-m-d'))) && (strtotime($event_detail->ticketTypes[0]->end) <= strtotime(date('Y-m-d')))){
-					?>
-						
-							
-						
-							
-							    
-							
-					       
-					<?php
-        }else if(strtotime("now") < strtotime($event_detail->ticketTypes[0]->release)){
-					?>
-							<a href="#"><button class="buy-ticket-available" type="button" name="btnSubmit">AVAILABLE SOON</button></a>
-							<p>TICKETS GO ON SALE
-							<br/><?php echo date('M d, Y',strtotime($event_detail->ticketTypes[0]->release)); ?>
-							<br>@<?php echo date('h:i',strtotime($event_detail->ticketTypes[0]->release)); ?>
-              <br>Current time: <?php echo date('M d, Y h:i',strtotime("now")); ?>
-							</p>
-					<?php
-							}
-						}
-						
-					?>
-		
-					<!--Yahan condition lagani hai-->
-	                    
-					    
-					    
-					    <?php if(isset($idss)): ?>
-					    <?php if($ticket_price > 0 && empty( $thirdparty)):?>
-			<?php $sendUrl =  site_url().'/get-tickets/'.$event_id;?>
-					    
-						<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $idss;?>/&abc=<?php echo $ticket_date;?>"><button class="buy-ticket" value="<?php echo $ticket_price;?>"  type="button" name="btnSubmit">GET TICKETS</button></a>
-						  <?php elseif($ticket_price == 0 && empty($third_party_url)) :?>
-						  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?abc=<?php echo $event_detail->start;?>"><button class="buy-ticket"  type="button"  name="btnSubmit">FREE TICKETS</button></a>
-						  <?php elseif(!empty( $thirdparty)):?>
-						  <a href="<?php echo  $thirdparty;?>"><button class="buy-ticket"  type="button" name="btnSubmit">DETAILS</button>
-						  </a>
-					
-					    <?php endif;?>
-			
-					     
-					    <?php endif; ?>
-						<div class="ticket-range">
-						<?php foreach ($event_detail->ticketTypes as $ticket) { ?>
-								<p><?php echo $ticket->name ?> <?php echo '$'.$ticket->price ?></p>
-						<?php } ?>
-						</div>
-					 <?php } ?>
-				<?php } ?>
-				
-				<?php
-		        $emailtemplate   = get_post(2094);
-                $emailoutput =  apply_filters('the_content', $emailtemplate->post_content );
-                $emailContent = "";
-                //$emailContent = str_replace(array('[[eve_image]]','[[start_d]]','[[start_d]]','[[eve_name]]','[[address_1]]','[[address_2]]','[[city]]','[[province]]','[[country]]','[[pin_code]]'), array($eve_img,$event_detail->start,$event_detail->end,$event_detail->name,$event_detail->location,$event_detail->address2,$event_detail->city,$state->state_code,$country->name,$event_detail->postalcode), $emailoutput);
-			
-			
-				?>
-				<button type="button" class="btn btn-primary invisible" data-toggle="modal" id="gmailModalId" data-target="#exampleModal">
-  Launch demo modal
-</button>
+                <!--Yahan condition lagani hai-->
+
+                <?php if (isset($idss)) : ?>
+                  <?php if ($ticket_price > 0) : ?>
+                    <?php $sendUrl =  site_url() . '/get-tickets/' . $event_id; ?>
+
+                    <a href="<?php echo site_url() ?>/get-tickets/<?php echo $event_id; ?>/?tid=<?php echo $idss; ?>/&abc=<?php echo $ticket_date; ?>"><button class="buy-ticket" value="<?php echo $ticket_price; ?>" type="button" name="btnSubmit">GET TICKETS</button></a>
+                  <?php elseif ($ticket_price == 0) : ?>
+                    <a href="<?php echo site_url() ?>/get-tickets/<?php echo $event_id; ?>/?abc=<?php echo $event_detail->start; ?>"><button class="buy-ticket" type="button" name="btnSubmit">FREE TICKETS</button></a>
+                  <?php elseif (!empty($third_party_url)) : ?>
+                    <a href="<?php echo $third_party_url; ?>"><button class="buy-ticket" type="button" name="btnSubmit">DETAILS</button>
+                    </a>
+
+                  <?php endif; ?>
+
+                <?php else : ?>
+                  <?php $third_party_url = 1; ?>
+                  <?php if ($event_detail->ticketTypes[0]->price > 0) : ?>
+                    <a href="<?php echo site_url() ?>/get-tickets/<?php echo $event_id; ?>"><button class="buy-ticket" type="button" name="btnSubmit" value="buybtn">GET TICKETS</button></a>
+                  <?php elseif ($event_detail->ticketTypes[0]->price == 0) : ?>
+                    <a href="<?php echo site_url() ?>/get-tickets/<?php echo $event_id; ?>"><button class="buy-ticket" type="button" name="btnSubmit" value="freebtn">FREE TICKETS</button></a>
+                  <?php elseif ($third_party_url) : ?>
+                    <a href="<?php echo $third_party_url; ?>"><button class="buy-ticket" type="button" name="btnSubmit">DETAILS</button>
+                    </a>
+                  <?php endif; ?>
+                <?php endif; ?>
+                <div class="ticket-range">
+                  <?php foreach ($event_detail->ticketTypes as $ticket) { ?>
+                    <p><?php echo $ticket->name ?> <?php echo '$' . $ticket->price ?></p>
+                  <?php } ?>
+                </div>
+              <?php } ?>
+            <?php } ?>
+
+            <?php
+            $emailtemplate   = get_post(2094);
+            $emailoutput =  apply_filters('the_content', $emailtemplate->post_content);
+            $emailContent = "";
+            //$emailContent = str_replace(array('[[eve_image]]','[[start_d]]','[[start_d]]','[[eve_name]]','[[address_1]]','[[address_2]]','[[city]]','[[province]]','[[country]]','[[pin_code]]'), array($eve_img,$event_detail->start,$event_detail->end,$event_detail->name,$event_detail->location,$event_detail->address2,$event_detail->city,$state->state_code,$country->name,$event_detail->postalcode), $emailoutput);
+
+
+            ?>
+            <button type="button" class="btn btn-primary invisible" data-toggle="modal" id="gmailModalId" data-target="#exampleModal">
+              Launch demo modal
+            </button>
 
 
 
-				
-				
-				
-				<div id="tempdata1" style="display:none"><?php echo date('Y-m-d h:ia', strtotime($event_detail->start)); ?></div>
-				<div id="tempdata2" style="display:none"><?php echo date('Y-m-d h:ia', strtotime($event_detail->end)); ?></div>
-				<div id="tempdata3" style="display:none"><?php echo ucfirst($event_detail->name); ?></div>
-				<div id="tempdata4" style="display:none"><?php echo $event_detail->location; ?></div>
-				<div id="tempdata5" style="display:none"><?php echo $event_detail->address2; ?></div>
-				<div id="tempdata6" style="display:none"><?php echo $event_detail->city; ?></div>
-				<div id="tempdata7" style="display:none"><?php echo $state->state_code; ?></div>
-				<div id="tempdata8" style="display:none"><?php echo $country->name; ?></div>
-				<div id="tempdata9" style="display:none"><?php echo $event_detail->postalcode; ?></div>
-				<div id="tempdata10" style="display:none"><?php echo site_url(); ?>."/wp-content/uploads/2019/08/r1.jpg"</div>
-				<div id="tempdata11" style="display:none"><?php echo $event_id; ?></div>
-				<div id="tempdata12" style="display:none"><?php echo $ticktype; ?></div>
-               <h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?><img class="topbtns  a2a_dd" 
-                    
-                    id="share_btn" 
-                    <?php if($event_detail->ticketTypes[0]->price > 0 || $event_detail->ticketTypes[0]->price == 0 ): ?>
-               style="right:0 !important";
-               <?php endif;?> 
-                    
-                    href="https://www.addtoany.com/share" src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/img/sharepng.png" alt="uplaod images">
-                   
-                <script async src="https://static.addtoany.com/menu/page.js"></script>
-                <script>
+
+
+
+            <div id="tempdata1" style="display:none"><?php echo date('Y-m-d h:ia', strtotime($event_detail->start)); ?></div>
+            <div id="tempdata2" style="display:none"><?php echo date('Y-m-d h:ia', strtotime($event_detail->end)); ?></div>
+            <div id="tempdata3" style="display:none"><?php echo ucfirst($event_detail->name); ?></div>
+            <div id="tempdata4" style="display:none"><?php echo $event_detail->location; ?></div>
+            <div id="tempdata5" style="display:none"><?php echo $event_detail->address2; ?></div>
+            <div id="tempdata6" style="display:none"><?php echo $event_detail->city; ?></div>
+            <div id="tempdata7" style="display:none"><?php echo $state->state_code; ?></div>
+            <div id="tempdata8" style="display:none"><?php echo $country->name; ?></div>
+            <div id="tempdata9" style="display:none"><?php echo $event_detail->postalcode; ?></div>
+            <div id="tempdata10" style="display:none"><?php echo site_url(); ?>."/wp-content/uploads/2019/08/r1.jpg"</div>
+            <div id="tempdata11" style="display:none"><?php echo $event_id; ?></div>
+            <div id="tempdata12" style="display:none"><?php echo $ticktype; ?></div>
+            <h3><?php echo isset($event_detail) ? $event_detail->name : ''; ?><img class="topbtns  a2a_dd" <?php if (!empty($event_detail->third_party_url)) : ?>style="margin-right:100px;" <?php endif; ?> id="share_btn" href="https://www.addtoany.com/share" src="<?php echo site_url(); ?>/wp-content/themes/Divi Child/img/sharepng.png" alt="uplaod images">
+              <?php if (!empty($event_detail->third_party_url)) : ?>
+                <a href="<?php echo $event_detail->third_party_url; ?>"><button class="buy-ticket" type="button" name="btnSubmit">DETAILS</button>
+                </a>
+              <?php endif; ?>
+              <script async src="https://static.addtoany.com/menu/page.js"></script>
+              <script>
                 var tempd1 = jQuery('#tempdata1').html();
                 var tempd2 = jQuery('#tempdata2').html();
                 var tempd3 = jQuery('#tempdata3').html();
@@ -477,103 +486,7 @@ HTML;
               </script>
             </h3>
 
-                </script></h3>
-               
-                 <?php 
-                 
-                $idss = $_GET['tid'];
-               
-            
-                if($event_detail->ticketTypes[0]->id == $idss){
-                        $ticket_price =$event_detail->ticketTypes[0]->price;
-                        $ticket_type = $event_detail->ticketTypes[0]->paid_yn; 
-                        //$ticket_date =$event_detail->ticketTypes[0]->start;
-                         $dates = date("F j",strtotime($_GET['abc']));
-                        $time = date("g:i a", strtotime($_GET['abc']));
-                        $ticket_dates = $dates.' 2021 '.$time;
-                       
-                }
-                elseif($event_detail->ticketTypes[1]->id == $idss){
-                        $ticket_price =$event_detail->ticketTypes[1]->price;
-                        $ticket_type = $event_detail->ticketTypes[1]->paid_yn; 
-                        //$ticket_date =$event_detail->ticketTypes[1]->start;
-                        
-                }
-                
-                ?>
-                 
-               
-               
-               <?php
-							 
-				if(!empty($idss)){
-				    $d = date('l', strtotime($ticket_dates));
-				    $d2 = date('F j, Y', strtotime($ticket_dates));
-				    echo '<b class="p-date"><span>'.$d.'</span> <span>'.$d2.'</span></b>';
-				}
-				else{
-				
-				foreach ($event_detail->event_dates as $edate)
-							 
-							 {
-
-                           
-                                
-                                    
-                                  
-                            //       $d = date('l', strtotime($edate->start_date));
-                                 
-                            //       $d2 = date('F j, Y', strtotime($edate->start_date));
-                            //       echo '<b class="p-date"><span>'.$d2.'</span> <span>'.$d2.'</span></b>';
-                                  
-                            //   }else{
-                                 $sdate = $edate->start_date;
-								 ?>
-								 <b class="p-dated"><?php echo format_dates($edate->start_date, $edate->end_date);?>
-                       
-                        
-						
-						  <?php if($thirdparty):?>
-					                    <a href="<?php echo  preg_replace( "#^[^:/.]*[:/]+#i", "", $thirdparty );?>"><button class="buy-ticket" style="right:-100px;" type="button">DETAILS</button>
-						  </a>
-						  
-						  
-						  
-					    <?php elseif(!empty($event_detail->ticketTypes) && $event_detail->ticketTypes[0]->price > 0):?>
-					                  <a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $event_detail->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>"><button class="event_btn"  type="button" name="btnSubmit" value="buybtn">GET TICKETS</button></a>
-
-					    
-					    
-					    <?php elseif(!empty($event_detail->ticketTypes) && $event_detail->ticketTypes[0]->price == 0): ?>
-					    			<a href="<?php echo site_url()?>/get-tickets/<?php echo $event_id;?>/?tid=<?php echo $event_detail->ticketTypes[0]->id;?>&abc=<?php echo $edate->start_date;?>"><button class="event_btn"  type="button" name="btnSubmit" value="freebtn">GET TICKETS</button></a>
-
-					    
-					    <?php endif;?>                 
-              </b>  
-								 
-								 <?php
-								//  echo '<b class="p-date">' . format_dates($edate->start_date, $edate->end_date) . '</b>';  
-
-							 }
-							 
-				}
-               ?>
-              
-               <p>
-			   <?php echo isset($event_detail) ? !empty($event_detail->location) ? $event_detail->location.'<br>': ' ' : ' '; ?>
-                     <?php echo isset($event_detail) ? !empty($event_detail->address2) ? $event_detail->address2.'<br>': ' ' : ' '; ?>
-                     <?php echo isset($event_detail) ? $event_detail->city : '';?>, <?php echo isset($event_detail) ? $state->state_code : '';?>, <?php echo isset($event_detail) ? $country->name : '';?><br/>
-                     <?php echo isset($event_detail) ? $event_detail->postalcode : '';?>
-               </p>
-               <div class="p-description">
-                  <h3>Description</h3>
-                  <p><?php echo isset($event_detail) ? $event_detail->description : ''; ?></p>
-                  
-               </div>
-               <div class="row">
-                  <?php foreach ($event_detail->categorys as $category) { ?>
-                     <div class="p-catg" style="margin-right:5px;"><?php echo $category->name; ?></div>
-                  <?php } ?></div>
+            <?php
 
             $idss = $_GET['tid'];
 
@@ -634,12 +547,10 @@ HTML;
               <p><?php echo isset($event_detail) ? $event_detail->description : ''; ?></p>
 
             </div>
-            <div style="margin-left: 1rem;">
-              <div class="row">
-                <?php foreach ($event_detail->categorys as $category) { ?>
-                  <div class="p-catg" style="margin-right:5px;"><?php echo $category->name; ?></div>
-                <?php } ?>
-              </div>
+            <div class="row">
+              <?php foreach ($event_detail->categorys as $category) { ?>
+                <div class="p-catg" style="margin-right:5px;"><?php echo $category->name; ?></div>
+              <?php } ?>
             </div>
 
             <?php

@@ -1,6 +1,5 @@
 <?php
 
-
 /*
    Template Name: Create new Event
    */
