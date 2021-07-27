@@ -11,7 +11,9 @@ $(function () {
 	});
 });
 
-jQuery(document).on('click', '#buytickets', function () {
+jQuery(document).on('click', '#buytickets', function (e) {
+    e.preventDefault();
+    
 	var site_url = jQuery('#Site_Url').val();
 
 	$('#modal_loader_text').text('Processing...');
@@ -19,6 +21,8 @@ jQuery(document).on('click', '#buytickets', function () {
 
 	if (parseFloat($('#TotalAmount').val()) == 0)
 	{
+	    
+	    
 		clearInterval(interval);
 		jQuery.ajax({
 				url: site_url + '/wp-content/themes/Divi Child/ajax/createtickets.php',
@@ -28,7 +32,7 @@ jQuery(document).on('click', '#buytickets', function () {
 					$('#loadingModal').hide();
 					console.log(result);
 					//alert('Done you are redirecting to thanks you page.');
-					window.location.href= site_url+"/thank-you/";
+					//window.location.href= site_url+"/thank-you/";
 				}
 		});
 	}
@@ -134,6 +138,9 @@ setInterval(getTicket,5000);
 jQuery(document).on("change keyup", ".tqty", function() {
    console.log("changed");   
     getTicket();
+    if(jQuery('.sub-promo input').val() !==""){
+        applyPromo();
+    }
     	/*jQuery('.tkt-info').each(function(index){
                   //do stuff
                   if((jQuery('.tqty-'+index).val()) > (jQuery('.tremaining-'+index).val())) {
@@ -143,6 +150,27 @@ jQuery(document).on("change keyup", ".tqty", function() {
                   //else{ ticketpaymentNext(1,2);}
                   console.log('index is '+index);
                 });*/
+});
+
+jQuery(document).on("change keyup input click", ".tqty", function() {
+
+    var qty = jQuery(this).val();
+	//console.log('========');
+	//console.log(qty);
+	var torderlimit = jQuery(this).parent().find('.torderlimit').val();
+	//console.log(torderlimit);
+	var tremaining = jQuery(this).parent().find('.tremaining').val();
+	//console.log('========');
+	if(qty > 0){
+    if (parseInt(qty) == parseInt(tremaining)){
+		console.log('===yes im in if q>l===');
+		jQuery(this).val(tremaining);
+		jQuery(this).parent().find('.limitMessage').show().text("Available ticket limit reached");
+		jQuery(this).parent().find('.remainingMessage').hide();
+		//jQuery(this).parent().find('.limitMessage').show();
+		//qty=tremaining;
+	}
+	}
 });
 
 
@@ -183,7 +211,7 @@ function holdTicket(){
  
                 if (result.indexOf("error") >= 0){
                      console.log('tickets not available...');
-                    alert('tickets are not available. Please select again');
+                    alert('Your selection quantities have changed due to changes in inventory. Please review prior to proceeding.');
                     return false;
                    
                 }
@@ -224,7 +252,7 @@ function holdTicketDelete(){
 
 
 function startTimer(dd){
-	var timer2 = "1:59";
+	var timer2 = "4:59";
 	interval = setInterval(function() {
 	  var timer = timer2.split(':');
 
@@ -283,6 +311,11 @@ if(sessionStorage.getItem('key')){
        holdTicketDelete();
  });
  
+  /*jQuery(window).bind('unload', function(){
+       console.log('unload');
+       holdTicketDelete();
+ });*/
+ 
 function ticketpaymentBack(id1,id2){
 	jQuery('#step'+id1).show();
 	jQuery('#step'+id2).hide();
@@ -336,6 +369,15 @@ jQuery(document).on('input', '.tqty', function () {
       jQuery(this).val('0');
      }*/
      
+     /*if (parseInt(qty) == parseInt(tremaining)){
+		console.log('===yes im in if q>l===');
+		jQuery(this).val(tremaining);
+		jQuery(this).parent().find('.limitMessage').show().text("Available ticket limit reached");
+		jQuery(this).parent().find('.remainingMessage').hide();
+			jQuery(this).parent().find('.limitMessage').show();
+		//qty=tremaining;
+	}*/
+	
       if(parseInt(tremaining) == parseInt(torderlimit) || parseInt(tremaining) < parseInt(torderlimit)){
 	 if (parseInt(qty) > parseInt(tremaining)){
 		//console.log('===yes im in if q>l===');
@@ -366,6 +408,9 @@ jQuery(document).on('input', '.tqty', function () {
         	jQuery(this).parent().find('.limitMessage').hide();
     		jQuery(this).parent().find('.remainingMessage').show();
     }
+    
+    
+    
 
 	var price = jQuery(this).parent().parent().find('.tprice').val();
 	var tax = jQuery(this).parent().parent().find('.ttax').val();
