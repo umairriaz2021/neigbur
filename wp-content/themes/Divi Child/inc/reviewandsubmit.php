@@ -5,13 +5,6 @@ function debug($val){
     print_r($val);
 }
 
-
-
-
-
-
-
-
 if (isset($_POST['btnFinalSubmit']))
 {
    
@@ -42,7 +35,7 @@ if (isset($_POST['btnFinalSubmit']))
                     'exclude_email' => $_SESSION['event_data']['exclude_email']
                     );
         $data    = array(
-            'name' => stripslashes($_SESSION['event_data']['title']),
+            'name' => ucwords(trim(preg_replace("/[^A-Za-z0-9 ]/", " ", stripslashes($_SESSION['event_data']['title'])))),
             'description' => stripslashes($_SESSION['event_data']['description']),
             'location' => stripslashes($_SESSION['event_data']['address1']),
             /* 'address1' => $_SESSION['event_data']['address1'], */
@@ -420,6 +413,7 @@ if (isset($_POST['btnFinalSubmit']))
                               $tdata['paid_yn'] = true;
                               $tdata['price'] = $tickets['price_per_tkt'][$i];
                           } else {
+                              $tdata['price'] = 0;
                               $tdata['paid_yn'] = false;
                           }
                           $tdata['fee_percentage'] = $tickets['select_per'][$i];
@@ -542,7 +536,7 @@ if (isset($_POST['btnFinalSubmit']))
 
         // fix slashes
         if (isset($_SESSION['event_edit_data']['name'])) {
-            $_SESSION['event_edit_data']['name'] = stripslashes($_SESSION['event_edit_data']['name']);
+            $_SESSION['event_edit_data']['name'] = ucwords(trim(preg_replace("/[^A-Za-z0-9 ]/", " ", stripslashes($_SESSION['event_edit_data']['name']))));
         }
         if (isset($_SESSION['event_edit_data']['description'])) {
             $_SESSION['event_edit_data']['description'] = stripslashes($_SESSION['event_edit_data']['description']);
@@ -861,6 +855,7 @@ if (isset($_POST['btnFinalSubmit']))
                         $tdata['paid_yn'] = true;
                         $tdata['price'] = $tickets['price_per_tkt'][$number];
                     } else {
+                        $tdata['price'] = 0;
                         $tdata['paid_yn'] = false;
                     }
                     $tdata['fee_percentage'] = $tickets['select_per'][$number];
@@ -1168,6 +1163,7 @@ if (isset($_POST['btnFinalSubmit']))
                         $tdata['paid_yn'] = true;
                         $tdata['price'] = $tickets['price_per_tkt'][$number];
                     } else {
+                        $tdata['price'] = 0;
                         $tdata['paid_yn'] = false;
                     }
                     $tdata['fee_percentage'] = $tickets['select_per'][$number];
